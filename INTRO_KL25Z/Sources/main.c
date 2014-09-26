@@ -30,6 +30,12 @@
 /* Including needed modules to compile this module/procedure */
 #include "Cpu.h"
 #include "Events.h"
+#include "LED_red.h"
+#include "BitIoLdd1.h"
+#include "LED_green.h"
+#include "BitIoLdd2.h"
+#include "LED_blue.h"
+#include "BitIoLdd3.h"
 /* Including shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -46,7 +52,9 @@ int main(void)
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
   /*** End of Processor Expert internal initialization.                    ***/
-
+  LED_red_ClrVal();
+  LED_blue_SetVal();
+  LED_blue_SetVal();
   /* Write your code here */
   /* For example: for(;;) { } */
 
