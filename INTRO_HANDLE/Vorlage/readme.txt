@@ -1,0 +1,1 @@
+This folder contains shared files between INTRO_FRDM and INTRO_Robo.

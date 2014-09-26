@@ -32,6 +32,36 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Sources/Handle/Application.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/INTRO_HANDLE/Common/Application.c</locationURI>
+		</link>
+		<link>
+			<name>Sources/Handle/Application.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/INTRO_HANDLE/Common/Application.h</locationURI>
+		</link>
+		<link>
+			<name>Sources/Handle/LED.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/INTRO_HANDLE/Common/LED.c</locationURI>
+		</link>
+		<link>
+			<name>Sources/Handle/LED.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/INTRO_HANDLE/Common/LED.h</locationURI>
+		</link>
+		<link>
+			<name>Sources/Handle/Platform.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/INTRO_HANDLE/Common/Platform.c</locationURI>
+		</link>
+		<link>
+			<name>Sources/Handle/Platform.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/INTRO_HANDLE/Common/Platform.h</locationURI>
+		</link>
+		<link>
 			<name>Static_Code/IO_Map/MKL25Z4.h</name>
 			<type>1</type>
 			<location>C:/Freescale/KDS_1.1.1/eclipse/ProcessorExpert/lib/Kinetis/iofiles/MKL25Z4.h</location>
