@@ -21,7 +21,7 @@
 /*! \brief implements the initial method if LEDs are in use
  */
 void PL_Init(void) {
-#if PL_HAS_LED
+#if PL_USE_LED
   LED_Init();
 #endif
 }
@@ -29,7 +29,7 @@ void PL_Init(void) {
 /*! \brief implements the de-initial method if LEDs are in use
  */
 void PL_Deinit(void) {
-#if PL_HAS_LED
+#if PL_USE_LED
   LED_Deinit();
 #endif
 }

@@ -21,13 +21,13 @@ void LED_Init(void){
 	LED1_Init();
 	LED2_Init();
 	LED3_Init();
-	#if PL_NOF_LEDS>=1
+	#if PL_NOF_LED>=1
 		LED1_On();
 	#endif
-	#if PL_NOF_LEDS>=2
+	#if PL_NOF_LED>=2
 		LED2_On();
 	#endif
-	#if PL_NOF_LEDS>=3
+	#if PL_NOF_LED>=3
 		LED3_On();
 	#endif
 }
@@ -38,13 +38,13 @@ void LED_Init(void){
  * The if clauses take care not to try to put off an LED which doesn't exist on the target.
  */
 void LED_Deinit(void) {
-	#if PL_NOF_LEDS>=1
+	#if PL_NOF_LED>=1
 		LED1_Off();
 	#endif
-	#if PL_NOF_LEDS>=2
+	#if PL_NOF_LED>=2
 		LED2_Off();
 	#endif
-	#if PL_NOF_LEDS>=3
+	#if PL_NOF_LED>=3
 		LED3_Off();
 	#endif
 		LED1_Deinit();
@@ -63,7 +63,6 @@ void LED_Deinit(void) {
  * If the test was successful LED1 is on.
  */
 void LED_Test(void) {
-	bool on = TRUE;
 
 	//Put on all LEDs
 	LED1_On();
@@ -95,7 +94,7 @@ void LED_Test(void) {
 
 	//Checking if the LED can be set. The test was successful if the LED is On
 	//that means LED1_Get() returns a TRUE
-	LED1_Put(On);
+	LED1_Put(1);
 	if (!LED1_Get()) {
 		for(;;){}; /* \todo Need a dedicated error routine! */
 	}

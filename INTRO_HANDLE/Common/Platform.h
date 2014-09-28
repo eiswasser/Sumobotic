@@ -17,7 +17,7 @@
 
 /*! \brief List of the different boards which are in use for the project.
  *
- * This gives the opportunity to chose afterwards one of the boards in the codeline.
+ * This gives the opportunity to chose afterwards one of the boards in the code line.
  * The name is written as plattform_board_is_xx - PL_BOARD_IS_xx
  * The compiler option from the projects defines the following macros.
  */
@@ -49,7 +49,7 @@
  */
 void PL_Init(void);
 
-/*! \brief Platform de-initialization
+/*! \brief Platform deinitialization
  */
 void PL_Deinit(void);
 

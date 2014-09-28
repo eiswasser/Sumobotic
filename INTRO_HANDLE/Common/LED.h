@@ -26,7 +26,7 @@
 	#include "LED_green.h"
 
 	#define LED1_On()		LED_green_ClrVal() 		/*! Turn on LED1 */
-	#define LED1_Off()		LED_green_ClrSet() 		/*! Turn off LED1 */
+	#define LED1_Off()		LED_green_SetVal() 		/*! Turn off LED1 */
 	#define LED1_Neg()		LED_green_NegVal()		/*! Toggle LED1 */
 	#define LED1_Get()		LED_green_GetVal() 		/*! Return TRUE, if LED1 is on, FALSE otherwise */
 	#define LED1_Put(val)	LED_green_PutVal(val)	/*! Depending on value, it turns on/off LED1 */
@@ -40,6 +40,7 @@
 	#define LED1_Put(val)							/*! Depending on value, it turns on/off LED1 */
 	#define LED1_Init()						 		/*! Initialize LED1 */
 	#define LED1_Deinit()					 		/*! Deinitialize LED1 */
+#endif
 
 /*! \brief create macros for the LED2, depending on how many LEDs are in use for the board
  *
@@ -52,7 +53,7 @@
 	#include "LED_red.h"
 
 	#define LED2_On()		LED_red_ClrVal() 		/*! Turn on LED2 */
-	#define LED2_Off()		LED_red_ClrSet() 		/*! Turn off LED2 */
+	#define LED2_Off()		LED_red_SetVal() 		/*! Turn off LED2 */
 	#define LED2_Neg()		LED_red_NegVal()		/*! Toggle LED2 */
 	#define LED2_Get()		LED_red_GetVal() 		/*! Return TRUE, if LED2 is on, FALSE otherwise */
 	#define LED2_Put(val)	LED_red_PutVal(val)		/*! Depending on value, it turns on/off LED2 */
@@ -66,6 +67,7 @@
 	#define LED2_Put(val)							/*! Depending on value, it turns on/off LED2 */
 	#define LED2_Init()						 		/*! Initialize LED2 */
 	#define LED2_Deinit()					 		/*! Deinitialize LED2 */
+#endif
 
 /*! \brief create macros for the LED3, depending on how many LEDs are in use for the board
  *
@@ -77,11 +79,11 @@
 #if PL_NOF_LED >= 3
 	#include "LED_blue.h"
 
-	#define LED3_On()		LED_red_ClrVal() 		/*! Turn on LED3 */
-	#define LED3_Off()		LED_red_ClrSet() 		/*! Turn off LED3 */
-	#define LED3_Neg()		LED_red_NegVal()		/*! Toggle LED3 */
-	#define LED3_Get()		LED_red_GetVal() 		/*! Return TRUE, if LED3 is on, FALSE otherwise */
-	#define LED3_Put(val)	LED_red_PutVal(val)		/*! Depending on value, it turns on/off LED3 */
+	#define LED3_On()		LED_blue_ClrVal() 		/*! Turn on LED3 */
+	#define LED3_Off()		LED_blue_SetVal() 		/*! Turn off LED3 */
+	#define LED3_Neg()		LED_blue_NegVal()		/*! Toggle LED3 */
+	#define LED3_Get()		LED_blue_GetVal() 		/*! Return TRUE, if LED3 is on, FALSE otherwise */
+	#define LED3_Put(val)	LED_blue_PutVal(val)		/*! Depending on value, it turns on/off LED3 */
 	#define LED3_Init()						 		/*! Initialize LED3 */
 	#define LED3_Deinit()					 		/*! Deinitialize LED3 */
 #else
@@ -92,6 +94,7 @@
 	#define LED3_Put(val)							/*! Depending on value, it turns on/off LED3 */
 	#define LED3_Init()						 		/*! Initialize LED3 */
 	#define LED3_Deinit()					 		/*! Deinitialize LED3 */
+#endif
 
 /*! \brief LED test routine.
  * This routine tests if:

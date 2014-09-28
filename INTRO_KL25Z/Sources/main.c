@@ -26,7 +26,6 @@
 */         
 /* MODULE main */
 
-
 /* Including needed modules to compile this module/procedure */
 #include "Cpu.h"
 #include "Events.h"
@@ -43,7 +42,7 @@
 #include "PE_Const.h"
 #include "IO_Map.h"
 /* User includes (#include below this line is not maintained by Processor Expert) */
-
+#include "Application.h"
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
@@ -56,7 +55,7 @@ int main(void)
 
   /* Write your code here */
   for(;;){
-
+	  APP_Start();
   }
 
 
