@@ -1,6 +1,6 @@
 /**
  * \file
- * \brief Platform Interface.
+ * \brief Platform implementation module.
  * \author Marco Bürgi, Pascal Giger
  *
  * In this part the modules from the platform are initializing
