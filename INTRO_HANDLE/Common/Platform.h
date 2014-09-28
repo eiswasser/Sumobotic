@@ -38,7 +38,7 @@
  * The ROBO board has 2 LEDs
  */
 #if PL_IS_FRDM
-	#define PL_NOf_LED	(3)
+	#define PL_NOF_LED	(3)
 #elif PL_IS_ROBO
 	#define PL_NOF_LED	(2)
 #else
