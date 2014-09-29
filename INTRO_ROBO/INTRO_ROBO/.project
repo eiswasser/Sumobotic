@@ -32,6 +32,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Sources/Common</name>
+			<type>2</type>
+			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/INTRO_HANDLE/Common</locationURI>
+		</link>
+		<link>
 			<name>Static_Code/IO_Map/MK22F12.h</name>
 			<type>1</type>
 			<location>C:/Freescale/KDS_1.1.1/eclipse/ProcessorExpert/lib/Kinetis/iofiles/MK22F12.h</location>
@@ -192,4 +197,10 @@
 			<location>C:/Freescale/KDS_1.1.1/eclipse/ProcessorExpert/lib/Kinetis/pdd/inc/WDOG_PDD.h</location>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>INTRO_HANDLE</name>
+			<value>file:/C:/Users/Master/Documents/Studium/7.%20Semester/INTRO/GitHub/Sumobotic/INTRO_HANDLE/Common</value>
+		</variable>
+	</variableList>
 </projectDescription>
