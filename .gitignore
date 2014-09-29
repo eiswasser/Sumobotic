@@ -6,3 +6,6 @@ INTRO_KL25Z/Generated_Code/
 *.cwGeneratedFileSetLog
 /ProjectInfo.xml
 INTRO_KL25Z/ProjectInfo.xml
+/Debug
+Generated_Code
+Documentation
