@@ -29,9 +29,9 @@
 /* Including needed modules to compile this module/procedure */
 #include "Cpu.h"
 #include "Events.h"
-#include "LED_red.h"
-#include "BitIoLdd1.h"
 #include "LED_green.h"
+#include "BitIoLdd1.h"
+#include "LED_red.h"
 #include "BitIoLdd2.h"
 #include "LED_blue.h"
 #include "BitIoLdd3.h"

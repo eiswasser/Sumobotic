@@ -3,7 +3,7 @@
   <Header>
     <Name>INTRO_KL25Z</Name>
     <SavedBy>Master</SavedBy>
-    <ModificationStamp>15</ModificationStamp>
+    <ModificationStamp>17</ModificationStamp>
     <Date>2014-09-29</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.0.RT6_b1428-0121</PEversion>
@@ -4502,7 +4502,7 @@
   </Configuration>
   <Bean>
     <BeanType>BitIO</BeanType>
-    <Name>LED_red</Name>
+    <Name>LED_green</Name>
     <CompNumb>11</CompNumb>
     <CompEnabled>true</CompEnabled>
     <GenCodeMode>ALWAYS_WRITE</GenCodeMode>
@@ -4517,7 +4517,7 @@
         <ItemSymbol>DeviceName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>LED_red</Value>
+        <Value>LED_green</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>_Pin</ItemSymbol>
@@ -5087,7 +5087,7 @@
   </Bean>
   <Bean>
     <BeanType>BitIO</BeanType>
-    <Name>LED_green</Name>
+    <Name>LED_red</Name>
     <CompNumb>13</CompNumb>
     <CompEnabled>true</CompEnabled>
     <GenCodeMode>ALWAYS_WRITE</GenCodeMode>
@@ -5102,7 +5102,7 @@
         <ItemSymbol>DeviceName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>LED_green</Value>
+        <Value>LED_red</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>_Pin</ItemSymbol>
