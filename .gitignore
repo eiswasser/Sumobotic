@@ -9,3 +9,5 @@ INTRO_KL25Z/ProjectInfo.xml
 /Debug
 Generated_Code
 Documentation
+INTRO_ROBO/INTRO_ROBO/Doxy/
+*.doxyfile

@@ -32,6 +32,7 @@
 #include "Events.h"
 #include "LED_right.h"
 #include "BitIoLdd1.h"
+#include "BitIoLdd2.h"
 #include "LED_left.h"
 #include "BitIoLdd2.h"
 #include "WAIT1.h"
