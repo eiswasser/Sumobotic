@@ -22,13 +22,13 @@ void LED_Init(void){
 	LED2_Init();
 	LED3_Init();
 	#if PL_NOF_LED>=1
-		LED1_On();
+		LED1_Off();
 	#endif
 	#if PL_NOF_LED>=2
-		LED2_On();
+		LED2_Off();
 	#endif
 	#if PL_NOF_LED>=3
-		LED3_On();
+		LED3_Off();
 	#endif
 }
 
