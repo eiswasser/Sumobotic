@@ -40,6 +40,7 @@
 #include "LED_left.h"
 #include "BitIoLdd2.h"
 #include "WAIT1.h"
+#include "CS1.h"
 
 #ifdef __cplusplus
 extern "C" {
