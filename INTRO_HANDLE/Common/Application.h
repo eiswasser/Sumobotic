@@ -7,8 +7,8 @@
  * This interface runs all applications and create the different tasks
  */
 
-#ifndef APPLICATION_H_
-#define APPLICATION_H_
+#ifndef __APPLICATION_H_
+#define __APPLICATION_H_
 
 /*! \brief Start main application and main routine
  */

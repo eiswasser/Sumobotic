@@ -8,8 +8,8 @@
  * are going to use in the connection with the different projects
  */
 
-#ifndef PLATFORM_H_
-#define PLATFORM_H_
+#ifndef __PLATFORM_H_
+#define __PLATFORM_H_
 
 #include "PE_Types.h" /* for common Processor Expert types used throughout the project*/
 #include "PE_Error.h" /* global error constants */

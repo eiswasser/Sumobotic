@@ -8,8 +8,8 @@
  * are going to use in the connection with the different projects
  */
 
-#ifndef LED_H_
-#define LED_H_
+#ifndef __LED_H_
+#define __LED_H_
 
 /*! \brief implement the platform inteface to make it work with different projects
  */
