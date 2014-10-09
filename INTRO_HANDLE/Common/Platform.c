@@ -18,18 +18,30 @@
 	#include "LED.h"
 #endif
 
-/*! \brief implements the initial method if LEDs are in use
+/*! \brief implements the necessary interface if Events are in use
+ */
+#if PL_HAS_EVENT
+	#include "Event.h"
+#endif
+
+/*! \brief implements the initial method for the board
  */
 void PL_Init(void) {
 #if PL_USE_LED
   LED_Init();
 #endif
+#if PL_HAS_EVENT
+  EVNT_Init();
+#endif
 }
 
-/*! \brief implements the de-initial method if LEDs are in use
+/*! \brief implements the de-initial methods for the board
  */
 void PL_Deinit(void) {
 #if PL_USE_LED
   LED_Deinit();
+#endif
+#if PL_HAS_EVENT
+  EVNT_Deinit();
 #endif
 }

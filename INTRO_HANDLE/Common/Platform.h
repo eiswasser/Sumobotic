@@ -24,23 +24,23 @@
 #define PL_IS_FRDM	(defined(PL_BOARD_IS_FRDM))
 #define PL_IS_ROBO	(defined(PL_BOARD_IS_ROBO))
 
-/*! \brief The following macros select the support of the LEDs in the project.
- *
- * So it gives the opportunity to switch on or off the LEDs in the project.
- */
-#define PL_USE_LED (1)
-
-/*! \brief Connect the amount of LEDs with the specific board
+/*! \brief Connect the specific board with specific functions or elements
  *
  * In case of which board is used this macro implements the number of LEDs that are
- * on the board
+ * on the board, if events are used or not and if the LEDs are used
  * The FRDM board has 3 LEDs (RGB)
  * The ROBO board has 2 LEDs
  */
 #if PL_IS_FRDM
-	#define PL_NOF_LED	(3)
+	#define PL_NOF_LED	 (3)
+	#define PL_HAS_EVENT (1)
+	#define PL_USE_LED   (1)
+	#define PL_HAS_TIMER (1)
 #elif PL_IS_ROBO
-	#define PL_NOF_LED	(2)
+	#define PL_NOF_LED	 (2)
+	#define PL_HAS_EVENT (1)
+	#define PL_USE_LED 	 (1)
+	#define PL_HAS_TIMER (1)
 #else
 	#error "unknown board configuration"
 #endif
