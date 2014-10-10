@@ -62,18 +62,16 @@ void APP_Start() {
 	EVNT_SetEvent(EVNT_INIT);
 	APP_Loop();
 #if 0
-	for(;;) {
-		for (int i = 10; i > 0; --i) {
-			LED1_On();
-			WAIT1_Waitms(i*100);
-			LED1_Off();
-			LED2_On();
-			WAIT1_Waitms(i*100);
-			LED2_Off();
-			LED3_On();
-			WAIT1_Waitms(i*100);
-			LED3_Off();
-		}
-  }
+	for (int i = 10; i > 0; --i) {
+		LED1_On();
+		WAIT1_Waitms(i*100);
+		LED1_Off();
+		LED2_On();
+		WAIT1_Waitms(i*100);
+		LED2_Off();
+		LED3_On();
+		WAIT1_Waitms(i*100);
+		LED3_Off();
+	}
 #endif
 }
