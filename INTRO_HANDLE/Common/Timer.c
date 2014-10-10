@@ -15,7 +15,7 @@
 #if PL_USE_LED
   #include "LED.h"
 #endif
-#if PL_HAS_EVENT
+#if PL_HAS_EVENTS
   #include "Event.h"
 #endif
 

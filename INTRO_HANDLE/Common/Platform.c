@@ -20,7 +20,7 @@
 
 /*! \brief implements the necessary interface if Events are in use
  */
-#if PL_HAS_EVENT
+#if PL_HAS_EVENTS
 	#include "Event.h"
 #endif
 

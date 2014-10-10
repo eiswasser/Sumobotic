@@ -13,7 +13,7 @@
 
 #include "Platform.h"
 
-#if PL_HAS_EVENT
+#if PL_HAS_EVENTS
 
 typedef enum EVNT_Handle {
   EVNT_INIT,            /*!< System Initialization Event */

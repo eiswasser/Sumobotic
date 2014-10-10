@@ -11,7 +11,7 @@
 
 #include "Platform.h"
 
-#if PL_HAS_EVENT
+#if PL_HAS_EVENTS
 #include "Event.h" /* our own interface */
 #include "CS1.h" /* for Enter/ExitCritical() */
 

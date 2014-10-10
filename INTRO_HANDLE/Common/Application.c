@@ -13,7 +13,7 @@
 #if PL_USE_LED
   #include "LED.h"
 #endif
-#if PL_HAS_EVENT
+#if PL_HAS_EVENTS
 	#include "Event.h"
 #endif
 #if PL_HAS_TIMER
@@ -47,7 +47,7 @@ static void APP_HandleEvent(EVNT_Handle event){
  */
 static void APP_Loop(void){
 	for(;;){
-		#if PL_HAS_EVENT
+		#if PL_HAS_EVENTS
 			EVNT_HandleEvent(APP_HandleEvent);
 		#endif
 		WAIT1_Waitms(100);
