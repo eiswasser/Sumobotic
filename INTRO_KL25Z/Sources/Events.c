@@ -30,6 +30,16 @@
 #include "Cpu.h"
 #include "Events.h"
 
+/*! \brief Imports which are not from the Processor Expert itself
+ */
+#include "Platform.h"
+#if PL_HAS_EVENTS
+	#include "Event.h"
+#endif
+#if PL_HAS_TIMER
+	#include "Timer.h"
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif 
@@ -71,7 +81,85 @@ void Cpu_OnNMIINT(void)
 */
 void TI1_OnInterrupt(void)
 {
+#if PL_HAS_TIMER
 	TMR_OnInterrupt();
+#endif
+}
+
+/*
+** ===================================================================
+**     Event       :  SW1_OnInterrupt (module Events)
+**
+**     Component   :  SW1 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void SW1_OnInterrupt(void)
+{
+#if PL_NOF_KEYS >= 1
+	EVNT_SetEvent(EVNT_SW1_PRESSED);
+#endif
+}
+
+/*
+** ===================================================================
+**     Event       :  SW7_OnInterrupt (module Events)
+**
+**     Component   :  SW7 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void SW7_OnInterrupt(void)
+{
+#if PL_NOF_KEYS >= 7
+	EVNT_SetEvent(EVNT_SW7_PRESSED);
+#endif
+}
+
+/*
+** ===================================================================
+**     Event       :  SW3_OnInterrupt (module Events)
+**
+**     Component   :  SW3 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void SW3_OnInterrupt(void)
+{
+#if PL_NOF_KEYS >= 3
+	EVNT_SetEvent(EVNT_SW3_PRESSED);
+#endif
+}
+
+/*
+** ===================================================================
+**     Event       :  SW2_OnInterrupt (module Events)
+**
+**     Component   :  SW2 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void SW2_OnInterrupt(void)
+{
+#if PL_NOF_KEYS >= 2
+	EVNT_SetEvent(EVNT_SW2_PRESSED);
+#endif
 }
 
 /* END Events */

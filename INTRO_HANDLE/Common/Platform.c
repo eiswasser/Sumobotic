@@ -24,14 +24,23 @@
 	#include "Event.h"
 #endif
 
+/*! \brief implements the necessary interface if Keys are in use
+ */
+#if PL_HAS_KEYS
+	#include "Keys.h"
+#endif
+
 /*! \brief implements the initial method for the board
  */
 void PL_Init(void) {
 #if PL_USE_LED
   LED_Init();
 #endif
-#if PL_HAS_EVENT
+#if PL_HAS_EVENTS
   EVNT_Init();
+#endif
+#if PL_HAS_KEYS
+  KEY_Init();
 #endif
 }
 
@@ -41,7 +50,10 @@ void PL_Deinit(void) {
 #if PL_USE_LED
   LED_Deinit();
 #endif
-#if PL_HAS_EVENT
+#if PL_HAS_EVENTS
   EVNT_Deinit();
+#endif
+#if PL_HAS_KEYS
+  KEY_Deinit();
 #endif
 }

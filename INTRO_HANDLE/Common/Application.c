@@ -19,6 +19,9 @@
 #if PL_HAS_TIMER
 	#include "Timer.h"
 #endif
+#if PL_HAS_KEYS
+	#include "Keys.h"
+#endif
 
 /*! \brief Function that only is a support for the Event handling, to show that the events
  *  have been initialized
@@ -33,11 +36,60 @@ static void APP_HandleEvent(EVNT_Handle event){
 		LED1_Off();
 		break;
 	case EVNT_LED_HEARTBEAT:
-		LED2_On();
+		/*LED2_On();
 		WAIT1_Waitms(100);
 		LED2_Off();
-	//case:
-
+		*/
+		break;
+#if PL_NOF_KEYS >= 1
+	case EVNT_SW1_PRESSED:
+		LED2_On();
+		WAIT1_Waitms(200);
+		LED2_Off();
+		break;
+#endif
+#if PL_NOF_KEYS >= 2
+	case EVNT_SW2_PRESSED:
+		LED3_On();
+		WAIT1_Waitms(200);
+		LED3_Off();
+		break;
+#endif
+#if PL_NOF_KEYS >= 3
+	case EVNT_SW3_PRESSED:
+		LED2_On();	LED1_On();
+		WAIT1_Waitms(200);
+		LED2_Off();	LED1_Off();
+		break;
+#endif
+#if PL_NOF_KEYS >= 4
+	case EVNT_SW4_PRESSED:
+		LED1_On();
+		WAIT1_Waitms(200);
+		LED1_Off();
+		break;
+#endif
+#if PL_NOF_KEYS >= 5
+	case EVNT_SW5_PRESSED:
+		LED2_On();	WAIT1_Waitms(100);	LED1_On();
+		WAIT1_Waitms(200);
+		LED2_Off();	LED1_Off();
+		break;
+#endif
+#if PL_NOF_KEYS >= 6
+	case EVNT_SW6_PRESSED:
+		LED3_On();	WAIT1_Waitms(50);	LED3_Off();	WAIT1_Waitms(50);
+		LED3_On();	WAIT1_Waitms(50);	LED3_Off();	WAIT1_Waitms(50);
+		LED3_On();	WAIT1_Waitms(50);	LED3_Off();
+		break;
+#endif
+#if PL_NOF_KEYS >= 7
+	case EVNT_SW7_PRESSED:
+		LED1_On();	LED2_On();	LED3_On();
+		WAIT1_Waitms(200);
+		LED1_Off();	LED2_Off();	LED3_Off();
+		break;
+#endif
 	default:
 		break;
 	}
@@ -49,6 +101,9 @@ static void APP_Loop(void){
 	for(;;){
 		#if PL_HAS_EVENTS
 			EVNT_HandleEvent(APP_HandleEvent);
+		#endif
+		#if PL_HAS_KEYS
+			KEY_Scan();
 		#endif
 		WAIT1_Waitms(100);
 	}
