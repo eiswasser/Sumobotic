@@ -24,10 +24,8 @@
 
 #if PL_NOF_KEYS>=1
   #include "SW1.h"
-#if PL_KEY1_POL
   #define KEY1_Get()  (!(SW1_GetVal()))
     /*!< Macro which returns TRUE if key is pressed */
-#endif
 #else
   #define KEY1_Get()  FALSE
     /*!< if we do not have a button, then return 'not pressed' */
@@ -35,10 +33,8 @@
 
 #if PL_NOF_KEYS>=2
   #include "SW2.h"
-#if PL_KEY2_POL
   #define KEY2_Get()  (!(SW2_GetVal()))
     /*!< Macro which returns TRUE if key is pressed */
-#endif
 #else
   #define KEY2_Get()  FALSE
     /*!< if we do not have a button, then return 'not pressed' */
@@ -46,10 +42,8 @@
 
 #if PL_NOF_KEYS>=3
   #include "SW3.h"
-#if PL_KEY3_POL
   #define KEY3_Get()  (!(SW3_GetVal()))
     /*!< Macro which returns TRUE if key is pressed */
-#endif
 #else
   #define KEY3_Get()  FALSE
     /*!< if we do not have a button, then return 'not pressed' */
@@ -57,10 +51,8 @@
 
 #if PL_NOF_KEYS>=4
   #include "SW4.h"
-#if PL_KEY4_POL
   #define KEY4_Get()  (!(SW4_GetVal()))
     /*!< Macro which returns TRUE if key is pressed */
-#endif
 #else
   #define KEY4_Get()  FALSE
     /*!< if we do not have a button, then return 'not pressed' */
@@ -68,10 +60,8 @@
 
 #if PL_NOF_KEYS>=5
   #include "SW5.h"
-#if PL_KEY5_POL
   #define KEY5_Get()  (!(SW5_GetVal()))
     /*!< Macro which returns TRUE if key is pressed */
-#endif
 #else
   #define KEY5_Get()  FALSE
     /*!< if we do not have a button, then return 'not pressed' */
@@ -79,10 +69,8 @@
 
 #if PL_NOF_KEYS>=6
   #include "SW6.h"
-#if PL_KEY6_POL
   #define KEY6_Get()  (!(SW6_GetVal()))
     /*!< Macro which returns TRUE if key is pressed */
-#endif
 #else
   #define KEY6_Get()  FALSE
     /*!< if we do not have a button, then return 'not pressed' */
@@ -90,10 +78,8 @@
 
 #if PL_NOF_KEYS>=7
   #include "SW7.h"
-#if PL_KEY7_POL
   #define KEY7_Get()  (!(SW7_GetVal()))
     /*!< Macro which returns TRUE if key is pressed */
-#endif
 #else
   #define KEY7_Get()  FALSE
     /*!< if we do not have a button, then return 'not pressed' */

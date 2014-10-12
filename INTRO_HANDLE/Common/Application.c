@@ -22,6 +22,9 @@
 #if PL_HAS_KEYS
 	#include "Keys.h"
 #endif
+#if PL_HAS_MEALY
+	#include "Mealy.h"
+#endif
 
 /*! \brief Function that only is a support for the Event handling, to show that the events
  *  have been initialized
@@ -116,17 +119,22 @@ void APP_Start() {
 	PL_Init(); /* platform initialization */
 	EVNT_SetEvent(EVNT_INIT);
 	APP_Loop();
-#if 0
-	for (int i = 10; i > 0; --i) {
-		LED1_On();
-		WAIT1_Waitms(i*100);
-		LED1_Off();
-		LED2_On();
-		WAIT1_Waitms(i*100);
-		LED2_Off();
-		LED3_On();
-		WAIT1_Waitms(i*100);
-		LED3_Off();
+	for(;;){
+	#if PL_HAS_MEALY && 1
+		MEALY_Step();
+	#elif 0
+		for (int i = 10; i > 0; --i) {
+			LED1_On();
+			WAIT1_Waitms(i*100);
+			LED1_Off();
+			LED2_On();
+			WAIT1_Waitms(i*100);
+			LED2_Off();
+			LED3_On();
+			WAIT1_Waitms(i*100);
+			LED3_Off();
+		}
+	#endif
 	}
-#endif
+	PL_Deinit();
 }

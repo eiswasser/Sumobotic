@@ -39,6 +39,9 @@
 #if PL_HAS_TIMER
 	#include "Timer.h"
 #endif
+#if PL_HAS_KEYS
+	#include "Keys.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -100,7 +103,8 @@ void TI1_OnInterrupt(void)
 */
 void SW1_OnInterrupt(void)
 {
-#if PL_NOF_KEYS >= 1
+#if PL_HAS_KBI
+	if(KEY1_Get())
 	EVNT_SetEvent(EVNT_SW1_PRESSED);
 #endif
 }
@@ -119,7 +123,8 @@ void SW1_OnInterrupt(void)
 */
 void SW7_OnInterrupt(void)
 {
-#if PL_NOF_KEYS >= 7
+#if PL_HAS_KBI
+	if(KEY7_Get())
 	EVNT_SetEvent(EVNT_SW7_PRESSED);
 #endif
 }
@@ -138,7 +143,8 @@ void SW7_OnInterrupt(void)
 */
 void SW3_OnInterrupt(void)
 {
-#if PL_NOF_KEYS >= 3
+#if PL_HAS_KBI
+	if(KEY3_Get())
 	EVNT_SetEvent(EVNT_SW3_PRESSED);
 #endif
 }
@@ -157,8 +163,9 @@ void SW3_OnInterrupt(void)
 */
 void SW2_OnInterrupt(void)
 {
-#if PL_NOF_KEYS >= 2
-	EVNT_SetEvent(EVNT_SW2_PRESSED);
+#if PL_HAS_KBI
+	if(KEY3_Get())
+	EVNT_SetEvent(EVNT_SW3_PRESSED);
 #endif
 }
 

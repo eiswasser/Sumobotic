@@ -34,24 +34,26 @@
  */
 
 #include "Platform.h" /* interface to the platform */
+
 #if PL_HAS_MEALY
 #include "Mealy.h"    /* our own interface */
 #include "LED.h"      /* interface to LED driver */
 #include "Keys.h"     /* interface to switch 1 */
+
 /*!
  \brief Enumeration for the LEDs we want to emit. Note that they are encoded in bits
 */
 typedef enum LED_Enum {
-#if PL_NOF_LEDS>=1
+#if PL_NOF_LED>=1
   LED1=(1<<0), /*!< LED1 is on */
 #endif
-#if PL_NOF_LEDS>=2
+#if PL_NOF_LED>=2
   LED2=(1<<1), /*!< LED2 is on */
 #endif
-#if PL_NOF_LEDS>=3
+#if PL_NOF_LED>=3
   LED3=(1<<2), /*!< LED3 is on */
 #endif
-#if PL_NOF_LEDS>=4
+#if PL_NOF_LED>=4
   LED4=(1<<3),  /*!< LED4 is on */
 #endif
   LED_NOFLEDS
@@ -61,11 +63,16 @@ typedef enum LED_Enum {
  \brief Enumeration of all our states in the state machine
 */
 typedef enum MealyState {
-  A=0, /*!< Original/Entry state: all LEDs are off */
-  B=1, /*!< first is on */
-  C=2, /*!< next is on */
-  D=3, /*!< next is on */
-  E=4  /*!< next is on */
+  A = 0, /*!< Original/Entry state: all LEDs are off */
+  B = 1, /*!< first is on */
+  C = 2, /*!< next is on */
+  D = 3, /*!< next is on */
+  E = 4, /*!< next is on */
+  F = 5, /*!< next is on */
+  G = 6, /*!< next is on */
+  H = 7, /*!< next is on */
+  I = 8, /*!< next is on */
+  J = 9, /*!< next is on */
 } MealyState; /*!< state machine states */
 
 /*!
@@ -81,18 +88,45 @@ static MealyState state; /*!< The current state of our machine */
 /*!
   \brief Array of 5 states (::A,::B,::C,::D,::E), 2 input states (::INPUT_a, ::INPUT_b) and 4 LEDs as output states.
 */
-#if PL_NOF_LEDS==1
-/*! \todo adopt for your number of LEDs */
-#elif PL_NOF_LEDS==4
-const uint8_t tbl[5][2][2] = /* format: {next,output} */
+#if PL_NOF_LED==1
+const uint8_t tbl[2][2][2] = { 	/* format: {next,output} */
+	/*     input a   input b */
+	/*A*/ {{A,0},    {B,LED1}},       /*!< State A: with input_a, remain in A; with input_b: go to B and turn on LED1 */
+	/*B*/ {{A,0}, 	 {B,LED1}},
+	};
+
+#elif PL_NOF_LED==2
+const uint8_t tbl[3][2][2] = { 	/* format: {next,output} */
+	/*     input a   input b */
+	/*A*/ {{A,0},    {B,LED1}},       /*!< State A: with input_a, remain in A; with input_b: go to B and turn on LED1 */
+	/*B*/ {{C,LED2}, {B,LED1}},
+	/*C*/ {{C,LED2}, {B,LED1}},
+	};
+
+#elif PL_NOF_LED == 3
+const uint8_t tbl[9][2][2] = { 	/* format: {next,output} */
+	/*     input a   input b */
+	/*A*/ {{A,0},    {B,LED1}},       /*!< State A: with input_a, remain in A; with input_b: go to B and turn on LED1 */
+	/*B*/ {{C,LED2}, {B,LED1}},
+	/*C*/ {{C,LED2}, {D,LED3}},
+	/*D*/ {{E,LED1}, {D,LED3}},
+	/*E*/ {{E,LED1}, {F,LED2}},
+	/*F*/ {{G,LED1}, {F,LED2}},
+	/*G*/ {{G,LED1}, {H,LED2}},
+	/*I*/ {{J,LED3}, {H,LED2}},
+	/*J*/ {{J,LED3}, {B,LED1}},
+   };
+
+#elif PL_NOF_LED==4
+const uint8_t tbl[5][2][2] = {	/* format: {next,output} */
    /*     input a   input b */
- {
+
    /*A*/ {{A,0},    {B,LED1}},       /*!< State A: with input_a, remain in A; with input_b: go to B and turn on LED1 */
    /*B*/ {{C,LED2}, {B,LED1}},
    /*C*/ {{C,LED2}, {D,LED3}},
    /*D*/ {{E,LED4}, {D,LED3}},
    /*E*/ {{E,LED4}, {B,LED1}},
- };
+ 	 };
 #endif
 
 /*!
@@ -112,16 +146,16 @@ static InputState GetInput(void) {
  * \param [in] set Bit set of LEDs. A one indicates to turn the LED on, a zero will turn it off.
  */
 static void LEDPut(const uint8_t set) {
-#if PL_NOF_LEDS>=1
+#if PL_NOF_LED>=1
   LED1_Put((set&LED1)!=0);
 #endif
-#if PL_NOF_LEDS>=2
+#if PL_NOF_LED>=2
   LED2_Put((set&LED2)!=0);
 #endif
-#if PL_NOF_LEDS>=3
+#if PL_NOF_LED>=3
   LED3_Put((set&LED3)!=0);
 #endif
-#if PL_NOF_LEDS>=4
+#if PL_NOF_LED>=4
   LED4_Put((set&LED4)!=0);
 #endif
 }

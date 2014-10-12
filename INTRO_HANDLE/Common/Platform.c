@@ -30,6 +30,10 @@
 	#include "Keys.h"
 #endif
 
+#if PL_HAS_MEALY
+	#include "Mealy.h"
+#endif
+
 /*! \brief implements the initial method for the board
  */
 void PL_Init(void) {
@@ -41,6 +45,9 @@ void PL_Init(void) {
 #endif
 #if PL_HAS_KEYS
   KEY_Init();
+#endif
+#if PL_HAS_MEALY
+  MEALY_Init();
 #endif
 }
 
@@ -55,5 +62,8 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_KEYS
   KEY_Deinit();
+#endif
+#if PL_HAS_MEALY
+  MEALY_Deinit();
 #endif
 }
