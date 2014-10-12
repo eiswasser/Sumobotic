@@ -47,7 +47,7 @@
 #include "SW3.h"
 #include "ExtIntLdd3.h"
 #include "SW4.h"
-#include "BitIoLdd7.h"
+#include "ExtIntLdd4.h"
 #include "SW5.h"
 #include "BitIoLdd8.h"
 #include "SW6.h"
@@ -72,7 +72,7 @@ int main(void)
   /*** End of Processor Expert internal initialization.                    ***/
 
   /* Write your code here */
-	  APP_Start();
+  APP_Start();
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/

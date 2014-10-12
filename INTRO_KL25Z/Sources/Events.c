@@ -164,8 +164,28 @@ void SW3_OnInterrupt(void)
 void SW2_OnInterrupt(void)
 {
 #if PL_HAS_KBI
-	if(KEY3_Get())
-	EVNT_SetEvent(EVNT_SW3_PRESSED);
+	if(KEY2_Get())
+	EVNT_SetEvent(EVNT_SW2_PRESSED);
+#endif
+}
+
+/*
+** ===================================================================
+**     Event       :  SW4_OnInterrupt (module Events)
+**
+**     Component   :  SW4 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void SW4_OnInterrupt(void)
+{
+#if PL_HAS_KBI
+	if(KEY4_Get())
+	EVNT_SetEvent(EVNT_SW4_PRESSED);
 #endif
 }
 

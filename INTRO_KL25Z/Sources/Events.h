@@ -52,7 +52,7 @@
 #include "SW3.h"
 #include "ExtIntLdd3.h"
 #include "SW4.h"
-#include "BitIoLdd7.h"
+#include "ExtIntLdd4.h"
 #include "SW5.h"
 #include "BitIoLdd8.h"
 #include "SW6.h"
@@ -144,6 +144,20 @@ void SW2_OnInterrupt(void);
 **     Event       :  SW2_OnInterrupt (module Events)
 **
 **     Component   :  SW2 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void SW4_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  SW4_OnInterrupt (module Events)
+**
+**     Component   :  SW4 [ExtInt]
 **     Description :
 **         This event is called when an active signal edge/level has
 **         occurred.

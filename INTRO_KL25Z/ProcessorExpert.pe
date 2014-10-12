@@ -3,8 +3,8 @@
   <Header>
     <Name>INTRO_KL25Z</Name>
     <SavedBy>Marco</SavedBy>
-    <ModificationStamp>29</ModificationStamp>
-    <Date>2014-10-11</Date>
+    <ModificationStamp>30</ModificationStamp>
+    <Date>2014-10-12</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.0.RT6_b1428-0121</PEversion>
   </Header>
@@ -15,7 +15,7 @@
     <DocumentationDir>Documentation</DocumentationDir>
     <CompiledFilesSubDir />
     <ProjectSettingsDirectory>Project_Settings</ProjectSettingsDirectory>
-    <StaticCodeDirectory>Static_Code</StaticCodeDirectory>
+    <StaticCodeDirectory>Generated_Code</StaticCodeDirectory>
     <TemporaryDir />
     <OverwriteEvents>3</OverwriteEvents>
     <MainModuleUpdate>3</MainModuleUpdate>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>82</ProjectCompNumb>
+    <ProjectCompNumb>85</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -12115,7 +12115,7 @@
     <BeanType>BitIO</BeanType>
     <Name>SW4</Name>
     <CompNumb>53</CompNumb>
-    <CompEnabled>true</CompEnabled>
+    <CompEnabled>false</CompEnabled>
     <GenCodeMode>ALWAYS_WRITE</GenCodeMode>
     <IconName>BITIO</IconName>
     <UserFolderName>Joystick</UserFolderName>
@@ -12700,7 +12700,7 @@
     <BeanType>ExtInt</BeanType>
     <Name>SW4</Name>
     <CompNumb>75</CompNumb>
-    <CompEnabled>false</CompEnabled>
+    <CompEnabled>true</CompEnabled>
     <GenCodeMode>ALWAYS_WRITE</GenCodeMode>
     <IconName>EXTINT</IconName>
     <UserFolderName>Joystick</UserFolderName>
@@ -12719,7 +12719,7 @@
         <ItemSymbol>_Pin</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>TSI0_CH2/PTA1/UART0_RX/TPM2_CH0</Value>
+        <Value>PTA5/USB_CLKIN/TPM0_CH2</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
@@ -12762,7 +12762,7 @@
               <ItemSymbol>_Pin</ItemSymbol>
               <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
-              <Value>TSI0_CH2/PTA1/UART0_RX/TPM2_CH0</Value>
+              <Value>PTA5/USB_CLKIN/TPM0_CH2</Value>
               <SharedPrphMode>false</SharedPrphMode>
             </ItemState>
             <ItemState>
@@ -12885,7 +12885,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>Deinit</ItemSymbol>
-              <ReadOnly>true</ReadOnly>
+              <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -12896,7 +12896,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>Enable</ItemSymbol>
-              <ReadOnly>true</ReadOnly>
+              <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -12907,7 +12907,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>Disable</ItemSymbol>
-              <ReadOnly>true</ReadOnly>
+              <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -12929,7 +12929,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>SetEdge</ItemSymbol>
-              <ReadOnly>true</ReadOnly>
+              <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -12962,7 +12962,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>ConnectPin</ItemSymbol>
-              <ReadOnly>true</ReadOnly>
+              <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -14652,7 +14652,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>Deinit</ItemSymbol>
-              <ReadOnly>false</ReadOnly>
+              <ReadOnly>true</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -14663,7 +14663,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>GetDir</ItemSymbol>
-              <ReadOnly>false</ReadOnly>
+              <ReadOnly>true</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -14767,7 +14767,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>ConnectPin</ItemSymbol>
-              <ReadOnly>false</ReadOnly>
+              <ReadOnly>true</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>
@@ -14783,7 +14783,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>GetRawVal</ItemSymbol>
-              <ReadOnly>false</ReadOnly>
+              <ReadOnly>true</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
               <Index>1</Index>

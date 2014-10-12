@@ -39,16 +39,15 @@ static void APP_HandleEvent(EVNT_Handle event){
 		LED1_Off();
 		break;
 	case EVNT_LED_HEARTBEAT:
-		/*LED2_On();
+		LED2_On();
 		WAIT1_Waitms(100);
 		LED2_Off();
-		*/
 		break;
 #if PL_NOF_KEYS >= 1
 	case EVNT_SW1_PRESSED:
-		LED2_On();
+		LED3_On();
 		WAIT1_Waitms(200);
-		LED2_Off();
+		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 2
@@ -60,37 +59,37 @@ static void APP_HandleEvent(EVNT_Handle event){
 #endif
 #if PL_NOF_KEYS >= 3
 	case EVNT_SW3_PRESSED:
-		LED2_On();	LED1_On();
+		LED3_On();
 		WAIT1_Waitms(200);
-		LED2_Off();	LED1_Off();
+		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 4
 	case EVNT_SW4_PRESSED:
-		LED1_On();
+		LED3_On();
 		WAIT1_Waitms(200);
-		LED1_Off();
+		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 5
 	case EVNT_SW5_PRESSED:
-		LED2_On();	WAIT1_Waitms(100);	LED1_On();
+		LED3_On();
 		WAIT1_Waitms(200);
-		LED2_Off();	LED1_Off();
+		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 6
 	case EVNT_SW6_PRESSED:
-		LED3_On();	WAIT1_Waitms(50);	LED3_Off();	WAIT1_Waitms(50);
-		LED3_On();	WAIT1_Waitms(50);	LED3_Off();	WAIT1_Waitms(50);
-		LED3_On();	WAIT1_Waitms(50);	LED3_Off();
+		LED3_On();
+		WAIT1_Waitms(200);
+		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 7
 	case EVNT_SW7_PRESSED:
-		LED1_On();	LED2_On();	LED3_On();
+		LED3_On();
 		WAIT1_Waitms(200);
-		LED1_Off();	LED2_Off();	LED3_Off();
+		LED3_Off();
 		break;
 #endif
 	default:
@@ -118,9 +117,11 @@ static void APP_Loop(void){
 void APP_Start() {
 	PL_Init(); /* platform initialization */
 	EVNT_SetEvent(EVNT_INIT);
+#if 1
 	APP_Loop();
+#endif
 	for(;;){
-	#if PL_HAS_MEALY && 1
+	#if PL_HAS_MEALY && 0
 		MEALY_Step();
 	#elif 0
 		for (int i = 10; i > 0; --i) {

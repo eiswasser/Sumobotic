@@ -17,7 +17,7 @@
 #define PL_KEY1_POL		(0)
 #define PL_KEY2_POL		(0)
 #define PL_KEY3_POL		(0)
-#define PL_KEY4_POL		(1)
+#define PL_KEY4_POL		(0)
 #define PL_KEY5_POL		(1)
 #define PL_KEY6_POL		(1)
 #define PL_KEY7_POL		(0)
