@@ -29,9 +29,18 @@
 #if PL_HAS_KEYS
 	#include "Keys.h"
 #endif
-
 #if PL_HAS_MEALY
 	#include "Mealy.h"
+#endif
+#if PL_HAS_TRIGGER
+  #include "Trigger.h"
+#endif
+#if PL_HAS_BUZZER
+  #include "Buzzer.h"
+#endif
+#if PL_HAS_DEBOUNCE
+  #include "Debounce.h"
+  #include "KeyDebounce.h"
 #endif
 
 /*! \brief implements the initial method for the board
@@ -49,6 +58,16 @@ void PL_Init(void) {
 #if PL_HAS_MEALY
   MEALY_Init();
 #endif
+#if PL_HAS_TRIGGER
+  TRG_Init();
+#endif
+#if PL_HAS_BUZZER
+  BUZ_Init();
+#endif
+#if PL_HAS_DEBOUNCE
+  DBNC_Init();
+  KEYDBNC_Init();
+#endif
 }
 
 /*! \brief implements the de-initial methods for the board
@@ -65,5 +84,15 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_MEALY
   MEALY_Deinit();
+#endif
+#if PL_HAS_TRIGGER
+  TRG_Deinit();
+#endif
+#if PL_HAS_BUZZER
+  BUZ_Deinit();
+#endif
+#if PL_HAS_DEBOUNCE
+  DBNC_Deinit();
+  KEYDBNC_Deinit();
 #endif
 }

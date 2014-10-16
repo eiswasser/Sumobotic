@@ -10,6 +10,7 @@
 #include "Platform.h"
 #include "Application.h"
 #include "WAIT1.h"
+
 #if PL_USE_LED
   #include "LED.h"
 #endif
@@ -25,6 +26,9 @@
 #if PL_HAS_MEALY
 	#include "Mealy.h"
 #endif
+#if PL_HAS_SHELL
+	#include "CLS1.h"
+#endif
 
 /*! \brief Function that only is a support for the Event handling, to show that the events
  *  have been initialized
@@ -34,60 +38,44 @@
 static void APP_HandleEvent(EVNT_Handle event){
 	switch(event){
 	case EVNT_INIT:
-		LED1_On();
-		WAIT1_Waitms(100);
-		LED1_Off();
+		CLS1_SendStr("Hello World\n",CLS1_GetStdio()->stdOut);
 		break;
 	case EVNT_LED_HEARTBEAT:
 		LED2_Neg();
 		break;
 #if PL_NOF_KEYS >= 1
 	case EVNT_SW1_PRESSED:
-		LED3_On();
-		WAIT1_Waitms(10);
-		LED3_Off();
+		CLS1_SendStr("button 1 pressed\n",CLS1_GetStdio()->stdOut);
 		break;
 #endif
 #if PL_NOF_KEYS >= 2
 	case EVNT_SW2_PRESSED:
-		LED3_On();
-		WAIT1_Waitms(10);
-		LED3_Off();
+		CLS1_SendStr("button 2 pressed\n",CLS1_GetStdio()->stdOut);
 		break;
 #endif
 #if PL_NOF_KEYS >= 3
 	case EVNT_SW3_PRESSED:
-		LED3_On();
-		WAIT1_Waitms(10);
-		LED3_Off();
+		CLS1_SendStr("button 3 pressed\n",CLS1_GetStdio()->stdOut);
 		break;
 #endif
 #if PL_NOF_KEYS >= 4
 	case EVNT_SW4_PRESSED:
-		LED3_On();
-		WAIT1_Waitms(10);
-		LED3_Off();
+		CLS1_SendStr("button 4 pressed\n",CLS1_GetStdio()->stdOut);
 		break;
 #endif
 #if PL_NOF_KEYS >= 5
 	case EVNT_SW5_PRESSED:
-		LED3_On();
-		WAIT1_Waitms(10);
-		LED3_Off();
+		CLS1_SendStr("button 5 pressed\n",CLS1_GetStdio()->stdOut);
 		break;
 #endif
 #if PL_NOF_KEYS >= 6
 	case EVNT_SW6_PRESSED:
-		LED3_On();
-		WAIT1_Waitms(10);
-		LED3_Off();
+		CLS1_SendStr("button 6 pressed\n",CLS1_GetStdio()->stdOut);
 		break;
 #endif
 #if PL_NOF_KEYS >= 7
 	case EVNT_SW7_PRESSED:
-		LED3_On();
-		WAIT1_Waitms(10);
-		LED3_Off();
+		CLS1_SendStr("button 7 pressed\n",CLS1_GetStdio()->stdOut);
 		break;
 #endif
 	default:
