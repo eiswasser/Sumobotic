@@ -105,7 +105,7 @@ void SW1_OnInterrupt(void)
 {
 #if PL_HAS_KBI
 	if(KEY1_Get())
-	EVNT_SetEvent(EVNT_SW1_PRESSED);
+		EVNT_SetEvent(EVNT_SW1_PRESSED);
 #endif
 }
 
@@ -125,7 +125,7 @@ void SW7_OnInterrupt(void)
 {
 #if PL_HAS_KBI
 	if(KEY7_Get())
-	EVNT_SetEvent(EVNT_SW7_PRESSED);
+		EVNT_SetEvent(EVNT_SW7_PRESSED);
 #endif
 }
 
@@ -168,7 +168,7 @@ void SW2_OnInterrupt(void)
 {
 #if PL_HAS_KBI
 	if(KEY2_Get())
-	EVNT_SetEvent(EVNT_SW2_PRESSED);
+		EVNT_SetEvent(EVNT_SW2_PRESSED);
 #endif
 }
 
@@ -188,7 +188,7 @@ void SW4_OnInterrupt(void)
 {
 #if PL_HAS_KBI
 	if(KEY4_Get())
-	EVNT_SetEvent(EVNT_SW4_PRESSED);
+		EVNT_SetEvent(EVNT_SW4_PRESSED);
 #endif
 }
 

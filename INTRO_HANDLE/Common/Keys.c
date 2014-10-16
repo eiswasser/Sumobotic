@@ -53,17 +53,6 @@ void KEY_Scan(void) {
 }
 
 #if PL_HAS_KBI
-/*void KEY_OnInterrupt(KEY_Buttons button) {
-	switch(button){
-		case KEY_BTN1: EVNT_SetEvent(EVNT_SW1_PRESSED); break;
-		case KEY_BTN2: EVNT_SetEvent(EVNT_SW2_PRESSED); break;
-		case KEY_BTN3: EVNT_SetEvent(EVNT_SW3_PRESSED); break;
-		case KEY_BTN4: EVNT_SetEvent(EVNT_SW4_PRESSED); break;
-		case KEY_BTN5: EVNT_SetEvent(EVNT_SW5_PRESSED); break;
-		case KEY_BTN6: EVNT_SetEvent(EVNT_SW6_PRESSED); break;
-		case KEY_BTN7: EVNT_SetEvent(EVNT_SW7_PRESSED); break;
-		}
-	}*/
 
 /*! \brief handler for the interrupt for SW4 */
 void PORTA_OnInterrupt(void) {
