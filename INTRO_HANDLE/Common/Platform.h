@@ -42,6 +42,7 @@
 	#define PL_NOF_KEYS		(7)
 	#define PL_HAS_MEALY	(1)
 	#define PL_HAS_SHELL	(1)
+	#define PL_HAS_TRIGGER	(1)
 #define PL_
 #elif PL_IS_ROBO
 	#define PL_NOF_LED	    (2)
@@ -54,6 +55,7 @@
 	#define PL_NOF_KEYS		(0)
 	#define PL_HAS_MEALY	(1)
 	#define PL_HAS_SHELL	(0)
+	#define PL_HAS_TRIGGER	(1)
 #else
 	#error "unknown board configuration"
 #endif
