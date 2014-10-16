@@ -52,9 +52,8 @@ void KEY_Scan(void) {
 #endif
 }
 
-/*
 #if PL_HAS_KBI
-void KEY_OnInterrupt(KEY_Buttons button) {
+/*void KEY_OnInterrupt(KEY_Buttons button) {
 	switch(button){
 		case KEY_BTN1: EVNT_SetEvent(EVNT_SW1_PRESSED); break;
 		case KEY_BTN2: EVNT_SetEvent(EVNT_SW2_PRESSED); break;
@@ -63,10 +62,17 @@ void KEY_OnInterrupt(KEY_Buttons button) {
 		case KEY_BTN5: EVNT_SetEvent(EVNT_SW5_PRESSED); break;
 		case KEY_BTN6: EVNT_SetEvent(EVNT_SW6_PRESSED); break;
 		case KEY_BTN7: EVNT_SetEvent(EVNT_SW7_PRESSED); break;
-	}
+		}
+	}*/
+
+/*! \brief handler for the interrupt for SW4 */
+void PORTA_OnInterrupt(void) {
+	void Cpu_ivINT_PORTA(void); /* prototype of ISR in Cpu.c */
+	/* call interrupt handler created by the ExtInt components */
+	Cpu_ivINT_PORTA();
 }
+
 #endif
-*/
 
 /*! \brief Key driver initialization */
 void KEY_Init(void) {

@@ -189,6 +189,19 @@ void SW4_OnInterrupt(void)
 #endif
 }
 
+/*
+** ===================================================================
+**     Event       :  PORTA_OnInterrupt (module Events)
+**
+**     Component   :  PTA [Init_GPIO]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
 /* END Events */
 
 #ifdef __cplusplus

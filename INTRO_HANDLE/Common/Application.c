@@ -39,56 +39,54 @@ static void APP_HandleEvent(EVNT_Handle event){
 		LED1_Off();
 		break;
 	case EVNT_LED_HEARTBEAT:
-		LED2_On();
-		WAIT1_Waitms(100);
-		LED2_Off();
+		LED2_Neg();
 		break;
 #if PL_NOF_KEYS >= 1
 	case EVNT_SW1_PRESSED:
 		LED3_On();
-		WAIT1_Waitms(200);
+		WAIT1_Waitms(100);
 		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 2
 	case EVNT_SW2_PRESSED:
 		LED3_On();
-		WAIT1_Waitms(200);
+		WAIT1_Waitms(100);
 		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 3
 	case EVNT_SW3_PRESSED:
 		LED3_On();
-		WAIT1_Waitms(200);
+		WAIT1_Waitms(100);
 		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 4
 	case EVNT_SW4_PRESSED:
 		LED3_On();
-		WAIT1_Waitms(200);
+		WAIT1_Waitms(100);
 		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 5
 	case EVNT_SW5_PRESSED:
 		LED3_On();
-		WAIT1_Waitms(200);
+		WAIT1_Waitms(100);
 		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 6
 	case EVNT_SW6_PRESSED:
 		LED3_On();
-		WAIT1_Waitms(200);
+		WAIT1_Waitms(100);
 		LED3_Off();
 		break;
 #endif
 #if PL_NOF_KEYS >= 7
 	case EVNT_SW7_PRESSED:
 		LED3_On();
-		WAIT1_Waitms(200);
+		WAIT1_Waitms(100);
 		LED3_Off();
 		break;
 #endif

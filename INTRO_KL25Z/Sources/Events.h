@@ -59,6 +59,7 @@
 #include "BitIoLdd9.h"
 #include "SW7.h"
 #include "ExtIntLdd5.h"
+#include "PTA.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -79,7 +80,7 @@ extern "C" {
 /* ===================================================================*/
 void Cpu_OnNMIINT(void);
 
-
+void TI1_OnInterrupt(void);
 /*
 ** ===================================================================
 **     Event       :  TI1_OnInterrupt (module Events)
@@ -94,7 +95,6 @@ void Cpu_OnNMIINT(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
-void TI1_OnInterrupt(void);
 
 void SW1_OnInterrupt(void);
 /*
