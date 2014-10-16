@@ -144,8 +144,11 @@ void SW7_OnInterrupt(void)
 void SW3_OnInterrupt(void)
 {
 #if PL_HAS_KBI
-	if(KEY3_Get())
+	if (PORT_PDD_GetPinInterruptFlag(PORTA_BASE_PTR,ExtIntLdd3_PIN_INDEX))
+	{
+	PORT_PDD_ClearPinInterruptFlag(PORTA_BASE_PTR,ExtIntLdd3_PIN_INDEX);
 	EVNT_SetEvent(EVNT_SW3_PRESSED);
+	}
 #endif
 }
 
