@@ -219,4 +219,5 @@
 			<resource resourceType="PROJECT" workspacePath="/INTRO_KL25Z"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
