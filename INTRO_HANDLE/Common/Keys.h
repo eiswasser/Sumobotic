@@ -91,7 +91,6 @@
  * \brief Function called from a keyboard interrupt (if supported).
  * \param button Button for which interrupt has been generated.
  */
-
 void PORTA_OnInterrupt(void);
 
 #endif

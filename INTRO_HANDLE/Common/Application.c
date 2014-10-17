@@ -107,7 +107,8 @@ static void APP_HandleEvent(EVNT_Handle event){
 	switch(event){
 	case EVNT_INIT:
 		LED1_On();
-		TRG_SetTrigger(TRG_LED_INIT_OFF,50/TMR_TICK_MS,NULL,NULL);
+		LED2_On();
+		TRG_SetTrigger(TRG_LED_INIT_OFF,50/TMR_TICK_MS,LED_Off_TRG,NULL);
 		break;
 	case EVNT_LED_HEARTBEAT:
 		LED1_Neg();
@@ -115,7 +116,7 @@ static void APP_HandleEvent(EVNT_Handle event){
 		break;
 #if PL_NOF_KEYS >= 1
 	case EVNT_SW1_PRESSED:
-		CLS1_SendStr("button 1 pressed\n",CLS1_GetStdio()->stdOut);
+		TRG_SetTrigger(TRG_BUZ_BEEP,500/TMR_TICK_MS,BUZ_Beep(),NULL);
 		break;
 #endif
 	}

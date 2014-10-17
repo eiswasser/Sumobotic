@@ -53,7 +53,7 @@
 	#define PL_HAS_KEYS     (1)
 	#define PL_HAS_KBI      (1)
 	#define PL_HAS_JOYSTICK (1)
-	#define PL_NOF_KEYS		(0)
+	#define PL_NOF_KEYS		(1)
 	#define PL_HAS_MEALY	(1)
 	#define PL_HAS_SHELL	(0)
 	#define PL_HAS_TRIGGER	(1)

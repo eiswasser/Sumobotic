@@ -52,6 +52,11 @@ void LED_Deinit(void) {
 		LED3_Deinit();
 }
 
+void LED_Off_TRG(void* p){
+	LED1_Off();
+	LED2_Off();
+}
+
 /*! \brief LED test routine.
  *  \todo Need a dedicated error routine!
  * This routine tests if:

@@ -136,6 +136,10 @@
  */
 void LED_Test(void);
 
+/*! \brief LED1 off function for Trigger use.
+ */
+void LED_Off_TRG(void* p);
+
 /*! \brief LED Driver Initialization.
  */
 void LED_Init(void);
