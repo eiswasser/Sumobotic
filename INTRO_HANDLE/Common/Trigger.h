@@ -13,13 +13,14 @@
 #include "Platform.h"
 #include "Timer.h"
 
-#define TRG_TICKS_MS  TMR_TICKS_MS
+#define TRG_TICKS_MS  TMR_TICK_MS
   /*!< Defines the period at which TRG_IncTick gets called */
 
 /*! \brief Triggers which can be used from the application */
 typedef enum {
   /*! \todo Extend the list of triggers as needed */
   TRG_LED_BLINK,   /*!< LED blinking */
+  TRG_LED_INIT_OFF,/*!< Turn LED off from Init */
   TRG_BTNLED_OFF,  /*!< Turn LED off */
   TRG_BTNSND_OFF,  /*!< Switch sounder off  */
   TRG_KEYPRESS,    /*!< Trigger for debouncing */
