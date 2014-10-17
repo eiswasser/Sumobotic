@@ -29,6 +29,9 @@
 #if PL_HAS_SHELL
 	#include "CLS1.h"
 #endif
+#if PL_HAS_TRIGGER
+	#include "Trigger.h"
+#endif
 
 #if PL_IS_FRDM
 /*! \brief Function that only is a support for the Event handling, to show that the events
@@ -104,11 +107,7 @@ static void APP_HandleEvent(EVNT_Handle event){
 	switch(event){
 	case EVNT_INIT:
 		LED1_On();
-		WAIT1_Waitms(50);
-		LED1_Off();
-		LED2_On();
-		WAIT1_Waitms(50);
-		LED2_Off();
+		TRG_SetTrigger(TRG_LED_INIT_OFF,50/TMR_TICK_MS,NULL,NULL);
 		break;
 	case EVNT_LED_HEARTBEAT:
 		LED1_Neg();
