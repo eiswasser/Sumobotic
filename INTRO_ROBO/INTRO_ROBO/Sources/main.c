@@ -44,6 +44,8 @@
 #include "TU1.h"
 #include "BUZ1.h"
 #include "BitIoLdd3.h"
+#include "SW1.h"
+#include "ExtIntLdd1.h"
 /* Including shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"

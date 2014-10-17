@@ -29,7 +29,23 @@
 
 #include "Cpu.h"
 #include "Events.h"
-#include "Trigger.h"
+
+/*! \brief Imports which are not from the Processor Expert itself
+ */
+#include "Platform.h"
+#if PL_HAS_EVENTS
+	#include "Event.h"
+#endif
+#if PL_HAS_TIMER
+	#include "Timer.h"
+#endif
+#if PL_HAS_KEYS
+	#include "Keys.h"
+#endif
+#if PL_HAS_TRIGGER
+	#include "Trigger.h"
+#endif
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -72,7 +88,32 @@ void Cpu_OnNMIINT(void)
 */
 void TI1_OnInterrupt(void)
 {
+#if PL_HAS_TIMER
+	TMR_OnInterrupt();
+#endif
+#if PL_HAS_TRIGGER
   TRG_IncTick();
+#endif
+}
+
+/*
+** ===================================================================
+**     Event       :  SW1_OnInterrupt (module Events)
+**
+**     Component   :  SW1 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void SW1_OnInterrupt(void)
+{
+#if PL_HAS_KBI
+	if(KEY1_Get())
+		EVNT_SetEvent(EVNT_SW1_PRESSED);
+#endif
 }
 
 /* END Events */

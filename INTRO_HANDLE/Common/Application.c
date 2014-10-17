@@ -32,6 +32,9 @@
 #if PL_HAS_TRIGGER
 	#include "Trigger.h"
 #endif
+#if PL_HAS_BUZZER
+	#include "Buzzer.h"
+#endif
 
 #if PL_IS_FRDM
 /*! \brief Function that only is a support for the Event handling, to show that the events
@@ -116,7 +119,7 @@ static void APP_HandleEvent(EVNT_Handle event){
 		break;
 #if PL_NOF_KEYS >= 1
 	case EVNT_SW1_PRESSED:
-		TRG_SetTrigger(TRG_BUZ_BEEP,500/TMR_TICK_MS,BUZ_Beep(),NULL);
+		BUZ_Beep(300,1000/TMR_TICK_MS);
 		break;
 #endif
 	}
