@@ -127,7 +127,7 @@ static void APP_HandleEvent(EVNT_Handle event){
 
 /*! \brief Loop function, which call the handling function which checks if an event is set
  */
-static void APP_Loop_ROBO(void){
+static void APP_Loop_ROBO(void* p){
 	for(;;){
 		#if PL_HAS_EVENTS
 			EVNT_HandleEvent(APP_HandleEvent);
@@ -135,7 +135,7 @@ static void APP_Loop_ROBO(void){
 		#if PL_HAS_KEYS
 			KEY_Scan();
 		#endif
-		WAIT1_Waitms(10);
+			TRG_SetTrigger(TRG_LOOP,10/TMR_TICK_MS,APP_Loop_ROBO,NULL);
 	}
 }
 #endif
@@ -150,7 +150,7 @@ void APP_Start() {
 	APP_Loop_FRDM();
 #endif
 #if PL_IS_ROBO
-	APP_Loop_ROBO();
+	APP_Loop_ROBO(NULL);
 #endif
 	for(;;){
 	#if PL_HAS_MEALY && 0
