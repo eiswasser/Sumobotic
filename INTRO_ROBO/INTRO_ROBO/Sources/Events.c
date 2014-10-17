@@ -92,7 +92,7 @@ void TI1_OnInterrupt(void)
 	TMR_OnInterrupt();
 #endif
 #if PL_HAS_TRIGGER
-  TRG_IncTick();
+	TRG_IncTick();
 #endif
 }
 
@@ -111,7 +111,6 @@ void TI1_OnInterrupt(void)
 void SW1_OnInterrupt(void)
 {
 #if PL_HAS_KBI
-	if(KEY1_Get())
 		EVNT_SetEvent(EVNT_SW1_PRESSED);
 #endif
 }
