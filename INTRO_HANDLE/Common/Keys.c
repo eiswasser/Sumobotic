@@ -53,7 +53,53 @@ void KEY_Scan(void) {
 }
 
 #if PL_HAS_KBI
+void KEY_EnableInterrupts(void) {
+#if PL_NOF_KEYS >= 1 && !PL_KEY1_POL
+  SW1_Enable();
+#endif
+#if PL_NOF_KEYS >= 2 && !PL_KEY2_POL
+  SW2_Enable();
+#endif
+#if PL_NOF_KEYS >= 3 && !PL_KEY3_POL
+  SW3_Enable();
+#endif
+#if PL_NOF_KEYS >= 4 && !PL_KEY4_POL
+  SW4_Enable();
+#endif
+#if PL_NOF_KEYS >= 5 && !PL_KEY5_POL
+  SW5_Enable();
+#endif
+#if PL_NOF_KEYS >= 6 && !PL_KEY6_POL
+  SW6_Enable();
+#endif
+#if PL_NOF_KEYS >= 7 && !PL_KEY7_POL
+  SW7_Enable();
+#endif
+}
 
+void KEY_DisableInterrupts(void) {
+#if PL_NOF_KEYS >= 1 && !PL_KEY1_POL
+  SW1_Disable();
+#endif
+#if PL_NOF_KEYS >= 2 && !PL_KEY2_POL
+  SW2_Disable();
+#endif
+#if PL_NOF_KEYS >= 3 && !PL_KEY3_POL
+  SW3_Disable();
+#endif
+#if PL_NOF_KEYS >= 4 && !PL_KEY4_POL
+  SW4_Disable();
+#endif
+#if PL_NOF_KEYS >= 5 && !PL_KEY5_POL
+  SW5_Disable();
+#endif
+#if PL_NOF_KEYS >= 6 && !PL_KEY6_POL
+  SW6_Disable();
+#endif
+#if PL_NOF_KEYS >= 7 && !PL_KEY7_POL
+  SW7_Disable();
+#endif
+}
 /*! \brief handler for the interrupt for SW4 */
 void PORTA_OnInterrupt(void) {
 	void Cpu_ivINT_PORTA(void); /* prototype of ISR in Cpu.c */

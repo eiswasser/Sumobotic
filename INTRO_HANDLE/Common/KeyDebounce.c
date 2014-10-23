@@ -196,15 +196,15 @@ static void KEYDBNC_OnDebounceEvent(DBNC_EventKinds event, DBNC_KeySet keys) {
  */
 static DBNC_FSMData KEYDBNC_FSMdata = {
   /* callbacks: */
-  KEYDBNC_GetKeys, /* returns bit set of pressed keys */
-  KEYDBNC_OnDebounceEvent, /* event callback */
+  KEYDBNC_GetKeys, 				/* returns bit set of pressed keys */
+  KEYDBNC_OnDebounceEvent, 		/* event callback */
   /* data: */
-  DBNC_KEY_IDLE, /* initial state machine state, here the state is stored */
-  0, /* key scan value */
-  0, /* long key count */
-  TRG_KEYPRESS, /* trigger to be used */
-  (50/TRG_TICKS_MS), /* debounceTicks for 50 ms */
-  (500/TRG_TICKS_MS), /* longKeyTicks for 500 ms */
+  DBNC_KEY_IDLE, 				/* initial state machine state, here the state is stored */
+  0, 							/* key scan value */
+  0, 							/* long key count */
+  TRG_KEYPRESS, 				/* trigger to be used */
+  (50/TRG_TICKS_MS), 			/* debounceTicks for 50 ms */
+  (500/TRG_TICKS_MS), 			/* longKeyTicks for 500 ms */
 };
 
 void KEYDBNC_Process(void) {

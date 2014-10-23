@@ -31,24 +31,24 @@ digraph example_api_graph {
 void DBNC_Process(DBNC_FSMData *data) {
   DBNC_KeySet keys;
 
-  for(;;) { /* for loop, will return */
+  for(;;) { 									/* for loop, will return */
     switch(data->state) {
-      case DBNC_KEY_IDLE: /* idle, and now getting a key */
+      case DBNC_KEY_IDLE: 						/* idle, and now getting a key */
         data->scanValue = data->getKeys();
-        data->longKeyCnt = 1; /* zero is a special value */
-        data->state = DBNC_KEY_PRESSED; /* advance to next state */
+        data->longKeyCnt = 1; 					/* zero is a special value */
+        data->state = DBNC_KEY_PRESSED; 		/* advance to next state */
         (void)TRG_SetTrigger(data->trigger, data->debounceTicks, (TRG_Callback)DBNC_Process, (void*)data);
         return;
   
       case DBNC_KEY_PRESSED:
         keys = data->getKeys();
-        if (keys==data->scanValue) { /* still pressing the same keys */
+        if (keys==data->scanValue) { 			/* still pressing the same keys */
           /*! \todo See how it checks long or short press */
           if (data->longKeyCnt>=data->longKeyTicks) {
-            /* yes, long key press detected */
-            data->longKeyCnt=0; /* zero is a special value to prevent counting */
+        	  	  	  	  	  	  	  	  	  	/* yes, long key press detected */
+            data->longKeyCnt=0; 				/* zero is a special value to prevent counting */
             data->onDebounceEvent(DBNC_EVENT_LONG_PRESSED, data->scanValue);
-          } else if (data->longKeyCnt>0) { /* zero is a special value to prevent counting */
+          } else if (data->longKeyCnt>0) { 		/* zero is a special value to prevent counting */
             data->longKeyCnt += data->debounceTicks; /* increment loop counter */
           }
           (void)TRG_SetTrigger(data->trigger, data->debounceTicks, (TRG_Callback)DBNC_Process, (void*)data); /* continue waiting */
