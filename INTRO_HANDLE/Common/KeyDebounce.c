@@ -211,10 +211,10 @@ void KEYDBNC_Process(void) {
   /** \todo call DBNC_Process(&KEY_FSMdata);
    * But be careful: only if we are not debouncing, and if we have a key press if we are polling
    */
-  if (KEYDBNC_FSMdata.state==DBNC_KEY_IDLE && KEYDBNC_GetKeys()!=0) { /* a key is pressed and we are not debouncing */
-  #if PL_HAS_KBI
-    KEY_DisableInterrupts(); /* disable interrupts for all keys */
-  #endif
+	if (KEYDBNC_FSMdata.state==DBNC_KEY_IDLE && KEYDBNC_GetKeys()!=0) { /* a key is pressed and we are not debouncing */
+  	#if PL_HAS_KBI
+	KEY_DisableInterrupts(); /* disable interrupts for all keys */
+  	#endif
     DBNC_Process(&KEYDBNC_FSMdata); /* starts the state machine */
   }
 }

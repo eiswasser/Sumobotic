@@ -45,44 +45,58 @@
 static void APP_HandleEvent(EVNT_Handle event){
 	switch(event){
 	case EVNT_INIT:
-		CLS1_SendStr("Hello World\n",CLS1_GetStdio()->stdOut);
+		//CLS1_SendStr("Hello World\n",CLS1_GetStdio()->stdOut);
 		break;
 	case EVNT_LED_HEARTBEAT:
 		LED2_Neg();
 		break;
 #if PL_NOF_KEYS >= 1
 	case EVNT_SW1_PRESSED:
-		CLS1_SendStr("button 1 pressed\n",CLS1_GetStdio()->stdOut);
+		#if PL_SEND_TEXT
+			CLS1_SendStr("button 1 pressed\n",CLS1_GetStdio()->stdOut);
+		#endif
 		break;
 #endif
 #if PL_NOF_KEYS >= 2
 	case EVNT_SW2_PRESSED:
-		CLS1_SendStr("button 2 pressed\n",CLS1_GetStdio()->stdOut);
+		#if PL_SEND_TEXT
+			CLS1_SendStr("button 2 pressed\n",CLS1_GetStdio()->stdOut);
+		#endif
 		break;
 #endif
 #if PL_NOF_KEYS >= 3
 	case EVNT_SW3_PRESSED:
-		CLS1_SendStr("button 3 pressed\n",CLS1_GetStdio()->stdOut);
+		#if PL_SEND_TEXT
+			CLS1_SendStr("button 3 pressed\n",CLS1_GetStdio()->stdOut);
+		#endif
 		break;
 #endif
 #if PL_NOF_KEYS >= 4
 	case EVNT_SW4_PRESSED:
-		CLS1_SendStr("button 4 pressed\n",CLS1_GetStdio()->stdOut);
+		#if PL_SEND_TEXT
+			CLS1_SendStr("button 4 pressed\n",CLS1_GetStdio()->stdOut);
+		#endif
 		break;
 #endif
 #if PL_NOF_KEYS >= 5
 	case EVNT_SW5_PRESSED:
-		CLS1_SendStr("button 5 pressed\n",CLS1_GetStdio()->stdOut);
+		#if PL_SEND_TEXT
+			CLS1_SendStr("button 5 pressed\n",CLS1_GetStdio()->stdOut);
+		#endif
 		break;
 #endif
 #if PL_NOF_KEYS >= 6
 	case EVNT_SW6_PRESSED:
-		CLS1_SendStr("button 6 pressed\n",CLS1_GetStdio()->stdOut);
+		#if PL_SEND_TEXT
+			CLS1_SendStr("button 6 pressed\n",CLS1_GetStdio()->stdOut);
+		#endif
 		break;
 #endif
 #if PL_NOF_KEYS >= 7
 	case EVNT_SW7_PRESSED:
-		CLS1_SendStr("button 7 pressed\n",CLS1_GetStdio()->stdOut);
+		#if PL_SEND_TEXT
+			CLS1_SendStr("button 7 pressed\n",CLS1_GetStdio()->stdOut);
+		#endif
 		break;
 #endif
 	default:
