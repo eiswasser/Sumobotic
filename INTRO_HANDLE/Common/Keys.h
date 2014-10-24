@@ -110,6 +110,12 @@ void KEY_Close(void);
 /*! \brief Key driver initialization */
 void KEY_Init(void);
 
+/*! \brief */
+void KEY_EnableInterrupts(void);
+
+/*! \brief */
+void KEY_EnableInterrupts(void);
+
 /*! \brief Key driver de-initialization */
 void KEY_Deinit(void);
 

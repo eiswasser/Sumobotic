@@ -72,7 +72,7 @@ void KEY_Scan(void) {
 /*! \brief
  *
  */
-void KEY_EnableInterrupts(void) {
+void KEY_EnableInterrupts() {
 #if PL_NOF_KEYS >= 1 && !PL_KEY1_POL
   SW1_Enable();
 #endif
@@ -99,7 +99,7 @@ void KEY_EnableInterrupts(void) {
 /*! \brief
  *
  */
-void KEY_DisableInterrupts(void) {
+void KEY_DisableInterrupts() {
 #if PL_NOF_KEYS >= 1 && !PL_KEY1_POL
   SW1_Disable();
 #endif
