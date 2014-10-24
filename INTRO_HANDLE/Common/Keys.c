@@ -21,6 +21,7 @@ void KEY_Scan(void) {
 
 #if PL_HAS_DEBOUNCE
 	KEYDBNC_Process();
+#endif
 #if PL_HAS_KBI
 
 #if PL_NOF_KEYS >= 1 && PL_KEY1_POL

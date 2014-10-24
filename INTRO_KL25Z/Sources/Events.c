@@ -103,9 +103,10 @@ void TI1_OnInterrupt(void)
 */
 void SW1_OnInterrupt(void)
 {
+#if PL_HAS_KBI
 #if PL_HAS_DEBOUNCE
 	KEYDBNC_Process();
-#if PL_HAS_KBI
+#else
 	EVNT_SetEvent(EVNT_SW1_PRESSED);
 #endif
 }
@@ -125,6 +126,9 @@ void SW1_OnInterrupt(void)
 void SW7_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+#if PL_HAS_DEBOUNCE
+	KEYDBNC_Process();
+#else
 	EVNT_SetEvent(EVNT_SW7_PRESSED);
 #endif
 }
@@ -144,6 +148,9 @@ void SW7_OnInterrupt(void)
 void SW3_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+#if PL_HAS_DEBOUNCE
+	KEYDBNC_Process();
+#else
 	if (PORT_PDD_GetPinInterruptFlag(PORTA_BASE_PTR,ExtIntLdd3_PIN_INDEX))
 	{
 	PORT_PDD_ClearPinInterruptFlag(PORTA_BASE_PTR,ExtIntLdd3_PIN_INDEX);
@@ -167,6 +174,9 @@ void SW3_OnInterrupt(void)
 void SW2_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+#if PL_HAS_DEBOUNCE
+	KEYDBNC_Process();
+#else
 	EVNT_SetEvent(EVNT_SW2_PRESSED);
 #endif
 }
@@ -186,6 +196,9 @@ void SW2_OnInterrupt(void)
 void SW4_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+#if PL_HAS_DEBOUNCE
+	KEYDBNC_Process();
+#else
 	EVNT_SetEvent(EVNT_SW4_PRESSED);
 #endif
 }
