@@ -183,7 +183,8 @@ static void KEYDBNC_OnDebounceEvent(DBNC_EventKinds event, DBNC_KeySet keys) {
 #endif
       break;
     case DBNC_EVENT_END:
-      /*! \todo Implement what you have to do at the end of the debouncing */
+      /*! \todo Implement what you have to do at the end of the debouncing
+       *  implement the ACK*/
 #if PL_HAS_KBI
       KEY_EnableInterrupts();
 #endif
@@ -209,8 +210,10 @@ static DBNC_FSMData KEYDBNC_FSMdata = {
 
 void KEYDBNC_Process(void) {
   /** \todo call DBNC_Process(&KEY_FSMdata);
+   *
    * But be careful: only if we are not debouncing, and if we have a key press if we are polling
    */
+
   if (KEYDBNC_FSMdata.state==DBNC_KEY_IDLE && KEYDBNC_GetKeys()!=0) { /* a key is pressed and we are not debouncing */
   #if PL_HAS_KBI
     KEY_DisableInterrupts(); /* disable interrupts for all keys */

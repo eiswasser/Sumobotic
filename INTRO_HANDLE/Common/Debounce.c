@@ -43,7 +43,6 @@ void DBNC_Process(DBNC_FSMData *data) {
       case DBNC_KEY_PRESSED:
         keys = data->getKeys();
         if (keys==data->scanValue) { 			/* still pressing the same keys */
-          /*! \todo See how it checks long or short press */
           if (data->longKeyCnt>=data->longKeyTicks) {
         	  	  	  	  	  	  	  	  	  	/* yes, long key press detected */
             data->longKeyCnt=0; 				/* zero is a special value to prevent counting */
@@ -61,7 +60,6 @@ void DBNC_Process(DBNC_FSMData *data) {
           (void)TRG_SetTrigger(data->trigger, data->debounceTicks, (TRG_Callback)DBNC_Process, (void*)data);
           return;
         } else { /* we got another key set pressed */
-          /*! \todo Here it goes to the next state */
           data->state = DBNC_KEY_RELEASE;
         }
         break;
