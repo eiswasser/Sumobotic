@@ -103,6 +103,9 @@ void TI1_OnInterrupt(void)
 */
 void SW1_OnInterrupt(void)
 {
+#if PL_HAS_DEBOUNCE
+	KEYDBNC_Process();
+#endif
 #if PL_HAS_KBI
 	EVNT_SetEvent(EVNT_SW1_PRESSED);
 #endif
