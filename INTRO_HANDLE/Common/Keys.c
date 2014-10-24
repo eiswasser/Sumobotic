@@ -10,8 +10,12 @@
 #include "Platform.h"
 #if PL_HAS_KEYS
   #include "Keys.h"
+
 #if PL_HAS_EVENTS
   #include "Event.h"
+#endif
+#if PL_HAS_DEBOUNCE
+	#include "KeyDebounce.h"
 #endif
 
 /*! \brief
@@ -21,43 +25,42 @@ void KEY_Scan(void) {
 
 #if PL_HAS_DEBOUNCE
 	KEYDBNC_Process();
-#endif
-#if PL_HAS_KBI
-
-#if PL_NOF_KEYS >= 1 && PL_KEY1_POL
-  if (KEY1_Get()) { /* key pressed */
-    EVNT_SetEvent(EVNT_SW1_PRESSED);
-  }
-#endif
-#if PL_NOF_KEYS >= 2 && PL_KEY2_POL
-  if (KEY2_Get()) { /* key pressed */
-    EVNT_SetEvent(EVNT_SW2_PRESSED);
-  }
-#endif
-#if PL_NOF_KEYS >= 3 && PL_KEY3_POL
-  if (KEY3_Get()) { /* key pressed */
-    EVNT_SetEvent(EVNT_SW3_PRESSED);
-  }
-#endif
-#if PL_NOF_KEYS >= 4 && PL_KEY4_POL
-  if (KEY4_Get()) { /* key pressed */
-    EVNT_SetEvent(EVNT_SW4_PRESSED);
-  }
-#endif
-#if PL_NOF_KEYS >= 5 && PL_KEY5_POL
-  if (KEY5_Get()) { /* key pressed */
-    EVNT_SetEvent(EVNT_SW5_PRESSED);
-  }
-#endif
-#if PL_NOF_KEYS >= 6 && PL_KEY6_POL
-  if (KEY6_Get()) { /* key pressed */
-    EVNT_SetEvent(EVNT_SW6_PRESSED);
-  }
-#endif
-#if PL_NOF_KEYS >= 7 && PL_KEY7_POL
-  if (KEY7_Get()) { /* key pressed */
-    EVNT_SetEvent(EVNT_SW7_PRESSED);
-  }
+#elif PL_HAS_KBI
+	#if PL_NOF_KEYS >= 1 && PL_KEY1_POL
+	  if (KEY1_Get()) { /* key pressed */
+		EVNT_SetEvent(EVNT_SW1_PRESSED);
+	  }
+	#endif
+	#if PL_NOF_KEYS >= 2 && PL_KEY2_POL
+	  if (KEY2_Get()) { /* key pressed */
+		EVNT_SetEvent(EVNT_SW2_PRESSED);
+	  }
+	#endif
+	#if PL_NOF_KEYS >= 3 && PL_KEY3_POL
+	  if (KEY3_Get()) { /* key pressed */
+		EVNT_SetEvent(EVNT_SW3_PRESSED);
+	  }
+	#endif
+	#if PL_NOF_KEYS >= 4 && PL_KEY4_POL
+	  if (KEY4_Get()) { /* key pressed */
+		EVNT_SetEvent(EVNT_SW4_PRESSED);
+	  }
+	#endif
+	#if PL_NOF_KEYS >= 5 && PL_KEY5_POL
+	  if (KEY5_Get()) { /* key pressed */
+		EVNT_SetEvent(EVNT_SW5_PRESSED);
+	  }
+	#endif
+	#if PL_NOF_KEYS >= 6 && PL_KEY6_POL
+	  if (KEY6_Get()) { /* key pressed */
+		EVNT_SetEvent(EVNT_SW6_PRESSED);
+	  }
+	#endif
+	#if PL_NOF_KEYS >= 7 && PL_KEY7_POL
+	  if (KEY7_Get()) { /* key pressed */
+		EVNT_SetEvent(EVNT_SW7_PRESSED);
+	  }
+	#endif
 #endif
 }
 
@@ -138,4 +141,5 @@ void KEY_Init(void) {
 void KEY_Deinit(void) {
   /* nothing needed for now */
 }
+
 #endif /* PL_HAS_KEYS */
