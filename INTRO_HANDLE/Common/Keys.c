@@ -14,7 +14,15 @@
   #include "Event.h"
 #endif
 
+/*! \brief
+ *
+ */
 void KEY_Scan(void) {
+
+#if PL_HAS_DEBOUNCE
+	KEYDBNC_Process();
+#if PL_HAS_KBI
+
 #if PL_NOF_KEYS >= 1 && PL_KEY1_POL
   if (KEY1_Get()) { /* key pressed */
     EVNT_SetEvent(EVNT_SW1_PRESSED);
@@ -52,7 +60,14 @@ void KEY_Scan(void) {
 #endif
 }
 
+/*! \brief
+ *
+ */
 #if PL_HAS_KBI
+
+/*! \brief
+ *
+ */
 void KEY_EnableInterrupts(void) {
 #if PL_NOF_KEYS >= 1 && !PL_KEY1_POL
   SW1_Enable();
@@ -77,6 +92,9 @@ void KEY_EnableInterrupts(void) {
 #endif
 }
 
+/*! \brief
+ *
+ */
 void KEY_DisableInterrupts(void) {
 #if PL_NOF_KEYS >= 1 && !PL_KEY1_POL
   SW1_Disable();
@@ -100,6 +118,7 @@ void KEY_DisableInterrupts(void) {
   SW7_Disable();
 #endif
 }
+
 /*! \brief handler for the interrupt for SW4 */
 void PORTA_OnInterrupt(void) {
 	void Cpu_ivINT_PORTA(void); /* prototype of ISR in Cpu.c */

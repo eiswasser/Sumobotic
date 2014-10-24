@@ -207,10 +207,10 @@ static DBNC_FSMData KEYDBNC_FSMdata = {
   (500/TRG_TICKS_MS), 			/* longKeyTicks for 500 ms */
 };
 
+/*! \brief
+ *
+ */
 void KEYDBNC_Process(void) {
-  /** \todo call DBNC_Process(&KEY_FSMdata);
-   * But be careful: only if we are not debouncing, and if we have a key press if we are polling
-   */
 	if (KEYDBNC_FSMdata.state==DBNC_KEY_IDLE && KEYDBNC_GetKeys()!=0) { /* a key is pressed and we are not debouncing */
   	#if PL_HAS_KBI
 	KEY_DisableInterrupts(); /* disable interrupts for all keys */
@@ -219,10 +219,16 @@ void KEYDBNC_Process(void) {
   }
 }
 
+/*! \brief
+ *
+ */
 void KEYDBNC_Init(void) {
   /* nothing needed */
 }
 
+/*! \brief
+ *
+ */
 void KEYDBNC_Deinit(void) {
   /* nothing needed */
 }

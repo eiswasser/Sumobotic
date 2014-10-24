@@ -83,11 +83,16 @@ void DBNC_Process(DBNC_FSMData *data) {
   } /* for */
 }
 
+/*! \brief
+ *
+ */
 void DBNC_Deinit(void) {
   /* nothing for now */
 }
 
-
+/*! \brief
+ *
+ */
 void DBNC_Init(void) {
   /* nothing to init for now */
 }
