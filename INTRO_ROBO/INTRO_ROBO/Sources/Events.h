@@ -51,6 +51,8 @@
 #include "SW1.h"
 #include "ExtIntLdd1.h"
 #include "FRTOS1.h"
+#include "RTOSCNTRLDD1.h"
+#include "WAIT2.h"
 
 #ifdef __cplusplus
 extern "C" {
