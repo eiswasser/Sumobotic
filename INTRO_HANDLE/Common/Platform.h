@@ -45,6 +45,7 @@
 	#define PL_HAS_BUZZER	(1 && PL_HAS_TRIGGER && PL_IS_ROBO)
 	#define PL_HAS_DEBOUNCE	(1 && PL_HAS_KEYS)
 	#define PL_SEND_TEXT 	(0)
+	#define PL_HAS_RTOS		(1)
 
 #elif PL_IS_ROBO
 	#define PL_NOF_LED	    (2)
@@ -60,6 +61,7 @@
 	#define PL_HAS_BUZZER	(1 && PL_HAS_TRIGGER && PL_IS_ROBO)
 	#define PL_HAS_DEBOUNCE	(1 && PL_HAS_KEYS)
 	#define PL_SEND_TEXT 	(0)
+	#define PL_HAS_RTOS		(1)
 #else
 	#error "unknown board configuration"
 #endif

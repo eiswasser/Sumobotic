@@ -158,13 +158,15 @@ static void APP_Loop_ROBO(void* p){
 void APP_Start() {
 	PL_Init(); /* platform initialization */
 	EVNT_SetEvent(EVNT_INIT);
+
 #if PL_IS_FRDM
 	APP_Loop_FRDM();
 #endif
 #if PL_IS_ROBO
 	APP_Loop_ROBO(NULL);
 #endif
-	for(;;){
+
+for(;;){
 	#if PL_HAS_MEALY && 0
 		MEALY_Step();
 	#elif 0
