@@ -73,5 +73,4 @@ void PL_Init(void);
 /*! \brief Platform deinitialization
  */
 void PL_Deinit(void);
-
 #endif

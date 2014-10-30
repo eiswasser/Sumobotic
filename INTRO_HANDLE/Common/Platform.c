@@ -42,6 +42,9 @@
   #include "Debounce.h"
   #include "KeyDebounce.h"
 #endif
+#if PL_HAS_RTOS
+	#include "RTOS.h"
+#endif
 
 /*! \brief implements the initial method for the board
  */
@@ -67,6 +70,9 @@ void PL_Init(void) {
 #if PL_HAS_DEBOUNCE
   DBNC_Init();
   KEYDBNC_Init();
+#endif
+#if PL_HAS_RTOS
+  RTOS_Init();
 #endif
 }
 
@@ -94,5 +100,8 @@ void PL_Deinit(void) {
 #if PL_HAS_DEBOUNCE
   DBNC_Deinit();
   KEYDBNC_Deinit();
+#endif
+#if PL_HAS_RTOS
+  RTOS_Deinit();
 #endif
 }
