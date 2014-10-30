@@ -46,7 +46,7 @@
 	void APP_HandleEvent(EVNT_Handle event){
 		switch(event){
 		case EVNT_INIT:
-			SHELL_SendString("FRDM is ready\n");
+			SHELL_SendString("Platform is ready\n");
 		break;
 		case EVNT_LED_HEARTBEAT:
 			LED2_Neg();
@@ -104,17 +104,29 @@
 			break;
 		}
 	}
+
+	#if 0
+	/*! \brief Loop function, which call the handling function which checks if an event is set
+	 */
+	static void APP_Loop_FRDM(void){
+		for(;;){
+			#if PL_HAS_EVENTS
+				EVNT_HandleEvent(APP_HandleEvent);
+			#endif
+			#if PL_HAS_KEYS
+				KEY_Scan();
+			#endif
+		}
+	}
+	#endif
 #endif
 
 #if PL_IS_ROBO
-	void APP_HandleEvent(EVNT_Handle event){
+	static void APP_HandleEvent(EVNT_Handle event){
 		switch(event){
 			case EVNT_INIT:
 				LED1_On();
 				LED2_On();
-				#if PL_SEND_TEXT
-				SHELL_SendString("ROBO is ready\n");
-				#endif
 				TRG_SetTrigger(TRG_LED_INIT_OFF,50/TMR_TICK_MS,LED_Off_TRG,NULL);
 			break;
 			case EVNT_LED_HEARTBEAT:
@@ -123,13 +135,22 @@
 			break;
 			#if PL_NOF_KEYS >= 1
 				case EVNT_SW1_PRESSED:
-					#if PL_SEND_TEXT
-					SHELL_SendString("button 1 pressed\n");
-					#endif
 					BUZ_Beep(300,1000/TMR_TICK_MS);
 				break;
 			#endif
 		}
+	}
+
+	/*! \brief Loop function, which call the handling function which checks if an event is set
+	 */
+	static void APP_Loop_ROBO(void* p){
+		#if PL_HAS_EVENTS
+			EVNT_HandleEvent(APP_HandleEvent);
+		#endif
+		#if PL_HAS_KEYS
+			KEY_Scan();
+		#endif
+			TRG_SetTrigger(TRG_LOOP,10/TMR_TICK_MS,APP_Loop_ROBO,NULL);
 	}
 #endif
 
@@ -142,5 +163,31 @@ void APP_Start() {
 	#if PL_HAS_RTOS
 		RTOS_Run();
 	#endif
+#if 0
+	#if PL_IS_FRDM
+		APP_Loop_FRDM();
+	#endif
+	#if PL_IS_ROBO
+		APP_Loop_ROBO(NULL);
+	#endif
+
+	for(;;){
+		#if PL_HAS_MEALY && 0
+			MEALY_Step();
+		#elif 0
+			for (int i = 10; i > 0; --i) {
+				LED1_On();
+				WAIT1_Waitms(i*100);
+				LED1_Off();
+				LED2_On();
+				WAIT1_Waitms(i*100);
+				LED2_Off();
+				LED3_On();
+				WAIT1_Waitms(i*100);
+				LED3_Off();
+			}
+		#endif
+	}
+#endif
 	PL_Deinit();
 }

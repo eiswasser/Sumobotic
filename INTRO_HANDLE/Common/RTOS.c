@@ -63,7 +63,7 @@
 		#endif
 
 		if (FRTOS1_xTaskCreate(APP_LOOP, (signed portCHAR *)"APP_LOOP", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS) {
-							for(;;){} /* error */
+			for(;;){} /* error */
 		}
 	}
 
