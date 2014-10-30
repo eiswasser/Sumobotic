@@ -33,46 +33,52 @@
 	#include "Mealy.h"
 #endif
 #if PL_HAS_TRIGGER
-  #include "Trigger.h"
+	#include "Trigger.h"
 #endif
 #if PL_HAS_BUZZER
-  #include "Buzzer.h"
+	#include "Buzzer.h"
 #endif
 #if PL_HAS_DEBOUNCE
-  #include "Debounce.h"
-  #include "KeyDebounce.h"
+	#include "Debounce.h"
+	#include "KeyDebounce.h"
 #endif
 #if PL_HAS_RTOS
 	#include "RTOS.h"
+#endif
+#if PL_HAS_SHELL
+	#include "Shell.h"
 #endif
 
 /*! \brief implements the initial method for the board
  */
 void PL_Init(void) {
 #if PL_USE_LED
-  LED_Init();
+	LED_Init();
 #endif
 #if PL_HAS_EVENTS
-  EVNT_Init();
+	EVNT_Init();
 #endif
 #if PL_HAS_KEYS
-  KEY_Init();
+	KEY_Init();
 #endif
 #if PL_HAS_MEALY
-  MEALY_Init();
+	MEALY_Init();
 #endif
 #if PL_HAS_TRIGGER
-  TRG_Init();
+	TRG_Init();
 #endif
 #if PL_HAS_BUZZER
-  BUZ_Init();
+	BUZ_Init();
 #endif
 #if PL_HAS_DEBOUNCE
-  DBNC_Init();
-  KEYDBNC_Init();
+	DBNC_Init();
+	KEYDBNC_Init();
 #endif
 #if PL_HAS_RTOS
-  RTOS_Init();
+	RTOS_Init();
+#endif
+#if PL_HAS_SHELL
+	SHELL_Init();
 #endif
 }
 
@@ -103,5 +109,8 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_RTOS
   RTOS_Deinit();
+#endif
+#if PL_HAS_SHELL
+	SHELL_Deinit();
 #endif
 }
