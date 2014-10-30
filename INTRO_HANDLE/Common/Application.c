@@ -105,6 +105,7 @@
 		}
 	}
 
+	#if 0
 	/*! \brief Loop function, which call the handling function which checks if an event is set
 	 */
 	static void APP_Loop_FRDM(void){
@@ -115,9 +116,9 @@
 			#if PL_HAS_KEYS
 				KEY_Scan();
 			#endif
-			WAIT1_Waitms(10);
 		}
 	}
+	#endif
 #endif
 
 #if PL_IS_ROBO

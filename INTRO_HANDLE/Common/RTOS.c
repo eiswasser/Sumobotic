@@ -9,7 +9,10 @@
 	#include "RTOS.h"
 	#include "FRTOS1.h"
 	#include "LED.h"
-	#if 1
+	#include "Event.h"
+	#include "Application.h"
+	#include "Keys.h"
+	#if 0
 		static portTASK_FUNCTION(T1, pvParameters) {
 			for(;;) {
 				LED1_Neg();
@@ -30,13 +33,24 @@
 		}
 	#endif
 
+	static portTASK_FUNCTION(APP_LOOP, pvParameters) {
+		for(;;) {
+			#if PL_HAS_EVENTS
+				EVNT_HandleEvent(APP_HandleEvent);
+			#endif
+			#if PL_HAS_KEYS
+				KEY_Scan();
+			#endif
+		}
+	}
+
 	void RTOS_Run(void) {
 	  FRTOS1_vTaskStartScheduler();
 	}
 
 	void RTOS_Init(void) {
 	  /*! \todo Add tasks here */
-		#if 1
+		#if 0
 			if (FRTOS1_xTaskCreate(T1, (signed portCHAR *)"T1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS) {
 				for(;;){} /* error */
 			}
@@ -47,6 +61,10 @@
 				for(;;){} /* error */
 			}
 		#endif
+
+		if (FRTOS1_xTaskCreate(APP_LOOP, (signed portCHAR *)"APP_LOOP", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS) {
+							for(;;){} /* error */
+		}
 	}
 
 	void RTOS_Deinit(void) {
