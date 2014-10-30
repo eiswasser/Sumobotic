@@ -9,20 +9,23 @@
 	#include "RTOS.h"
 	#include "FRTOS1.h"
 	#include "LED.h"
-	#if 0
+	#if 1
 		static portTASK_FUNCTION(T1, pvParameters) {
 			for(;;) {
 				LED1_Neg();
+				FRTOS1_vTaskDelay(200);
 			}
 		}
 		static portTASK_FUNCTION(T2, pvParameters) {
 			for(;;) {
 				LED2_Neg();
+				FRTOS1_vTaskDelay(400);
 			}
 		}
 		static portTASK_FUNCTION(T3, pvParameters) {
 			for(;;) {
 				LED3_Neg();
+				FRTOS1_vTaskDelay(800);
 			}
 		}
 	#endif
@@ -33,7 +36,7 @@
 
 	void RTOS_Init(void) {
 	  /*! \todo Add tasks here */
-		#if 0
+		#if 1
 			if (FRTOS1_xTaskCreate(T1, (signed portCHAR *)"T1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS) {
 				for(;;){} /* error */
 			}
