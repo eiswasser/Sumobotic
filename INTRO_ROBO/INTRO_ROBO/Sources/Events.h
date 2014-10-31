@@ -53,6 +53,9 @@
 #include "FRTOS1.h"
 #include "RTOSCNTRLDD1.h"
 #include "WAIT2.h"
+#include "CLS1.h"
+#include "AS1.h"
+#include "ASerialLdd1.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -114,7 +114,7 @@ void KEY_Init(void);
 void KEY_EnableInterrupts(void);
 
 /*! \brief */
-void KEY_EnableInterrupts(void);
+void KEY_DisableInterrupts(void);
 
 /*! \brief Key driver de-initialization */
 void KEY_Deinit(void);
