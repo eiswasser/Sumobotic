@@ -40,12 +40,12 @@
 	#define PL_HAS_KBI      	(1)
 	#define PL_NOF_KEYS			(7)
 	#define PL_HAS_MEALY		(0 && PL_NOF_LEDS>=1 && PL_NOF_KEYS>=1)
-	#define PL_HAS_SHELL		(1 && PL_IS_FRDM)
 	#define PL_HAS_TRIGGER		(1 && PL_HAS_TIMER)
 	#define PL_HAS_BUZZER		(1 && PL_HAS_TRIGGER && PL_IS_ROBO)
 	#define PL_HAS_DEBOUNCE		(1 && PL_HAS_KEYS)
 	#define PL_SEND_TEXT 		(0)
 	#define PL_HAS_RTOS			(1)
+	#define PL_HAS_SHELL		(1)
 	#define PL_HAS_BLUETOOTH	(0)
 	#define PL_HAS_USB_CDC		(0)
 
