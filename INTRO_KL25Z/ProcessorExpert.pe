@@ -3,7 +3,7 @@
   <Header>
     <Name>INTRO_KL25Z</Name>
     <SavedBy>Marco</SavedBy>
-    <ModificationStamp>44</ModificationStamp>
+    <ModificationStamp>45</ModificationStamp>
     <Date>2014-10-31</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.0.RT6_b1428-0121</PEversion>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>115</ProjectCompNumb>
+    <ProjectCompNumb>117</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -4456,21 +4456,21 @@
       <ItemId7>39</ItemId7>
       <Value7>true</Value7>
       <ItemId8>45</ItemId8>
-      <Value8>true</Value8>
+      <Value8>false</Value8>
       <ItemId9>47</ItemId9>
       <Value9>true</Value9>
       <ItemId10>49</ItemId10>
-      <Value10>true</Value10>
+      <Value10>false</Value10>
       <ItemId11>51</ItemId11>
-      <Value11>true</Value11>
+      <Value11>false</Value11>
       <ItemId12>53</ItemId12>
-      <Value12>true</Value12>
+      <Value12>false</Value12>
       <ItemId13>55</ItemId13>
       <Value13>true</Value13>
       <ItemId14>57</ItemId14>
       <Value14>true</Value14>
       <ItemId15>59</ItemId15>
-      <Value15>true</Value15>
+      <Value15>false</Value15>
       <ItemId16>71</ItemId16>
       <Value16>true</Value16>
       <ItemId17>73</ItemId17>
@@ -28017,7 +28017,7 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Value>false</Value>
-        <Expanded>false</Expanded>
+        <Expanded>true</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>HeapSectionName</ItemSymbol>
@@ -28030,8 +28030,8 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>33170</Value>
-        <Base>HEX</Base>
+        <Value>8192</Value>
+        <Base>DEC</Base>
       </ItemState>
       <ItemState>
         <ItemSymbol>RTOSAdaptorGrp</ItemSymbol>
