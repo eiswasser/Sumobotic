@@ -35,6 +35,8 @@ static uint8_t SHELL_PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr("Shell", "Shell commands\r\n", io->stdOut);
   CLS1_SendHelpStr("  help|status", "Print help or status information\r\n", io->stdOut);
   CLS1_SendHelpStr("  val <num>", "Assign number value\r\n", io->stdOut);
+  CLS1_SendHelpStr("  test", "Show if connection is okey\r\n", io->stdOut);
+  CLS1_SendHelpStr("  fuck you", "See what happen\r\n", io->stdOut);
   return ERR_OK;
 }
 
@@ -53,6 +55,16 @@ static uint8_t SHELL_PrintStatus(const CLS1_StdIOType *io) {
   return ERR_OK;
 }
 
+static uint8_t SHELL_PrintTest(const CLS1_StdIOType *io) {
+  uint8_t buf[16];
+  SHELL_SendString("Test oke\r\n");
+}
+
+static uint8_t SHELL_PrintFuck(const CLS1_StdIOType *io) {
+  uint8_t buf[16];
+  SHELL_SendString("Don't say fuck you, but, fuck your self\r\n");
+}
+
 static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
   uint32_t val;
   const unsigned char *p;
@@ -63,6 +75,17 @@ static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const
   } else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0 || UTIL1_strcmp((char*)cmd, "Shell status")==0) {
     *handled = TRUE;
     return SHELL_PrintStatus(io);
+
+  } else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_TEST)==0 || UTIL1_strcmp((char*)cmd, "CMD TEST")==0) {
+     *handled = TRUE;
+     return SHELL_PrintTest(io);
+
+  } else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_FUCK)==0 || UTIL1_strcmp((char*)cmd, "CMD FUCK")==0) {
+       *handled = TRUE;
+       return SHELL_PrintFuck(io);
+
+
+
   } else if (UTIL1_strncmp(cmd, "Shell val ", sizeof("Shell val ")-1)==0) {
     p = cmd+sizeof("Shell val ")-1;
     if (UTIL1_xatoi(&p, &val)==ERR_OK) {
