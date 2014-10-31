@@ -10,6 +10,8 @@
 #ifndef __APPLICATION_H_
 #define __APPLICATION_H_
 
+#include "Platform.h"
+
 #if PL_HAS_EVENTS
 	#include "Event.h"
 #endif
