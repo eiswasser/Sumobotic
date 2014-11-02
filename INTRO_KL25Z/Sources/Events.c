@@ -39,11 +39,17 @@
 #if PL_HAS_TIMER
 	#include "Timer.h"
 #endif
+#if PL_HAS_TIMER
+	#include "Trigger.h"
+#endif
 #if PL_HAS_KEYS
 	#include "Keys.h"
 #endif
 #if PL_HAS_DEBOUNCE
 	#include "KeyDebounce.h"
+#endif
+#if PL_HAS_SHELL
+	#include "Shell.h"
 #endif
 
 #ifdef __cplusplus
@@ -90,6 +96,9 @@ void TI1_OnInterrupt(void)
 #if PL_HAS_TIMER
 	TMR_OnInterrupt();
 #endif
+#if PL_HAS_TRIGGER
+	TRG_IncTick();
+#endif
 }
 
 /*
@@ -107,6 +116,9 @@ void TI1_OnInterrupt(void)
 void SW1_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+	#if PL_SEND_TEXT
+		SHELL_SendString("SW1 Interrupt detected");
+	#endif
 	#if PL_HAS_DEBOUNCE
 		KEYDBNC_Process();
 	#else
@@ -130,6 +142,9 @@ void SW1_OnInterrupt(void)
 void SW7_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+	#if PL_SEND_TEXT
+		SHELL_SendString("SW7 Interrupt detected");
+	#endif
 	#if PL_HAS_DEBOUNCE
 		KEYDBNC_Process();
 	#else
@@ -153,6 +168,9 @@ void SW7_OnInterrupt(void)
 void SW3_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+	#if PL_SEND_TEXT
+		SHELL_SendString("SW3 Interrupt detected");
+	#endif
 	#if PL_HAS_DEBOUNCE
 		KEYDBNC_Process();
 	#else
@@ -180,6 +198,9 @@ void SW3_OnInterrupt(void)
 void SW2_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+	#if PL_SEND_TEXT
+		SHELL_SendString("SW2 Interrupt detected");
+	#endif
 	#if PL_HAS_DEBOUNCE
 		KEYDBNC_Process();
 	#else
@@ -203,6 +224,9 @@ void SW2_OnInterrupt(void)
 void SW4_OnInterrupt(void)
 {
 #if PL_HAS_KBI
+	#if PL_SEND_TEXT
+		SHELL_SendString("SW1 Interrupt detected");
+	#endif
 	#if PL_HAS_DEBOUNCE
 		KEYDBNC_Process();
 	#else
