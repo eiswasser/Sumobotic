@@ -48,6 +48,9 @@
 #if PL_HAS_SHELL
 	#include "Shell.h"
 #endif
+#if PL_HAS_SHELL_QUEUE
+	#include "ShellQueue.h"
+#endif
 
 /*! \brief implements the initial method for the board
  */
@@ -80,6 +83,10 @@ void PL_Init(void) {
 #if PL_HAS_SHELL
 	SHELL_Init();
 #endif
+#if PL_HAS_SHELL_QUEUE
+	SQUEUE_Init();
+#endif
+
 }
 
 /*! \brief implements the de-initial methods for the board
@@ -112,5 +119,8 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_SHELL
 	SHELL_Deinit();
+#endif
+#if PL_HAS_SHELL_QUEUE
+	SQUEUE_Deinit();
 #endif
 }

@@ -46,6 +46,7 @@
 	#define PL_SEND_TEXT 		(1)
 	#define PL_HAS_RTOS			(1)
 	#define PL_HAS_SHELL		(1)
+	#define PL_HAS_SHELL_QUEUE	(1)
 	#define PL_HAS_BLUETOOTH	(0)
 	#define PL_HAS_USB_CDC		(0)
 
@@ -64,6 +65,7 @@
 	#define PL_SEND_TEXT 		(0)
 	#define PL_HAS_RTOS			(1)
 	#define PL_HAS_SHELL		(1)
+	#define PL_HAS_SHELL_QUEUE	(1)
 	#define PL_HAS_BLUETOOTH	(0)
 	#define PL_HAS_USB_CDC		(0)
 #else
