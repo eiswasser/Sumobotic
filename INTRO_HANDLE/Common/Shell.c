@@ -65,6 +65,7 @@ static uint8_t SHELL_PrintStatus(const CLS1_StdIOType *io) {
 static uint8_t SHELL_PrintTest(const CLS1_StdIOType *io) {
   uint8_t buf[16];
   SHELL_SendString("Test oke\r\n");
+  SQUEUE_ReceiveChar();
 }
 
 static uint8_t SHELL_PrintFuck(const CLS1_StdIOType *io) {
@@ -79,22 +80,20 @@ static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const
   if (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)==0 || UTIL1_strcmp((char*)cmd, "Shell help")==0) {
     *handled = TRUE;
     return SHELL_PrintHelp(io);
-  } else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0 || UTIL1_strcmp((char*)cmd, "Shell status")==0) {
+  }
+  else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0 || UTIL1_strcmp((char*)cmd, "Shell status")==0) {
     *handled = TRUE;
     return SHELL_PrintStatus(io);
-
-  } else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_TEST)==0 || UTIL1_strcmp((char*)cmd, "CMD TEST")==0) {
+  }
+  else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_TEST)==0 || UTIL1_strcmp((char*)cmd, "CMD TEST")==0) {
      *handled = TRUE;
      return SHELL_PrintTest(io);
-
-  } /*else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_FUCK)==0 || UTIL1_strcmp((char*)cmd, "CMD FUCK")==0) {
+  }
+  /* else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_FUCK)==0 || UTIL1_strcmp((char*)cmd, "CMD FUCK")==0) {
        *handled = TRUE;
        return SHELL_PrintFuck(io);
-       }*/
-
-
-
-   else if (UTIL1_strncmp(cmd, "Shell val ", sizeof("Shell val ")-1)==0) {
+  }*/
+  else if (UTIL1_strncmp(cmd, "Shell val ", sizeof("Shell val ")-1)==0) {
     p = cmd+sizeof("Shell val ")-1;
     if (UTIL1_xatoi(&p, &val)==ERR_OK) {
       SHELL_val = val;

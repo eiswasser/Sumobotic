@@ -9,10 +9,10 @@
 #ifndef SHELL_H_
 #define SHELL_H_
 
-/*!
- * \brief self constructed commands
- */
+
+
 #define SHELL_CMD_TEST "test"
+#define SHELL_CMD_FUCK "fuck you"
 /*!
  * \brief Sends a string to the shell/console stdout
  * \param msg Zero terminated string to write
