@@ -29,6 +29,7 @@ static portTASK_FUNCTION(vMasterTask, pvParameters) {
 }
 #endif /* USE_SEMAPHORES */
 
+/*! \brief De-Initializes module */
 void SEM_Deinit(void) {
   /* nothing */
 }

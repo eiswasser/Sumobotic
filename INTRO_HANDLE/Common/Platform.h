@@ -49,7 +49,7 @@
 	#define PL_HAS_SHELL_QUEUE	(1)
 	#define PL_HAS_BLUETOOTH	(0)
 	#define PL_HAS_USB_CDC		(0)
-	#define PL HAS SEMAPHORE	(1)
+	#define PL_HAS_SEMAPHORE	(1)
 
 #elif PL_IS_ROBO
 	#define PL_NOF_LED	    	(2)
@@ -69,7 +69,7 @@
 	#define PL_HAS_SHELL_QUEUE	(1)
 	#define PL_HAS_BLUETOOTH	(0)
 	#define PL_HAS_USB_CDC		(0)
-	#define PL HAS SEMAPHORE	(1)
+	#define PL_HAS_SEMAPHORE	(1)
 #else
 	#error "unknown board configuration"
 #endif
