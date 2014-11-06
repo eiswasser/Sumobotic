@@ -16,6 +16,10 @@ static xQueueHandle SQUEUE_Queue;
 #define SQUEUE_LENGTH      32 /* items in queue, that's my buffer size */
 #define SQUEUE_ITEM_SIZE   1  /* each item is a single character */
 
+/*!
+ * \brief
+ * \param *str
+ */
 void SQUEUE_SendString(const unsigned char *str) {
   /*! \todo Implement function */
   while(*str!='\0') {
@@ -26,6 +30,9 @@ void SQUEUE_SendString(const unsigned char *str) {
   }
 }
 
+/*!
+ * \brief
+ */
 unsigned char SQUEUE_ReceiveChar(void) {
 #if 0
   /*! \todo Implement function */
@@ -42,14 +49,23 @@ unsigned char SQUEUE_ReceiveChar(void) {
 #endif
 }
 
+/*!
+ * \brief
+ */
 unsigned short SQUEUE_NofElements(void) {
   return (unsigned short)FRTOS1_uxQueueMessagesWaiting(SQUEUE_Queue);
 }
 
+/*!
+ * \brief
+ */
 void SQUEUE_Deinit(void) {
   FRTOS1_vQueueDelete(SQUEUE_Queue);
 }
 
+/*!
+ * \brief
+ */
 void SQUEUE_Init(void) {
   SQUEUE_Queue = FRTOS1_xQueueCreate(SQUEUE_LENGTH, SQUEUE_ITEM_SIZE);
   if (SQUEUE_Queue==NULL) {

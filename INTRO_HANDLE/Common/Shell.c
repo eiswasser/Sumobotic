@@ -24,9 +24,11 @@
 
 static uint32_t SHELL_val; /* used as demo value for shell */
 
+/*!
+ * \brief
+ */
 void SHELL_SendString(unsigned char *msg) {
 	#if PL_HAS_SHELL_QUEUE
-	/*! \todo Implement function using queues */
 		SQUEUE_SendString(msg);
 	#else
 		CLS1_SendStr(msg, CLS1_GetStdio()->stdOut);
@@ -62,17 +64,33 @@ static uint8_t SHELL_PrintStatus(const CLS1_StdIOType *io) {
   return ERR_OK;
 }
 
+/*!
+ * \brief Prints the Test text to the console
+ * \param io StdIO handler
+ * \return ERR_OK or failure code
+ */
 static uint8_t SHELL_PrintTest(const CLS1_StdIOType *io) {
   uint8_t buf[16];
   SHELL_SendString("Test oke\r\n");
   SQUEUE_ReceiveChar();
+  return ERR_OK;
 }
 
+/*!
+ * \brief Prints the text to the console
+ * \param io StdIO handler
+ * \return ERR_OK or failure code
+ */
 static uint8_t SHELL_PrintFuck(const CLS1_StdIOType *io) {
   uint8_t buf[16];
   SHELL_SendString("Don't say fuck you, but, fuck your self\r\n");
+  SQUEUE_ReceiveChar();
+  return ERR_OK;
 }
 
+/*!
+ * \brief
+ */
 static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
   uint32_t val;
   const unsigned char *p;
@@ -89,10 +107,10 @@ static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const
      *handled = TRUE;
      return SHELL_PrintTest(io);
   }
-  /* else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_FUCK)==0 || UTIL1_strcmp((char*)cmd, "CMD FUCK")==0) {
+  else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_FUCK)==0 || UTIL1_strcmp((char*)cmd, "CMD FUCK")==0) {
        *handled = TRUE;
        return SHELL_PrintFuck(io);
-  }*/
+  }
   else if (UTIL1_strncmp(cmd, "Shell val ", sizeof("Shell val ")-1)==0) {
     p = cmd+sizeof("Shell val ")-1;
     if (UTIL1_xatoi(&p, &val)==ERR_OK) {
@@ -103,6 +121,9 @@ static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const
   return ERR_OK;
 }
 
+/*!
+ * \brief
+ */
 static const CLS1_ParseCommandCallback CmdParserTable[] =
 {
   CLS1_ParseCommand, /* Processor Expert Shell component, is first in list */
@@ -152,6 +173,9 @@ static CLS1_ConstStdIOType CDC_stdio = {
 };
 #endif
 
+/*!
+ * \brief
+ */
 static portTASK_FUNCTION(ShellTask, pvParameters) {
 #if PL_HAS_USB_CDC
   static unsigned char cdc_buf[48];
@@ -189,6 +213,9 @@ static portTASK_FUNCTION(ShellTask, pvParameters) {
   } /* for */
 }
 
+/*!
+ * \brief
+ */
 void SHELL_Init(void) {
   CLS1_Init();
 #if !CLS1_DEFAULT_SERIAL && PL_HAS_BLUETOOTH
@@ -201,6 +228,9 @@ void SHELL_Init(void) {
 #endif
 }
 
+/*!
+ * \brief
+ */
 void SHELL_Deinit(void) {
   CLS1_Deinit();
 }
