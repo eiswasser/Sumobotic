@@ -21,6 +21,9 @@
 #if PL_HAS_SHELL_QUEUE
 	#include "ShellQueue.h"
 #endif
+#if PL_HAS_REFLECTANCE
+  #include "Reflectance.h"
+#endif
 
 static uint32_t SHELL_val; /* used as demo value for shell */
 
@@ -135,6 +138,11 @@ static const CLS1_ParseCommandCallback CmdParserTable[] =
   BT1_ParseCommand,
 #endif
 #endif
+#if PL_HAS_REFLECTANCE
+  #if REF_PARSE_COMMAND_ENABLED
+  REF_ParseCommand,
+  #endif
+#endif
   NULL /* Sentinel */
 };
 
@@ -207,6 +215,18 @@ static portTASK_FUNCTION(ShellTask, pvParameters) {
 #endif
 #if PL_HAS_BLUETOOTH
     (void)CLS1_ReadAndParseWithCommandTable(bluetooth_buf, sizeof(bluetooth_buf), &BT_stdio, CmdParserTable);
+#endif
+#if PL_HAS_SHELL_QUEUE
+    {
+      unsigned char ch;
+
+      while((ch=SQUEUE_ReceiveChar()) && ch!='\0') {
+        ioLocal->stdOut(ch);
+#if PL_HAS_BLUETOOTH
+        BT_stdio.stdOut(ch); /* copy on Bluetooth */
+#endif
+      }
+    }
 #endif
     FRTOS1_vTaskDelay(50/portTICK_RATE_MS);
   } /* for */
