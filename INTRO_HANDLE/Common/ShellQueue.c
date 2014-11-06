@@ -13,15 +13,18 @@
 
 static xQueueHandle SQUEUE_Queue;
 
-#define SQUEUE_LENGTH      32 /* items in queue, that's my buffer size */
+#define SQUEUE_LENGTH      100 /* items in queue, that's my buffer size */
 #define SQUEUE_ITEM_SIZE   1  /* each item is a single character */
 
 /*!
- * \brief
- * \param *str
+ * \brief starts with the first element of the String sends each character to the Queue.
+ * \param *str Pointer on a unsigned character array
  */
 void SQUEUE_SendString(const unsigned char *str) {
-  /*! \todo Implement function */
+  unsigned char ch;
+  while((ch=SQUEUE_ReceiveChar()) && ch!='\0'){
+	  CLS1_GetStdio()->stdOut(ch);
+  }
   while(*str!='\0') {
     if (FRTOS1_xQueueSendToBack(SQUEUE_Queue, str, portMAX_DELAY)!=pdPASS) {
       for(;;){} /* ups? */
@@ -35,7 +38,7 @@ void SQUEUE_SendString(const unsigned char *str) {
  */
 unsigned char SQUEUE_ReceiveChar(void) {
 #if 0
-  /*! \todo Implement function */
+  /*! \todo Implement function when used with malloc by creation */
 #else
   unsigned char ch;
   portBASE_TYPE res;

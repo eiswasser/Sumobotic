@@ -33,6 +33,7 @@ void SHELL_SendString(unsigned char *msg) {
 	#else
 		CLS1_SendStr(msg, CLS1_GetStdio()->stdOut);
 	#endif
+
 }
 
 /*!
@@ -41,7 +42,7 @@ void SHELL_SendString(unsigned char *msg) {
  * \return ERR_OK or failure code
  */
 static uint8_t SHELL_PrintHelp(const CLS1_StdIOType *io) {
-  CLS1_SendHelpStr("Shell", "Shell commands\r\n", io->stdOut);
+  CLS1_SendHelpStr("  Shell", "Shell commands\r\n", io->stdOut);
   CLS1_SendHelpStr("  help|status", "Print help or status information\r\n", io->stdOut);
   CLS1_SendHelpStr("  val <num>", "Assign number value\r\n", io->stdOut);
   CLS1_SendHelpStr("  test", "Show if connection is okey\r\n", io->stdOut);
@@ -72,7 +73,6 @@ static uint8_t SHELL_PrintStatus(const CLS1_StdIOType *io) {
 static uint8_t SHELL_PrintTest(const CLS1_StdIOType *io) {
   uint8_t buf[16];
   SHELL_SendString("Test oke\r\n");
-  SQUEUE_ReceiveChar();
   return ERR_OK;
 }
 
@@ -84,7 +84,6 @@ static uint8_t SHELL_PrintTest(const CLS1_StdIOType *io) {
 static uint8_t SHELL_PrintFuck(const CLS1_StdIOType *io) {
   uint8_t buf[16];
   SHELL_SendString("Don't say fuck you, but, fuck your self\r\n");
-  SQUEUE_ReceiveChar();
   return ERR_OK;
 }
 
