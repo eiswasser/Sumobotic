@@ -70,7 +70,7 @@
 	#define PL_HAS_BLUETOOTH	(0)
 	#define PL_HAS_USB_CDC		(0)
 	#define PL_HAS_SEMAPHORE	(1)
-	#define PL_HAS_LINE_SENSOR	(1)
+	#define PL_HAS_LINE_SENSOR	(0)
 #else
 	#error "unknown board configuration"
 #endif
