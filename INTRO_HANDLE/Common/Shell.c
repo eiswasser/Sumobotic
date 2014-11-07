@@ -18,6 +18,10 @@
 #if PL_HAS_BLUETOOTH
   #include "BT1.h"
 #endif
+#if PL_HAS_BUZZER
+	#include "Buzzer.h"
+	#include "Timer.h"
+#endif
 #if PL_HAS_SHELL_QUEUE
 	#include "ShellQueue.h"
 #endif
@@ -112,6 +116,10 @@ static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const
   else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_FUCK)==0 || UTIL1_strcmp((char*)cmd, "CMD FUCK")==0) {
        *handled = TRUE;
        return SHELL_PrintFuck(io);
+  }
+  else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD CALIBRATE")==0) {
+		*handled = TRUE;
+		return BUZ_Beep(300,1000/TMR_TICK_MS);
   }
   else if (UTIL1_strncmp(cmd, "Shell val ", sizeof("Shell val ")-1)==0) {
     p = cmd+sizeof("Shell val ")-1;

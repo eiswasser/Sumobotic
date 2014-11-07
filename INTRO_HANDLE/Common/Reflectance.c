@@ -110,7 +110,7 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
     SensorFctArray[i].SetVal(); /* put high */
     raw[i] = MAX_SENSOR_VALUE;
   }
-  WAIT1_Waitus(50); /* give some time to charge the capacitor */
+  WAIT1_Waitus(5); /* give some time to charge the capacitor */
   (void)RefCnt_ResetCounter(timerHandle); /* reset timer counter */
   for(i=0;i<REF_NOF_SENSORS;i++) {
     SensorFctArray[i].SetInput(); /* turn I/O line as input */
@@ -269,9 +269,7 @@ static void REF_StateMachine(void) {
       
     case REF_STATE_NOT_CALIBRATED:
       REF_MeasureRaw(SensorRaw);
-      /*! \todo Add a new event to your event module...*/
       if (EVNT_EventIsSet(EVNT_REF_START_STOP_CALIBRATION)) {
-        EVNT_ClearEvent(EVNT_REF_START_STOP_CALIBRATION);
         refState = REF_STATE_START_CALIBRATION;
         break;
       }

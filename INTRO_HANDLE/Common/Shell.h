@@ -13,6 +13,7 @@
 
 #define SHELL_CMD_TEST "test"
 #define SHELL_CMD_FUCK "fuck you"
+#define SHELL_CMD_CALIBRATE "calibrate"
 /*!
  * \brief Sends a string to the shell/console stdout
  * \param msg Zero terminated string to write
