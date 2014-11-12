@@ -103,7 +103,7 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   uint8_t i;
 
   LED_IR_On(); /* IR LED's on */
-  WAIT1_Waitus(200); /*! \todo adjust time as needed */
+  WAIT1_Waitus(200); /*! \todo adjust time as needed 50 should be easy possible*/
 
   for(i=0;i<REF_NOF_SENSORS;i++) {
     SensorFctArray[i].SetOutput(); /* turn I/O line as output */
@@ -269,7 +269,7 @@ static void REF_StateMachine(void) {
       
     case REF_STATE_NOT_CALIBRATED:
       REF_MeasureRaw(SensorRaw);
-      if (EVNT_EventIsSet(EVNT_REF_START_STOP_CALIBRATION)) {
+      if (EVNT_EventIsSetAutoClear(EVNT_REF_START_CALIBRATION)) {
         refState = REF_STATE_START_CALIBRATION;
         break;
       }
@@ -287,8 +287,7 @@ static void REF_StateMachine(void) {
     
     case REF_STATE_CALIBRATING:
       REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
-      if (EVNT_EventIsSet(EVNT_REF_START_STOP_CALIBRATION)) {
-        EVNT_ClearEvent(EVNT_REF_START_STOP_CALIBRATION);
+      if (EVNT_EventIsSetAutoClear(EVNT_REF_STOP_CALIBRATION)) {
         refState = REF_STATE_STOP_CALIBRATION;
       }
       break;
@@ -300,8 +299,7 @@ static void REF_StateMachine(void) {
         
     case REF_STATE_READY:
       REF_Measure();
-      if (EVNT_EventIsSet(EVNT_REF_START_STOP_CALIBRATION)) {
-        EVNT_ClearEvent(EVNT_REF_START_STOP_CALIBRATION);
+      if (EVNT_EventIsSetAutoClear(EVNT_REF_START_CALIBRATION)) {
         refState = REF_STATE_START_CALIBRATION;
       }
       break;

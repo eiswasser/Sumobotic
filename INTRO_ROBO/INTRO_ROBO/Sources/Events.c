@@ -88,10 +88,10 @@ void Cpu_OnNMIINT(void)
 */
 void TI1_OnInterrupt(void)
 {
-#if PL_HAS_TIMER
+#if PL_HAS_TIMER && 0
 	TMR_OnInterrupt();
 #endif
-#if PL_HAS_TRIGGER
+#if PL_HAS_TRIGGER && 0
 	TRG_IncTick();
 #endif
 }
@@ -178,6 +178,12 @@ void FRTOS1_vApplicationIdleHook(void)
   /* Called whenever the RTOS is idle (from the IDLE task).
      Here would be a good place to put the CPU into low power mode. */
   /* Write your code here ... */
+	#if PL_HAS_TIMER
+		TMR_OnInterrupt();
+	#endif
+	#if PL_HAS_TRIGGER
+		TRG_IncTick();
+	#endif
 }
 
 /*
