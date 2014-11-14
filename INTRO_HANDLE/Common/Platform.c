@@ -57,7 +57,9 @@
 #if PL_HAS_LINE_SENSOR
 	#include "Reflectance.h"
 #endif
-
+#if PL_HAS_MOTOR
+	#include "Motor.h"
+#endif
 
 /*! \brief implements the initial method for the board
  */
@@ -98,6 +100,9 @@ void PL_Init(void) {
 #endif
 #if PL_HAS_LINE_SENSOR
 	REF_Init();
+#endif
+#if PL_HAS_MOTOR
+	MOT_Init();
 #endif
 }
 
@@ -140,5 +145,8 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_LINE_SENSOR
 	REF_Deinit();
+#endif
+#if PL_HAS_MOTOR
+	MOT_Deinit();
 #endif
 }

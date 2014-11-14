@@ -8,25 +8,29 @@
 
 #include "Platform.h"
 #if PL_HAS_SHELL
-#include "Shell.h"
-#include "CLS1.h"
-#include "Application.h"
-#include "FRTOS1.h"
-#if PL_HAS_USB_CDC
-  #include "USB1.h"
-#endif
-#if PL_HAS_BLUETOOTH
-  #include "BT1.h"
-#endif
-#if PL_HAS_BUZZER
-	#include "Buzzer.h"
-	#include "Timer.h"
-#endif
-#if PL_HAS_SHELL_QUEUE
-	#include "ShellQueue.h"
-#endif
-#if PL_HAS_LINE_SENSOR
-  #include "Event.h"
+	#include "Shell.h"
+	#include "CLS1.h"
+	#include "Application.h"
+	#include "FRTOS1.h"
+	#if PL_HAS_USB_CDC
+  	  	 #include "USB1.h"
+	#endif
+	#if PL_HAS_BLUETOOTH
+  	  #include "BT1.h"
+	#endif
+	#if PL_HAS_BUZZER
+		#include "Buzzer.h"
+		#include "Timer.h"
+	#endif
+	#if PL_HAS_SHELL_QUEUE
+		#include "ShellQueue.h"
+	#endif
+	#if PL_HAS_LINE_SENSOR
+		#include "Event.h"
+	#endif
+	#if PL_HAS_MOTOR
+		#include "Motor.h"
+	#endif
 #endif
 
 static uint32_t SHELL_val; /* used as demo value for shell */
@@ -153,6 +157,8 @@ static const CLS1_ParseCommandCallback CmdParserTable[] =
   SHELL_ParseCommand, /* our own module parser */
 #if FRTOS1_PARSE_COMMAND_ENABLED
   FRTOS1_ParseCommand, /* FreeRTOS shell parser */
+#if PL_HAS_MOTOR
+MOT_ParseCommand,
 #endif
 #if PL_HAS_BLUETOOTH
 #if BT1_PARSE_COMMAND_ENABLED
