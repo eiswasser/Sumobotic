@@ -25,8 +25,8 @@
 	#if PL_HAS_SHELL_QUEUE
 		#include "ShellQueue.h"
 	#endif
-	#if PL_HAS_LINE_SENSOR
-		#include "Event.h"
+	#if PL_HAS_REFLECTANCE
+		#include "Reflectance.h"
 	#endif
 	#if PL_HAS_MOTOR
 		#include "Motor.h"
@@ -58,10 +58,6 @@ static uint8_t SHELL_PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr("  val <num>", "Assign number value\r\n", io->stdOut);
   CLS1_SendHelpStr("  test", "Show if connection is okey\r\n", io->stdOut);
   CLS1_SendHelpStr("  fuck you", "See what happen\r\n", io->stdOut);
-#if PL_IS_ROBO
-  CLS1_SendHelpStr("  cstart", "to start the calibration of the line sensor\r\n", io->stdOut);
-  CLS1_SendHelpStr("  cstop", "to stop the calibration of the line sensor\r\n", io->stdOut);
-#endif
   return ERR_OK;
 }
 
@@ -125,18 +121,6 @@ static uint8_t SHELL_ParseCommand(const unsigned char *cmd, bool *handled, const
        *handled = TRUE;
        return SHELL_PrintFuck(io);
   }
-#if PL_IS_ROBO
-  else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD START CALIBRATE")==0) {
-		*handled = TRUE;
-		EVNT_SetEvent(EVNT_REF_START_CALIBRATION);
-		return BUZ_Beep(300,1000/TMR_TICK_MS);
-  }
-  else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_STOP_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD STOP CALIBRATE")==0) {
-		*handled = TRUE;
-		EVNT_SetEvent(EVNT_REF_STOP_CALIBRATION);
-		return BUZ_Beep(300,1000/TMR_TICK_MS);
-  }
-#endif
   else if (UTIL1_strncmp(cmd, "Shell val ", sizeof("Shell val ")-1)==0) {
     p = cmd+sizeof("Shell val ")-1;
     if (UTIL1_xatoi(&p, &val)==ERR_OK) {
@@ -158,7 +142,7 @@ static const CLS1_ParseCommandCallback CmdParserTable[] =
 #if FRTOS1_PARSE_COMMAND_ENABLED
   FRTOS1_ParseCommand, /* FreeRTOS shell parser */
 #if PL_HAS_MOTOR
-MOT_ParseCommand,
+  MOT_ParseCommand,
 #endif
 #if PL_HAS_BLUETOOTH
 #if BT1_PARSE_COMMAND_ENABLED

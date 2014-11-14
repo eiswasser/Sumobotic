@@ -25,6 +25,8 @@
   uint8_t REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io);
 
   #define REF_PARSE_COMMAND_ENABLED 1
+  #define SHELL_CMD_START_CALIBRATE "cstart"
+  #define SHELL_CMD_STOP_CALIBRATE "cstop"
 #else
   #define REF_PARSE_COMMAND_ENABLED 0
 #endif

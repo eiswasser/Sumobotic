@@ -13,8 +13,7 @@
 
 #define SHELL_CMD_TEST "test"
 #define SHELL_CMD_FUCK "fuck you"
-#define SHELL_CMD_START_CALIBRATE "cstart"
-#define SHELL_CMD_STOP_CALIBRATE "cstop"
+
 
 /*!
  * \brief Sends a string to the shell/console stdout

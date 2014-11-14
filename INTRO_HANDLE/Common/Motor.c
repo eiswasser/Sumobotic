@@ -34,7 +34,7 @@ static uint8_t PWMRSetRatio16(uint16_t ratio) {
 }
 
 static void DirLPutVal(bool val) {
-  DIRL_PutVal(val);
+  DIRL_PutVal(!val);
 }
 
 static void DirRPutVal(bool val) {
@@ -116,6 +116,7 @@ static void MOT_PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr((unsigned char*)"  help|status", (unsigned char*)"Shows motor help or status\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  (L|R) forward|backward", (unsigned char*)"Change motor direction\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  (L|R) duty <number>", (unsigned char*)"Change motor PWM (-100..+100)%\r\n", io->stdOut);
+  CLS1_SendHelpStr((unsigned char*)"  stop", (unsigned char*)"Stops both engine instantly%\r\n", io->stdOut);
 }
 
 static void MOT_PrintStatus(const CLS1_StdIOType *io) {
@@ -148,34 +149,38 @@ uint8_t MOT_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_Std
   const unsigned char *p;
 
   if (UTIL1_strcmp((char*)cmd, (char*)CLS1_CMD_HELP)==0 || UTIL1_strcmp((char*)cmd, (char*)"motor help")==0) {
-    MOT_PrintHelp(io);
-    *handled = TRUE;
+		MOT_PrintHelp(io);
+		*handled = TRUE;
   } else if (UTIL1_strcmp((char*)cmd, (char*)CLS1_CMD_STATUS)==0 || UTIL1_strcmp((char*)cmd, (char*)"motor status")==0) {
-    MOT_PrintStatus(io);
-    *handled = TRUE;
+		MOT_PrintStatus(io);
+		*handled = TRUE;
   } else if (UTIL1_strcmp((char*)cmd, (char*)"motor L forward")==0) {
-    MOT_SetDirection(&motorL, MOT_DIR_FORWARD);
-    *handled = TRUE;
+		MOT_SetDirection(&motorL, MOT_DIR_FORWARD);
+		*handled = TRUE;
   } else if (UTIL1_strcmp((char*)cmd, (char*)"motor R forward")==0) {
-    MOT_SetDirection(&motorR, MOT_DIR_FORWARD);
-    *handled = TRUE;
+		MOT_SetDirection(&motorR, MOT_DIR_FORWARD);
+		*handled = TRUE;
   } else if (UTIL1_strcmp((char*)cmd, (char*)"motor L backward")==0) {
-    MOT_SetDirection(&motorL, MOT_DIR_BACKWARD);
-    *handled = TRUE;
+		MOT_SetDirection(&motorL, MOT_DIR_BACKWARD);
+		*handled = TRUE;
   } else if (UTIL1_strcmp((char*)cmd, (char*)"motor R backward")==0) {
-    MOT_SetDirection(&motorR, MOT_DIR_BACKWARD);
-    *handled = TRUE;
+		MOT_SetDirection(&motorR, MOT_DIR_BACKWARD);
+		*handled = TRUE;
+  } else if (UTIL1_strcmp((char*)cmd, (char*)"motor stop")==0) {
+        MOT_SetSpeedPercent(&motorR, 0);
+        MOT_SetSpeedPercent(&motorL, 0);
+        *handled = TRUE;
   } else if (UTIL1_strncmp((char*)cmd, (char*)"motor L duty ", sizeof("motor L duty ")-1)==0) {
-    p = cmd+sizeof("motor L duty");
-    if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
-      MOT_SetSpeedPercent(&motorL, (MOT_SpeedPercent)val);
-      *handled = TRUE;
+		p = cmd+sizeof("motor L duty");
+		if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
+		  MOT_SetSpeedPercent(&motorL, (MOT_SpeedPercent)val);
+		  *handled = TRUE;
     } else {
-      CLS1_SendStr((unsigned char*)"Wrong argument, must be in the range -100..100\r\n", io->stdErr);
-      res = ERR_FAILED;
+		  CLS1_SendStr((unsigned char*)"Wrong argument, must be in the range -100..100\r\n", io->stdErr);
+		  res = ERR_FAILED;
     }
   } else if (UTIL1_strncmp((char*)cmd, (char*)"motor R duty ", sizeof("motor R duty ")-1)==0) {
-    p = cmd+sizeof("motor R duty");
+	  p = cmd+sizeof("motor R duty");
     if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
       MOT_SetSpeedPercent(&motorR, (MOT_SpeedPercent)val);
       *handled = TRUE;

@@ -23,6 +23,10 @@
 #include "Application.h"
 #include "Event.h"
 #include "Shell.h"
+#include "Timer.h"
+#if 1
+	#include "Buzzer.h"
+#endif
 
 #define REF_NOF_SENSORS 6 /* number of sensors */
 
@@ -172,6 +176,8 @@ static void REF_Measure(void) {
 static uint8_t PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr((unsigned char*)"ref", (unsigned char*)"Group of Reflectance commands\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  help|status", (unsigned char*)"Print help or status information\r\n", io->stdOut);
+  CLS1_SendHelpStr("  cstart", "to start the calibration of the line sensor\r\n", io->stdOut);
+  CLS1_SendHelpStr("  cstop", "to stop the calibration of the line sensor\r\n", io->stdOut);
   return ERR_OK;
 }
 
@@ -254,7 +260,15 @@ byte REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOT
   } else if ((UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0) || (UTIL1_strcmp((char*)cmd, "ref status")==0)) {
     *handled = TRUE;
     return PrintStatus(io);
-  }
+  } else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD START CALIBRATE")==0) {
+		*handled = TRUE;
+		EVNT_SetEvent(EVNT_REF_START_CALIBRATION);
+	return BUZ_Beep(300,1000/TMR_TICK_MS);
+  } else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_STOP_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD STOP CALIBRATE")==0) {
+		*handled = TRUE;
+		EVNT_SetEvent(EVNT_REF_STOP_CALIBRATION);
+	return BUZ_Beep(300,1000/TMR_TICK_MS);
+}
   return ERR_OK;
 }
 
