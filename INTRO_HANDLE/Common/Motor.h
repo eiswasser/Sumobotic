@@ -80,6 +80,17 @@ void MOT_SetDirection(MOT_MotorDevice *motor, MOT_Direction dir);
  */
 MOT_Direction MOT_GetDirection(MOT_MotorDevice *motor);
 
+/*!
+ * \brief Starts the motor with a specific speed
+ * \param[in] duty a value between -100 and 100 with the duty cycle in percent forward or backward
+ */
+void MOT_StartMotor(MOT_MotorDevice *motor, int duty);
+
+/*!
+ * \brief Stops the motor
+ */
+void MOT_StopMotor(void);
+
 #if PL_HAS_SHELL
 #include "CLS1.h"
 /*!

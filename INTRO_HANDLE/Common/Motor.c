@@ -51,7 +51,6 @@ uint16_t MOT_GetVal(MOT_MotorDevice *motor) {
 }
 
 void MOT_SetSpeedPercent(MOT_MotorDevice *motor, MOT_SpeedPercent percent) {
-  /*! \todo See lab guide about this function */
   uint32_t val;
 
   if (percent>100) { /* make sure we are within 0..100 */
@@ -88,7 +87,6 @@ void MOT_ChangeSpeedPercent(MOT_MotorDevice *motor, MOT_SpeedPercent relPercent)
 }
 
 void MOT_SetDirection(MOT_MotorDevice *motor, MOT_Direction dir) {
-  /*! \todo Check if directions are working properly with your hardware */
   if (dir==MOT_DIR_BACKWARD) {
     motor->DirPutVal(0);
     if (motor->currSpeedPercent>0) {
@@ -108,6 +106,23 @@ MOT_Direction MOT_GetDirection(MOT_MotorDevice *motor) {
   } else {
     return MOT_DIR_FORWARD;
   }
+}
+
+/*!
+ * \brief starts the engine of the specific side with a specific speed and direction
+ * @param motor MotorDevice to select the right or left engine
+ * @param duty int value in pecent form -100 to 100 to select speed and direction.
+ */
+void MOT_StartMotor(MOT_MotorDevice *motor, int duty){
+	MOT_SetSpeedPercent(motor,duty);
+}
+
+/*!
+ * \brief stops both engines immediately
+ */
+void MOT_StopMotor(){
+	MOT_SetSpeedPercent(&motorR, 0);
+	MOT_SetSpeedPercent(&motorL, 0);
 }
 
 #if PL_HAS_SHELL
@@ -167,8 +182,7 @@ uint8_t MOT_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_Std
 		MOT_SetDirection(&motorR, MOT_DIR_BACKWARD);
 		*handled = TRUE;
   } else if (UTIL1_strcmp((char*)cmd, (char*)"motor stop")==0) {
-        MOT_SetSpeedPercent(&motorR, 0);
-        MOT_SetSpeedPercent(&motorL, 0);
+	  	MOT_StopMotor();
         *handled = TRUE;
   } else if (UTIL1_strncmp((char*)cmd, (char*)"motor L duty ", sizeof("motor L duty ")-1)==0) {
 		p = cmd+sizeof("motor L duty");

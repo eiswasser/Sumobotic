@@ -126,11 +126,11 @@
 					#if PL_SEND_TEXT
 					SHELL_SendString("button 1 pressed\n");
 					#endif
-					BUZ_Beep(500,1000);
+					BUZ_Beep(900,1000);
 				break;
 			#endif
 		}
-
+	}
 #endif
 
 /*! \brief Startup function

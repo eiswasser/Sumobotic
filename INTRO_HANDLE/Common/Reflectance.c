@@ -29,6 +29,7 @@
 #endif
 
 #define REF_NOF_SENSORS 6 /* number of sensors */
+#define THRESHOLD 100
 
 typedef enum {
   REF_STATE_INIT,
@@ -101,6 +102,33 @@ static const SensorFctType SensorFctArray[REF_NOF_SENSORS] = {
   {S5_SetOutput, S5_SetInput, S5_SetVal, S5_GetVal},
   {S6_SetOutput, S6_SetInput, S6_SetVal, S6_GetVal},
 };
+
+/*!
+ * \brief Returns a bool if the selected Color have been detected or not
+ *
+ */
+bool REF_GetMeasure(REF_Color color){
+	int i = 0;
+	while(color == COLOR_W){
+		if(SensorCalibrated[i] < SensorCalibMinMax.maxVal[i]){
+			return TRUE;
+		} else {
+			i++;
+		} if(i == (REF_NOF_SENSORS-1)){
+			i = 0;
+		}
+	}
+	while(color == COLOR_B){
+		if(SensorCalibrated[i] > SensorCalibMinMax.minVal[i]){
+			return TRUE;
+		} else {
+			i++;
+		} if(i == (REF_NOF_SENSORS-1)){
+			i = 0;
+		}
+	}
+	return FALSE;
+}
 
 static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   uint8_t cnt; /* number of sensor */
@@ -263,11 +291,11 @@ byte REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOT
   } else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD START CALIBRATE")==0) {
 		*handled = TRUE;
 		EVNT_SetEvent(EVNT_REF_START_CALIBRATION);
-	return BUZ_Beep(300,1000/TMR_TICK_MS);
+	return BUZ_Beep(300,500/TMR_TICK_MS);
   } else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_STOP_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD STOP CALIBRATE")==0) {
 		*handled = TRUE;
 		EVNT_SetEvent(EVNT_REF_STOP_CALIBRATION);
-	return BUZ_Beep(300,1000/TMR_TICK_MS);
+	return BUZ_Beep(300,500/TMR_TICK_MS);
 }
   return ERR_OK;
 }
