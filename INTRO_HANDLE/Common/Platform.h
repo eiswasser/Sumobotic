@@ -74,6 +74,8 @@
 	#define PL_HAS_LINE_SENSOR	(1)
 	#define PL_HAS_REFLECTANCE	(1)
 	#define PL_HAS_MOTOR		(1)
+	#define PL_HAS_MCP4728		(1)
+	#define PL_HAS_QUAD_CALIBRATION (1)
 #else
 	#error "unknown board configuration"
 #endif

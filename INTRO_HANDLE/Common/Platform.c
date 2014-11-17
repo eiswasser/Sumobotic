@@ -60,6 +60,9 @@
 #if PL_HAS_MOTOR
 	#include "Motor.h"
 #endif
+#if PL_HAS_MCP4728
+	#include "MCP4728.h"
+#endif
 
 /*! \brief implements the initial method for the board
  */
@@ -103,6 +106,9 @@ void PL_Init(void) {
 #endif
 #if PL_HAS_MOTOR
 	MOT_Init();
+#endif
+#if PL_HAS_MCP4728
+	MCP4728_Init();
 #endif
 }
 
@@ -148,5 +154,8 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_MOTOR
 	MOT_Deinit();
+#endif
+#if PL_HAS_MCP4728
+	MCP4728_Deinit();
 #endif
 }

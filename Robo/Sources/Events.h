@@ -66,6 +66,8 @@
 #include "BitIoLdd9.h"
 #include "IR3.h"
 #include "BitIoLdd10.h"
+#include "QuadInt.h"
+#include "TimerIntLdd1.h"
 #include "IR4.h"
 #include "BitIoLdd11.h"
 #include "IR5.h"
@@ -84,10 +86,10 @@
 #include "BitIoLdd6.h"
 #include "PWML.h"
 #include "PwmLdd2.h"
-#include "TU_MPC4728.h"
-#include "MPC4728_LDAC.h"
+#include "TU_MCP4728.h"
+#include "MCP4728_LDAC.h"
 #include "BitIoLdd14.h"
-#include "MPC4728_RDY.h"
+#include "MCP4728_RDY.h"
 #include "BitIoLdd15.h"
 #include "Q4CLeft.h"
 #include "C11.h"
@@ -99,6 +101,10 @@
 #include "BitIoLdd19.h"
 #include "C23.h"
 #include "BitIoLdd20.h"
+#include "TU_QuadInt.h"
+#include "I2C1.h"
+#include "GI2C1.h"
+#include "TMOUT1.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -208,6 +214,50 @@ void FRTOS1_vApplicationMallocFailedHook(void);
 **     Returns     : Nothing
 ** ===================================================================
 */
+
+void GI2C1_OnRequestBus(void);
+/*
+** ===================================================================
+**     Event       :  GI2C1_OnRequestBus (module Events)
+**
+**     Component   :  GI2C1 [GenericI2C]
+**     Description :
+**         User event which will be called before accessing the I2C bus.
+**         Useful for starting a critical section.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void GI2C1_OnReleaseBus(void);
+/*
+** ===================================================================
+**     Event       :  GI2C1_OnReleaseBus (module Events)
+**
+**     Component   :  GI2C1 [GenericI2C]
+**     Description :
+**         User event which will be called after accessing the I2C bus.
+**         Useful for ending a critical section.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+/*
+** ===================================================================
+**     Event       :  QuadInt_OnInterrupt (module Events)
+**
+**     Component   :  QuadInt [TimerInt]
+**     Description :
+**         When a timer interrupt occurs this event is called (only
+**         when the component is enabled - <Enable> and the events are
+**         enabled - <EnableEvent>). This event is enabled only if a
+**         <interrupt service/event> is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void QuadInt_OnInterrupt(void);
 
 /* END Events */
 
