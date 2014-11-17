@@ -26,6 +26,7 @@
 static uint8_t COMP_PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr((unsigned char*)"comp", (unsigned char*)"Group of competition commands\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  help", (unsigned char*)"Print help information\r\n", io->stdOut);
+  CLS1_SendHelpStr((unsigned char*)"  findline", (unsigned char*)"starts the engines and drive with 50% speed ntil the white line have been detected\r\n", io->stdOut);
   return ERR_OK;
 }
 

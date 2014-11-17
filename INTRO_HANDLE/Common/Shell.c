@@ -37,6 +37,9 @@
 	#if PL_HAS_MCP4728
 		#include "MCP4728.h"
 	#endif
+	#if PL_COMP_ENABLE
+		#include "Competition.h"
+	#endif
 #endif
 
 static uint32_t SHELL_val; /* used as demo value for shell */
@@ -165,6 +168,9 @@ static const CLS1_ParseCommandCallback CmdParserTable[] =
 #endif
 #if PL_HAS_MCP4728
   MCP4728_ParseCommand,
+#endif
+#if PL_COMP_ENABLE
+  COMP_ParseCommand,
 #endif
   NULL /* Sentinel */
 };

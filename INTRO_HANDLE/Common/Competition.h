@@ -8,7 +8,6 @@
 #ifndef COMPETITION_H_
 #define COMPETITION_H_
 
-#define
 
 uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io);
 
