@@ -110,7 +110,7 @@ static const SensorFctType SensorFctArray[REF_NOF_SENSORS] = {
 bool REF_GetMeasure(REF_Color color){
 	int i = 0;
 	while(color == COLOR_W){
-		if(SensorCalibrated[i] < SensorCalibMinMax.maxVal[i]){
+		if(SensorCalibrated[i] < SensorCalibMinMax.maxVal[i]*(0,8)){
 			return TRUE;
 		} else {
 			i++;
@@ -119,7 +119,7 @@ bool REF_GetMeasure(REF_Color color){
 		}
 	}
 	while(color == COLOR_B){
-		if(SensorCalibrated[i] > SensorCalibMinMax.minVal[i]){
+		if(SensorCalibrated[i] > SensorCalibMinMax.minVal[i]*(1,2)){
 			return TRUE;
 		} else {
 			i++;
@@ -357,6 +357,7 @@ static portTASK_FUNCTION(ReflTask, pvParameters) {
 }
 
 void REF_Deinit(void) {
+
 }
 
 void REF_Init(void) {

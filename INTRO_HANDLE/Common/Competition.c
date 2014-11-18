@@ -8,16 +8,53 @@
  */
 
 #include "Platform.h"
+#if PL_COMP_ENABLE
 #if PL_HAS_REFLECTANCE
 	#include "Reflectance.h"
 	#include "UTIL1.h"
 #endif
 #if PL_HAS_MOTOR
-#include "Motor.h"
+	#include "Motor.h"
+#endif
+#if PL_HAS_RTOS
+	#include "FRTOS1.h"
 #endif
 
 /*!
+ \brief Enumeration of all our states for the competition
+*/
+typedef enum CompStat {
+	READY,
+	FINDLINE,
+	NOC				//Number of competition functions
+} CompStateType;
+
+static CompStateType CompState = READY;
+
+/*!
  *
+ * @param CompTask
+ * @param pvParameters
+ */
+static portTASK_FUNCTION(CompTask, pvParameters) {
+  (void)pvParameters; /* not used */
+  for(;;) {
+	  switch(CompState){
+	  case FINDLINE:
+		  MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_LEFT)),20);
+		  MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_RIGHT)),20);
+		  if(REF_GetMeasure(COLOR_W))
+			  MOT_StopMotor();
+		  break;
+	  default:
+		  break;
+	  }
+    FRTOS1_vTaskDelay(10/portTICK_RATE_MS);
+  }
+}
+
+/*!
+ * \brief
  * @param cmd
  * @param handled
  * @param io
@@ -31,7 +68,7 @@ static uint8_t COMP_PrintHelp(const CLS1_StdIOType *io) {
 }
 
 /*!
- *
+ * \brief
  * @param cmd
  * @param handled
  * @param io
@@ -46,10 +83,7 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
   		COMP_PrintHelp(io);
   		*handled = TRUE;
     } else if (UTIL1_strcmp((char*)cmd, (char*)"comp findline")==0) {
-    	MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_LEFT)),50);
-    	MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_RIGHT)),50);
-    	if(REF_GetMeasure(COLOR_W))
-    		MOT_StopMotor();
+    	CompState = FINDLINE;
         *handled = TRUE;
     }else {
         CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
@@ -57,5 +91,22 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
     }
   return res;
 }
+
+/*!
+ * \brief
+ */
+void COMP_Deinit() {
+}
+
+/*!
+ * \brief Initial the module Competition and create a task fo this
+ */
+void COMP_Init() {
+  if (FRTOS1_xTaskCreate(CompTask, "Comp", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+2, NULL) != pdPASS) {
+    for(;;){} /* error */
+  }
+}
+
+#endif /*PL_COMP_ENABLE*/
 
 

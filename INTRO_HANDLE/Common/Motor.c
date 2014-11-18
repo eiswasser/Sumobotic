@@ -132,6 +132,7 @@ static void MOT_PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr((unsigned char*)"  (L|R) forward|backward", (unsigned char*)"Change motor direction\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  (L|R) duty <number>", (unsigned char*)"Change motor PWM (-100..+100)%\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  stop", (unsigned char*)"Stops both engine instantly%\r\n", io->stdOut);
+  CLS1_SendHelpStr((unsigned char*)"  start <number>", (unsigned char*)"Starts both engine with the given percent%\r\n", io->stdOut);
 }
 
 static void MOT_PrintStatus(const CLS1_StdIOType *io) {
@@ -184,6 +185,12 @@ uint8_t MOT_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_Std
   } else if (UTIL1_strcmp((char*)cmd, (char*)"motor stop")==0) {
 	  	MOT_StopMotor();
         *handled = TRUE;
+  } else if (UTIL1_strncmp((char*)cmd, (char*)"motor start ", sizeof("motor start ")-1)==0) {
+	  	p = cmd+sizeof("motor start");
+	  	if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
+	  		MOT_SetSpeedPercent(&motorR, (MOT_SpeedPercent)val);
+	  		MOT_SetSpeedPercent(&motorL, (MOT_SpeedPercent)val);
+	  		*handled = TRUE;
   } else if (UTIL1_strncmp((char*)cmd, (char*)"motor L duty ", sizeof("motor L duty ")-1)==0) {
 		p = cmd+sizeof("motor L duty");
 		if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
@@ -192,7 +199,8 @@ uint8_t MOT_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_Std
     } else {
 		  CLS1_SendStr((unsigned char*)"Wrong argument, must be in the range -100..100\r\n", io->stdErr);
 		  res = ERR_FAILED;
-    }
+    	  }
+  	}
   } else if (UTIL1_strncmp((char*)cmd, (char*)"motor R duty ", sizeof("motor R duty ")-1)==0) {
 	  p = cmd+sizeof("motor R duty");
     if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
@@ -225,4 +233,5 @@ void MOT_Init(void) {
   PWML_Enable();
   PWMR_Enable();
 }
+
 #endif /* PL_HAS_MOTOR */
