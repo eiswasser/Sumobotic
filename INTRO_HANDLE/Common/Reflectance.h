@@ -13,27 +13,26 @@
 #if PL_HAS_LINE_SENSOR
 
 #if PL_HAS_SHELL
-  #include "CLS1.h"
-  
-  /*!
-   * \brief Shell parser routine.
-   * \param cmd Pointer to command line string.
-   * \param handled Pointer to status if command has been handled. Set to TRUE if command was understood.
-   * \param io Pointer to stdio handle
-   * \return Error code, ERR_OK if everything was ok.
-   */
-  uint8_t REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io);
+ 	 #include "CLS1.h"
+  	  /*!
+  	   * \brief Shell parser routine.
+	   * \param cmd Pointer to command line string.
+	   * \param handled Pointer to status if command has been handled. Set to TRUE if command was understood.
+	   * \param io Pointer to stdio handle
+	   * \return Error code, ERR_OK if everything was ok.
+	   */
+	uint8_t REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io);
 
-  typedef enum {
-    COLOR_W, /*!< Color white */
-    COLOR_B /*!< Color black */
-  } REF_Color;
+	typedef enum {
+		COLOR_W, /*!< Color white */
+		COLOR_B /*!< Color black */
+	} REF_Color;
 
-  #define REF_PARSE_COMMAND_ENABLED 1
-  #define SHELL_CMD_START_CALIBRATE "cstart"
-  #define SHELL_CMD_STOP_CALIBRATE "cstop"
+	#define REF_PARSE_COMMAND_ENABLED 1
+	#define REF_CMD_START_CALIBRATE "cstart"
+	#define REF_CMD_STOP_CALIBRATE "cstop"
 #else
-  #define REF_PARSE_COMMAND_ENABLED 0
+	#define REF_PARSE_COMMAND_ENABLED 0
 #endif
 
 /*!
