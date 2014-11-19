@@ -27,9 +27,13 @@
 #if 1
 	#include "Buzzer.h"
 #endif
+#if PL_HAS_RTOS
+	#include "RTOS.h"
+#endif
 
-#define REF_NOF_SENSORS 6 /* number of sensors */
+#define REF_NOF_SENSORS 6 	/* number of sensors */
 #define THRESHOLD 100
+#define MINMAXFAKTOR 100	/* Factor to detect white or black */
 
 typedef enum {
   REF_STATE_INIT,
@@ -59,6 +63,8 @@ typedef struct SensorCalibT_ {
   SensorTimeType maxVal[REF_NOF_SENSORS];
 } SensorCalibT;
 
+static SensorTimeType SensorMax;
+static SensorTimeType SensorMin;
 static SensorCalibT SensorCalibMinMax; /* min/max calibration data in SRAM */
 static SensorTimeType SensorRaw[REF_NOF_SENSORS]; /* raw sensor values */
 static SensorTimeType SensorCalibrated[REF_NOF_SENSORS]; /* 0 means white/min value, 1000 means black/max value */
@@ -109,8 +115,8 @@ static const SensorFctType SensorFctArray[REF_NOF_SENSORS] = {
  */
 bool REF_GetMeasure(REF_Color color){
 	int i = 0;
-	while(color == COLOR_W){
-		if(SensorCalibrated[i] < SensorCalibMinMax.maxVal[i]*(0,8)){
+	if(color == COLOR_W){
+		if(SensorCalibrated[i] < SensorMax){
 			return TRUE;
 		} else {
 			i++;
@@ -118,8 +124,8 @@ bool REF_GetMeasure(REF_Color color){
 			i = 0;
 		}
 	}
-	while(color == COLOR_B){
-		if(SensorCalibrated[i] > SensorCalibMinMax.minVal[i]*(1,2)){
+	if(color == COLOR_B){
+		if(SensorCalibrated[i] > SensorMin){
 			return TRUE;
 		} else {
 			i++;
@@ -163,6 +169,9 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   LED_IR_Off();
 }
 
+/*!
+ * \brief
+ */
 static void REF_CalibrateMinMax(SensorTimeType min[REF_NOF_SENSORS], SensorTimeType max[REF_NOF_SENSORS], SensorTimeType raw[REF_NOF_SENSORS]) {
   int i;
   
@@ -177,6 +186,9 @@ static void REF_CalibrateMinMax(SensorTimeType min[REF_NOF_SENSORS], SensorTimeT
   }
 }
 
+/*!
+ * \brief
+ */
 static void ReadCalibrated(SensorTimeType calib[REF_NOF_SENSORS], SensorTimeType raw[REF_NOF_SENSORS]) {
   int i;
   int32_t x, denominator;
@@ -197,8 +209,16 @@ static void ReadCalibrated(SensorTimeType calib[REF_NOF_SENSORS], SensorTimeType
   }
 }
 
+/*!
+ * \brief
+ */
 static void REF_Measure(void) {
   ReadCalibrated(SensorCalibrated, SensorRaw);
+  /*! \todo check the right handling for semaphores! eventually different handling needed */
+  /*
+  SensorMax = SensorCalibMinMax.maxVal - MINMAXFAKTOR;
+  SensorMin = SensorCalibMinMax.minVal + MINMAXFAKTOR;
+  */
 }
 
 static uint8_t PrintHelp(const CLS1_StdIOType *io) {
