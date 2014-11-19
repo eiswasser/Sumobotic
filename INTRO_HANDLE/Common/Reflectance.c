@@ -121,21 +121,19 @@ static const SensorFctType SensorFctArray[REF_NOF_SENSORS] = {
 bool REF_GetMeasure(REF_Color color){
 	int i = 0;
 	if(color == COLOR_W){
-		if(SensorCalibrated[i] < (SensorCalibMinMax.maxVal[i] - MINMAXFAKTOR)){
-			return TRUE;
-		} else {
-			i++;
-		} if(i == (REF_NOF_SENSORS-1)){
-			i = 0;
+		for(i = 0; i < REF_NOF_SENSORS; i++){
+			if(SensorCalibrated[i] < (SensorCalibMinMax.maxVal[i] - MINMAXFAKTOR))
+				return TRUE;
+			else
+				i++;
 		}
 	}
 	if(color == COLOR_B){
-		if(SensorCalibrated[i] > (SensorCalibMinMax.minVal[i] + MINMAXFAKTOR)){
-			return TRUE;
-		} else {
-			i++;
-		} if(i == (REF_NOF_SENSORS-1)){
-			i = 0;
+		for(i = 0; i < REF_NOF_SENSORS; i++){
+			if(SensorCalibrated[i] < (SensorCalibMinMax.minVal[i] + MINMAXFAKTOR))
+				return TRUE;
+			else
+				i++;
 		}
 	}
 	return FALSE;
@@ -311,11 +309,11 @@ byte REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOT
   } else if (UTIL1_strcmp((char*)cmd, REF_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "cstart")==0) {
 		*handled = TRUE;
 		refCalib = EVNT_REF_START_CALIBRATION;
-	return BUZ_Beep(300,500/TMR_TICK_MS);
+		BUZ_Beep(300,500/TMR_TICK_MS);
   } else if (UTIL1_strcmp((char*)cmd, REF_CMD_STOP_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "cstop")==0) {
 		*handled = TRUE;
 		refCalib = EVNT_REF_STOP_CALIBRATION;
-	return BUZ_Beep(300,500/TMR_TICK_MS);
+		BUZ_Beep(300,500/TMR_TICK_MS);
 }
   return ERR_OK;
 }
