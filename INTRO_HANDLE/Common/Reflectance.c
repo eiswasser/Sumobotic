@@ -33,7 +33,7 @@
 
 #define REF_NOF_SENSORS 6 	/* number of sensors */
 #define THRESHOLD 100
-#define MINMAXFAKTOR 100	/* Factor to detect white or black */
+#define MINMAXFAKTOR 200	/* Factor to detect white or black */
 
 typedef enum{
 	NONE,
