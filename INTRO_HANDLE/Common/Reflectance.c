@@ -35,6 +35,13 @@
 #define THRESHOLD 100
 #define MINMAXFAKTOR 100	/* Factor to detect white or black */
 
+typedef enum{
+	NONE,
+	EVNT_REF_START_CALIBRATION,
+	EVNT_REF_STOP_CALIBRATION
+} RefCalibType;
+static volatile RefCalibType refCalib = NONE;
+
 typedef enum {
   REF_STATE_INIT,
   REF_STATE_NOT_CALIBRATED,
@@ -301,13 +308,13 @@ byte REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOT
   } else if ((UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0) || (UTIL1_strcmp((char*)cmd, "ref status")==0)) {
     *handled = TRUE;
     return PrintStatus(io);
-  } else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD START CALIBRATE")==0) {
+  } else if (UTIL1_strcmp((char*)cmd, REF_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "cstart")==0) {
 		*handled = TRUE;
-		EVNT_SetEvent(EVNT_REF_START_CALIBRATION);
+		refCalib = EVNT_REF_START_CALIBRATION;
 	return BUZ_Beep(300,500/TMR_TICK_MS);
-  } else if (UTIL1_strcmp((char*)cmd, SHELL_CMD_STOP_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "CMD STOP CALIBRATE")==0) {
+  } else if (UTIL1_strcmp((char*)cmd, REF_CMD_STOP_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "cstop")==0) {
 		*handled = TRUE;
-		EVNT_SetEvent(EVNT_REF_STOP_CALIBRATION);
+		refCalib = EVNT_REF_STOP_CALIBRATION;
 	return BUZ_Beep(300,500/TMR_TICK_MS);
 }
   return ERR_OK;
@@ -324,7 +331,7 @@ static void REF_StateMachine(void) {
       
     case REF_STATE_NOT_CALIBRATED:
       REF_MeasureRaw(SensorRaw);
-      if (EVNT_EventIsSetAutoClear(EVNT_REF_START_CALIBRATION)) {
+      if (refCalib == EVNT_REF_START_CALIBRATION) {
         refState = REF_STATE_START_CALIBRATION;
         break;
       }
@@ -342,7 +349,7 @@ static void REF_StateMachine(void) {
     
     case REF_STATE_CALIBRATING:
       REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
-      if (EVNT_EventIsSetAutoClear(EVNT_REF_STOP_CALIBRATION)) {
+      if (refCalib == EVNT_REF_STOP_CALIBRATION) {
         refState = REF_STATE_STOP_CALIBRATION;
       }
       break;
@@ -354,7 +361,7 @@ static void REF_StateMachine(void) {
         
     case REF_STATE_READY:
       REF_Measure();
-      if (EVNT_EventIsSetAutoClear(EVNT_REF_START_CALIBRATION)) {
+      if (refCalib == EVNT_REF_START_CALIBRATION) {
         refState = REF_STATE_START_CALIBRATION;
       }
       break;

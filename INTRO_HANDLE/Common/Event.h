@@ -55,10 +55,6 @@ typedef enum EVNT_Handle {
 	  EVNT_SW7_RELEASED,
 	#endif
 #endif
-#if PL_HAS_LINE_SENSOR
-	  EVNT_REF_START_CALIBRATION,
-	  EVNT_REF_STOP_CALIBRATION,
-#endif
   EVNT_NOF_EVENTS       /*!< Must be last one! */
 } EVNT_Handle;
 
