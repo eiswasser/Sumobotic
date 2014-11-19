@@ -63,8 +63,6 @@ typedef struct SensorCalibT_ {
   SensorTimeType maxVal[REF_NOF_SENSORS];
 } SensorCalibT;
 
-static SensorTimeType SensorMax;
-static SensorTimeType SensorMin;
 static SensorCalibT SensorCalibMinMax; /* min/max calibration data in SRAM */
 static SensorTimeType SensorRaw[REF_NOF_SENSORS]; /* raw sensor values */
 static SensorTimeType SensorCalibrated[REF_NOF_SENSORS]; /* 0 means white/min value, 1000 means black/max value */
@@ -116,7 +114,7 @@ static const SensorFctType SensorFctArray[REF_NOF_SENSORS] = {
 bool REF_GetMeasure(REF_Color color){
 	int i = 0;
 	if(color == COLOR_W){
-		if(SensorCalibrated[i] < SensorMax){
+		if(SensorCalibrated[i] < (SensorCalibMinMax.maxVal[i] - MINMAXFAKTOR)){
 			return TRUE;
 		} else {
 			i++;
@@ -125,7 +123,7 @@ bool REF_GetMeasure(REF_Color color){
 		}
 	}
 	if(color == COLOR_B){
-		if(SensorCalibrated[i] > SensorMin){
+		if(SensorCalibrated[i] > (SensorCalibMinMax.minVal[i] + MINMAXFAKTOR)){
 			return TRUE;
 		} else {
 			i++;
@@ -214,11 +212,6 @@ static void ReadCalibrated(SensorTimeType calib[REF_NOF_SENSORS], SensorTimeType
  */
 static void REF_Measure(void) {
   ReadCalibrated(SensorCalibrated, SensorRaw);
-  /*! \todo check the right handling for semaphores! eventually different handling needed */
-  /*
-  SensorMax = SensorCalibMinMax.maxVal - MINMAXFAKTOR;
-  SensorMin = SensorCalibMinMax.minVal + MINMAXFAKTOR;
-  */
 }
 
 static uint8_t PrintHelp(const CLS1_StdIOType *io) {
