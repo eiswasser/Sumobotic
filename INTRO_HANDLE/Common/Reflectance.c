@@ -165,11 +165,10 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
     for(i=0;i<REF_NOF_SENSORS;i++) {
     	timeout = TMOUT1_GetCounter(REF_TIMEOUT_MEASURE_MS/TMOUT1_TICK_PERIOD_MS);
     	if (raw[i]==MAX_SENSOR_VALUE) { /* not measured yet? */
-    		if (SensorFctArray[i].GetVal()==0) /* checks if IR signal is on*/
-    			if(raw[i] = RefCnt_GetCounterValue(timerHandle) || TMOUT1_CounterExpired(timeout)){
-    				TMOUT1_LeaveCounter(timeout);
-    				raw[i] = MAX_SENSOR_VALUE -1;
-    			}
+    		if (SensorFctArray[i].GetVal()==0 || TMOUT1_CounterExpired(timeout)){ /* checks if IR signal is on*/
+    			raw[i] = RefCnt_GetCounterValue(timerHandle);
+    			TMOUT1_LeaveCounter(timeout);
+    		}
     	}
     	else /* have value */
     		cnt++;
