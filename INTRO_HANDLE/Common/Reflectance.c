@@ -24,6 +24,7 @@
 #include "Event.h"
 #include "Shell.h"
 #include "Timer.h"
+#include "TMOUT1.h"
 #if 1
 	#include "Buzzer.h"
 #endif
@@ -34,6 +35,7 @@
 #define REF_NOF_SENSORS 6 	/* number of sensors */
 #define THRESHOLD 100
 #define MINMAXFAKTOR 200	/* Factor to detect white or black */
+#define REF_TIMEOUT_MEASURE_MS 5
 
 typedef enum{
 	NONE,
@@ -142,6 +144,7 @@ bool REF_GetMeasure(REF_Color color){
 static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   uint8_t cnt; /* number of sensor */
   uint8_t i;
+  TMOUT1_CounterHandle timeout;
 
   LED_IR_On(); /* IR LED's on */
   WAIT1_Waitus(200); /*! \todo adjust time as needed 50 should be easy possible*/
@@ -160,13 +163,16 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
     /*! \todo Be aware that this might block for a long time, if discharging takes long. Consider using a timeout. */
     cnt = 0;
     for(i=0;i<REF_NOF_SENSORS;i++) {
-      if (raw[i]==MAX_SENSOR_VALUE) { /* not measured yet? */
-        if (SensorFctArray[i].GetVal()==0) {
-          raw[i] = RefCnt_GetCounterValue(timerHandle);
-        }
-      } else { /* have value */
-        cnt++;
-      }
+    	timeout = TMOUT1_GetCounter(REF_TIMEOUT_MEASURE_MS/TMOUT1_TICK_PERIOD_MS);
+    	if (raw[i]==MAX_SENSOR_VALUE) { /* not measured yet? */
+    		if (SensorFctArray[i].GetVal()==0) /* checks if IR signal is on*/
+    			if(raw[i] = RefCnt_GetCounterValue(timerHandle) || TMOUT1_CounterExpired(timeout)){
+    				TMOUT1_LeaveCounter(timeout);
+    				raw[i] = MAX_SENSOR_VALUE -1;
+    			}
+    	}
+    	else /* have value */
+    		cnt++;
     }
   } while(cnt!=REF_NOF_SENSORS);
   LED_IR_Off();
