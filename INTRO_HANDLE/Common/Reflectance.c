@@ -34,8 +34,8 @@
 
 #define REF_NOF_SENSORS 6 	/* number of sensors */
 #define THRESHOLD 100
-#define MINMAXFAKTOR 200	/* Factor to detect white or black */
-#define REF_TIMEOUT_MEASURE_MS 5
+#define MINMAXFAKTOR 0x1000	/* Factor to detect white or black */
+#define REF_TIMEOUT_MEASURE_MS 4000
 
 typedef enum{
 	NONE,
@@ -124,7 +124,7 @@ bool REF_GetMeasure(REF_Color color){
 	int i = 0;
 	if(color == COLOR_W){
 		for(i = 0; i < REF_NOF_SENSORS; i++){
-			if(SensorCalibrated[i] < (SensorCalibMinMax.maxVal[i] - MINMAXFAKTOR))
+			if(SensorRaw[i] < (SensorCalibMinMax.maxVal[i] - MINMAXFAKTOR))
 				return TRUE;
 			else
 				i++;
@@ -132,7 +132,7 @@ bool REF_GetMeasure(REF_Color color){
 	}
 	if(color == COLOR_B){
 		for(i = 0; i < REF_NOF_SENSORS; i++){
-			if(SensorCalibrated[i] < (SensorCalibMinMax.minVal[i] + MINMAXFAKTOR))
+			if(SensorRaw[i] > (SensorCalibMinMax.minVal[i] + MINMAXFAKTOR))
 				return TRUE;
 			else
 				i++;
@@ -144,7 +144,6 @@ bool REF_GetMeasure(REF_Color color){
 static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   uint8_t cnt; /* number of sensor */
   uint8_t i;
-  TMOUT1_CounterHandle timeout;
 
   LED_IR_On(); /* IR LED's on */
   WAIT1_Waitus(200); /*! \todo adjust time as needed 50 should be easy possible*/
@@ -155,25 +154,27 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
     raw[i] = MAX_SENSOR_VALUE;
   }
   WAIT1_Waitus(5); /* give some time to charge the capacitor */
-  (void)RefCnt_ResetCounter(timerHandle); /* reset timer counter */
+  FRTOS1_taskENTER_CRITICAL();
   for(i=0;i<REF_NOF_SENSORS;i++) {
-    SensorFctArray[i].SetInput(); /* turn I/O line as input */
+	  SensorFctArray[i].SetInput(); /* turn I/O line as input */
   }
+  (void)RefCnt_ResetCounter(timerHandle); /* reset timer counter */
   do {
-    /*! \todo Be aware that this might block for a long time, if discharging takes long. Consider using a timeout. */
     cnt = 0;
+    if(REF_TIMEOUT_MEASURE_MS < RefCnt_GetCounterValue(timerHandle)){
+        break;
+    }
     for(i=0;i<REF_NOF_SENSORS;i++) {
-    	timeout = TMOUT1_GetCounter(REF_TIMEOUT_MEASURE_MS/TMOUT1_TICK_PERIOD_MS);
     	if (raw[i]==MAX_SENSOR_VALUE) { /* not measured yet? */
-    		if (SensorFctArray[i].GetVal()==0 || TMOUT1_CounterExpired(timeout)){ /* checks if IR signal is on*/
+    		if (SensorFctArray[i].GetVal()==0){
     			raw[i] = RefCnt_GetCounterValue(timerHandle);
-    			TMOUT1_LeaveCounter(timeout);
     		}
     	}
     	else /* have value */
     		cnt++;
     }
   } while(cnt!=REF_NOF_SENSORS);
+  FRTOS1_taskEXIT_CRITICAL();
   LED_IR_Off();
 }
 

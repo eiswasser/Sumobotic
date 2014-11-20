@@ -27,6 +27,7 @@ typedef enum CompStat {
 	READY,
 	FINDLINE,
 	STEERING,
+	TURN,
 	NOC				//Number of competition functions
 } CompStateType;
 
@@ -42,21 +43,28 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
   for(;;) {
 	  switch(CompState){
 	  case FINDLINE:
-		  MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_LEFT)),50);
-		  MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_RIGHT)),50);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),50);
 		  if(REF_GetMeasure(COLOR_W)){
-			  //MOT_StopMotor();
+			  MOT_StopMotor();
 		  	  CompState = STEERING;
 		  }
 		  break;
 	  case STEERING:
-		  MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_LEFT)),-50);
-		  MOT_StartMotor((MOT_GetMotorHandle(MOT_MOTOR_RIGHT)),-50);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-50);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
+		  FRTOS1_taskYIELD();
 		  if(REF_GetMeasure(COLOR_B)){
 		  			  MOT_StopMotor();
-		  		  	  CompState = READY;
+		  		  	  CompState = TURN;
 		  }
 		  break;
+	  case TURN:
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
+		  FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
+		  	  MOT_StopMotor();
+		  	  CompState = FINDLINE;
 	  default:
 		  break;
 	  }

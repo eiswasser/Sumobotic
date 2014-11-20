@@ -9,6 +9,7 @@
 #include "Platform.h"
 #if PL_HAS_MOTOR
 #include "Motor.h"
+#include "FRTOS1.h"
 #include "DIRR.h"
 #include "DIRL.h"
 #include "PWMR.h"
@@ -109,8 +110,7 @@ MOT_Direction MOT_GetDirection(MOT_MotorDevice *motor) {
 }
 
 /*!
- * \brief starts the engine of the specific side with a specific speed and direction
- * @param motor MotorDevice to select the right or left engine
+ * \brief starts the engine with a specific speed and direction
  * @param duty int value in pecent form -100 to 100 to select speed and direction.
  */
 void MOT_StartMotor(MOT_MotorDevice *motor, int duty){
@@ -121,8 +121,10 @@ void MOT_StartMotor(MOT_MotorDevice *motor, int duty){
  * \brief stops both engines immediately
  */
 void MOT_StopMotor(){
+	FRTOS1_taskENTER_CRITICAL();
 	MOT_SetSpeedPercent(&motorR, 0);
 	MOT_SetSpeedPercent(&motorL, 0);
+	FRTOS1_taskEXIT_CRITICAL();
 }
 
 #if PL_HAS_SHELL
