@@ -41,6 +41,7 @@
 			#if PL_HAS_KEYS
 				KEY_Scan();
 			#endif
+			FRTOS1_vTaskDelay(20/portTICK_RATE_MS);
 		}
 	}
 

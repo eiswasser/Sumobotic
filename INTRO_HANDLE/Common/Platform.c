@@ -66,56 +66,68 @@
 #if PL_COMP_ENABLE
 	#include "Competition.h"
 #endif
+#if PL_HAS_MOTOR_TACHO
+	#include "Tacho.h"
+#endif
+#if PL_HAS_PID
+	#include "Pid.h"
+#endif
+#if PL_HAS_NVMC
+	#include "NVM_Config.h"
+#endif
 
 /*! \brief implements the initial method for the board
  */
 void PL_Init(void) {
-#if PL_USE_LED
-	LED_Init();
-#endif
-#if PL_HAS_EVENTS
-	EVNT_Init();
-#endif
-#if PL_HAS_KEYS
-	KEY_Init();
-#endif
-#if PL_HAS_MEALY
-	MEALY_Init();
-#endif
-#if PL_HAS_TRIGGER
-	TRG_Init();
-#endif
-#if PL_HAS_BUZZER
-	BUZ_Init();
-#endif
-#if PL_HAS_DEBOUNCE
-	DBNC_Init();
-	KEYDBNC_Init();
-#endif
-#if PL_HAS_RTOS
-	RTOS_Init();
-#endif
-#if PL_HAS_SHELL
-	SHELL_Init();
-#endif
-#if PL_HAS_SHELL_QUEUE
-	SQUEUE_Init();
-#endif
-#if PL_HAS_SEMAPHORE
-	SEM_Init();
-#endif
-#if PL_HAS_LINE_SENSOR
-	REF_Init();
-#endif
-#if PL_HAS_MOTOR
-	MOT_Init();
-#endif
-#if PL_HAS_MCP4728
-	MCP4728_Init();
-#endif
-#if PL_COMP_ENABLE
-	COMP_Init();
-#endif
+	#if PL_USE_LED
+		LED_Init();
+	#endif
+	#if PL_HAS_EVENTS
+		EVNT_Init();
+	#endif
+	#if PL_HAS_KEYS
+		KEY_Init();
+	#endif
+	#if PL_HAS_MEALY
+		MEALY_Init();
+	#endif
+	#if PL_HAS_TRIGGER
+		TRG_Init();
+	#endif
+	#if PL_HAS_BUZZER
+		BUZ_Init();
+	#endif
+	#if PL_HAS_DEBOUNCE
+		DBNC_Init();
+		KEYDBNC_Init();
+	#endif
+	#if PL_HAS_RTOS
+		RTOS_Init();
+	#endif
+	#if PL_HAS_SHELL
+		SHELL_Init();
+	#endif
+	#if PL_HAS_SHELL_QUEUE
+		SQUEUE_Init();
+	#endif
+	#if PL_HAS_SEMAPHORE
+		SEM_Init();
+	#endif
+	#if PL_HAS_LINE_SENSOR
+		REF_Init();
+	#endif
+	#if PL_HAS_MOTOR
+		MOT_Init();
+	#endif
+	#if PL_HAS_MCP4728
+		MCP4728_Init();
+	#endif
+	#if PL_COMP_ENABLE
+		COMP_Init();
+	#endif
+	#if PL_HAS_NVMC
+		NVMC_Init();
+	#endif
 }
 
 /*! \brief implements the de-initial methods for the board
@@ -166,5 +178,11 @@ void PL_Deinit(void) {
 #endif
 #if PL_COMP_ENABLE
 	COMP_Deinit();
+#endif
+#if PL_HAS_PID
+	PID_Deinit();
+#endif
+#if PL_HAS_NVMC
+	NVMC_Deinit();
 #endif
 }

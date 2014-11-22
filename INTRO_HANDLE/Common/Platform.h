@@ -77,6 +77,9 @@
 	#define PL_HAS_MCP4728			(1)
 	#define PL_HAS_QUAD_CALIBRATION (1)
 	#define PL_COMP_ENABLE			(1)
+	#define PL_HAS_MOTOR_TACHO		(1)
+	#define PL_HAS_PID				(1)
+	#define PL_HAS_NVMC				(1)
 #else
 	#error "unknown board configuration"
 #endif

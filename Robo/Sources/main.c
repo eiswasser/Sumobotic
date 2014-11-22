@@ -101,6 +101,8 @@
 #include "I2C1.h"
 #include "GI2C1.h"
 #include "TMOUT1.h"
+#include "IFsh1.h"
+#include "IntFlashLdd1.h"
 /* Including shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"

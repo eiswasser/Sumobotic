@@ -133,8 +133,19 @@ void FRTOS1_vApplicationStackOverflowHook(xTaskHandle pxTask, char *pcTaskName)
 */
 void FRTOS1_vApplicationTickHook(void)
 {
-	/* Called for every RTOS tick. */
-  /* Write your code here ... */
+	#if PL_HAS_MOTOR_TACHO
+		TACHO_Sample();
+	#endif
+	#if PL_HAS_TIMER
+		TMR_OnInterrupt();
+	#endif
+	#if PL_HAS_TRIGGER
+		TRG_IncTick();
+	#endif
+	#if PL_HAS_MCP4728
+		TMOUT1_AddTick();
+	#endif
+ /* Write your code here ... */
 }
 
 /*
@@ -154,15 +165,6 @@ void FRTOS1_vApplicationIdleHook(void)
   /* Called whenever the RTOS is idle (from the IDLE task).
      Here would be a good place to put the CPU into low power mode. */
   /* Write your code here ... */
-	#if PL_HAS_TIMER
-		TMR_OnInterrupt();
-	#endif
-	#if PL_HAS_TRIGGER
-		TRG_IncTick();
-	#endif
-	#if PL_HAS_MCP4728
-		TMOUT1_AddTick();
-	#endif
 }
 
 /*
@@ -239,7 +241,8 @@ void GI2C1_OnReleaseBus(void)
 */
 void QuadInt_OnInterrupt(void)
 {
-  /* Write your code here ... */
+  Q4CLeft_Sample();
+  Q4CRight_Sample();
 }
 
 /* END Events */
