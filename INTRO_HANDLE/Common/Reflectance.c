@@ -25,6 +25,7 @@
 #include "Shell.h"
 #include "Timer.h"
 #include "TMOUT1.h"
+#include "Motor.h"
 #if 1
 	#include "Buzzer.h"
 #endif
