@@ -75,6 +75,9 @@
 #if PL_HAS_NVMC
 	#include "NVM_Config.h"
 #endif
+#if PL_HAS_DRIVE
+	#include "Drive.h"
+#endif
 
 /*! \brief implements the initial method for the board
  */
@@ -127,6 +130,9 @@ void PL_Init(void) {
 	#endif
 	#if PL_HAS_NVMC
 		NVMC_Init();
+	#endif
+	#if PL_HAS_DRIVE
+		DRV_Init();
 	#endif
 }
 
@@ -184,5 +190,8 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_NVMC
 	NVMC_Deinit();
+#endif
+#if PL_HAS_DRIVE
+	DRV_Deinit();
 #endif
 }

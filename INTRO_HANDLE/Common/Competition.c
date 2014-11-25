@@ -32,6 +32,7 @@ typedef enum CompStat {
 } CompStateType;
 
 static CompStateType CompState = READY;
+static MOT_SpeedPercent speed;
 
 /*!
  *
@@ -43,20 +44,20 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
   for(;;) {
 	  switch(CompState){
 	  case FINDLINE:
-		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
-		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),50);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),speed);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),speed);
 		  if(REF_GetMeasure(COLOR_W)){
 			  MOT_StopMotor();
 		  	  CompState = STEERING;
 		  }
 		  break;
 	  case STEERING:
-		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-50);
-		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
-		  FRTOS1_taskYIELD();
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-speed);
+		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-speed);
 		  if(REF_GetMeasure(COLOR_B)){
-		  			  MOT_StopMotor();
-		  		  	  CompState = TURN;
+			  FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
+			  MOT_StopMotor();
+			  CompState = TURN;
 		  }
 		  break;
 	  case TURN:
@@ -82,7 +83,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 static uint8_t COMP_PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr((unsigned char*)"comp", (unsigned char*)"Group of competition commands\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  help", (unsigned char*)"Print help information\r\n", io->stdOut);
-  CLS1_SendHelpStr((unsigned char*)"  findline", (unsigned char*)"starts the engines and drive with 50% speed ntil the white line have been detected\r\n", io->stdOut);
+  CLS1_SendHelpStr((unsigned char*)"  findline <speed>", (unsigned char*)"starts the engines and drive with specific speed until the white line have been detected\r\n", io->stdOut);
   return ERR_OK;
 }
 
@@ -101,9 +102,13 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
   if (UTIL1_strcmp((char*)cmd, (char*)CLS1_CMD_HELP)==0 || UTIL1_strcmp((char*)cmd, (char*)"comp help")==0) {
   		COMP_PrintHelp(io);
   		*handled = TRUE;
-    } else if (UTIL1_strcmp((char*)cmd, (char*)"comp findline")==0) {
-    	CompState = FINDLINE;
-        *handled = TRUE;
+    } else if (UTIL1_strncmp((char*)cmd, (char*)"comp findline ", sizeof("comp findline ")-1)==0) {
+		p = cmd+sizeof("comp findline");
+		if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
+		  speed = (MOT_SpeedPercent)val;
+		  CompState=FINDLINE;
+		  *handled = TRUE;
+		}
     }
   return res;
 }

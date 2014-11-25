@@ -80,6 +80,7 @@
 	#define PL_HAS_MOTOR_TACHO		(1)
 	#define PL_HAS_PID				(1)
 	#define PL_HAS_NVMC				(1)
+	#define PL_HAS_DRIVE			(0)
 #else
 	#error "unknown board configuration"
 #endif
