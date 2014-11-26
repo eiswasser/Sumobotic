@@ -26,8 +26,8 @@
 typedef enum CompStat {
 	READY,
 	FINDLINE,
-	STEERING,
 	TURN,
+	STOP,
 	NOC				//Number of competition functions
 } CompStateType;
 
@@ -47,25 +47,22 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),speed);
 		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),speed);
 		  if(REF_GetMeasure(COLOR_W)){
-			  MOT_StopMotor();
-		  	  CompState = STEERING;
-		  }
-		  break;
-	  case STEERING:
-		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-speed);
-		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-speed);
-		  if(REF_GetMeasure(COLOR_B)){
+			  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-speed);
+			  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-speed);
 			  FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
-			  MOT_StopMotor();
-			  CompState = TURN;
+		  	  CompState = TURN;
 		  }
 		  break;
 	  case TURN:
 		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
 		  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
 		  FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
-		  	  MOT_StopMotor();
-		  	  CompState = FINDLINE;
+		  CompState = FINDLINE;
+		  break;
+	  case STOP:
+		  MOT_StopMotor();
+		  CompState = READY;
+		  break;
 	  default:
 		  break;
 	  }
@@ -84,6 +81,7 @@ static uint8_t COMP_PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr((unsigned char*)"comp", (unsigned char*)"Group of competition commands\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  help", (unsigned char*)"Print help information\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  findline <speed>", (unsigned char*)"starts the engines and drive with specific speed until the white line have been detected\r\n", io->stdOut);
+  CLS1_SendHelpStr((unsigned char*)"  stop", (unsigned char*)"stops the findline routine inkl. engine\r\n", io->stdOut);
   return ERR_OK;
 }
 
@@ -106,9 +104,12 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 		p = cmd+sizeof("comp findline");
 		if (UTIL1_xatoi(&p, &val)==ERR_OK && val >=-100 && val<=100) {
 		  speed = (MOT_SpeedPercent)val;
-		  CompState=FINDLINE;
+		  CompState = FINDLINE;
 		  *handled = TRUE;
 		}
+    } else if(UTIL1_strcmp((char*)cmd, (char*)"comp stop")==0) {
+    	CompState = STOP;
+		*handled = TRUE;
     }
   return res;
 }
