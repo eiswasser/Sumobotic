@@ -347,7 +347,10 @@ static void REF_StateMachine(void) {
     	  SHELL_SendString((unsigned char*)"start calibration...\r\n");
 		  #endif
     	  REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
-    	  if(refState ==
+    	  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
+    	  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-20);
+    	  FRTOS1_vTaskDelay(500/portTICK_RATE_MS);
+    	  refState = REF_STATE_READY;
       }
       break;
         
