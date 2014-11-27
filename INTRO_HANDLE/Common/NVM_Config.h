@@ -31,7 +31,7 @@
   /*!< erased word in flash */
 
 #define NVMC_REFLECTANCE_DATA_START_ADDR  (NVMC_FLASH_START_ADDR)
-#define NVMC_REFLECTANCE_DATA_SIZE        (8*2*2) /* maximum of 8 sensors (min and max) values with 16 bits */
+#define NVMC_REFLECTANCE_DATA_SIZE        (6*2*2) /* maximum of 6 sensors (min and max) values with 16 bits */
 #define NVMC_REFLECTANCE_END_ADDR         (NVMC_REFLECTANCE_DATA_START_ADDR+NVMC_REFLECTANCE_DATA_SIZE)
 
 /*!

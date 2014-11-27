@@ -157,7 +157,7 @@ static uint8_t Tune(const CLS1_StdIOType *io, uint8_t channel, MOT_MotorDevice *
       dac += 0x1; /* smaller increase */
     } else {
       CLS1_SendStr((uint8_t*)"No signal\r\n", io->stdErr);
-      dac += 0x20; /* larger increase */
+      dac += 0x10; /* larger increase */
     }
   } /* for finding DAC value */
   MOT_SetSpeedPercent(motorHandle, 0); /* turn off again */

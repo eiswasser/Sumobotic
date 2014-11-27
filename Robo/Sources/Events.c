@@ -45,6 +45,12 @@
 #if PL_HAS_TRIGGER
 	#include "Trigger.h"
 #endif
+#if PL_HAS_MOTOR_TACHO
+	#include "Tacho.h"
+#endif
+#if PL_HAS_RTOS
+	#include "RTOS.h"
+#endif
 
 
 #ifdef __cplusplus

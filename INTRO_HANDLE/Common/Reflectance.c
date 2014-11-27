@@ -26,6 +26,7 @@
 #include "Timer.h"
 #include "TMOUT1.h"
 #include "Motor.h"
+#include "NVM_Config.h"
 #if 1
 	#include "Buzzer.h"
 #endif
@@ -317,11 +318,14 @@ byte REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOT
 		*handled = TRUE;
 		refCalib = EVNT_REF_START_CALIBRATION;
 		BUZ_Beep(300,500/TMR_TICK_MS);
-  } else if (UTIL1_strcmp((char*)cmd, REF_CMD_STOP_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "cstop")==0) {
-		*handled = TRUE;
+		SHELL_SendString((unsigned char*)"start calibration...\r\n");
+		MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
+		MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-20);
+		FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
+		MOT_StopMotor();
 		refCalib = EVNT_REF_STOP_CALIBRATION;
-		BUZ_Beep(300,500/TMR_TICK_MS);
-}
+		SHELL_SendString((unsigned char*)"stop calibration\r\n");
+  }
   return ERR_OK;
 }
 
@@ -330,11 +334,15 @@ static void REF_StateMachine(void) {
 
   switch (refState) {
     case REF_STATE_INIT:
-      for(i=0;i<REF_NOF_SENSORS;i++) {
-		  SensorCalibMinMax.minVal[i] = MAX_SENSOR_VALUE;
-		  SensorCalibMinMax.maxVal[i] = 0;
-		  SensorCalibrated[i] = 0;
-	  }
+    	if (NVMC_GetReflectanceData()==NULL){
+    		for(i=0;i<REF_NOF_SENSORS;i++) {
+    			SensorCalibMinMax.minVal[i] = MAX_SENSOR_VALUE;
+    			SensorCalibMinMax.maxVal[i] = 0;
+    			SensorCalibrated[i] = 0;
+    		}
+    	}
+    	else
+    		SensorCalibMinMax= *((SensorCalibT*)NVMC_GetReflectanceData());
 	  #if PL_SEND_TEXT
       SHELL_SendString((unsigned char*)"INFO: No calibration data present.\r\n");
 	  #endif
@@ -342,16 +350,13 @@ static void REF_StateMachine(void) {
       break;
       
     case REF_STATE_NOT_CALIBRATED:
-      if (refCalib == EVNT_REF_START_CALIBRATION) {
-		  #if PL_SEND_TEXT && VAR
-    	  SHELL_SendString((unsigned char*)"start calibration...\r\n");
-		  #endif
+    	if (refCalib == EVNT_REF_START_CALIBRATION) {
     	  REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
-    	  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
-    	  MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-20);
-    	  FRTOS1_vTaskDelay(500/portTICK_RATE_MS);
-    	  refState = REF_STATE_READY;
-      }
+    	}
+    	if (refCalib== EVNT_REF_STOP_CALIBRATION){
+    		NVMC_SaveReflectanceData(&SensorCalibMinMax,sizeof(SensorCalibMinMax));
+    		refState = REF_STATE_READY;
+    	}
       break;
         
     case REF_STATE_READY:
