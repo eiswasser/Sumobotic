@@ -147,7 +147,7 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   uint8_t i;
 
   LED_IR_On(); /* IR LED's on */
-  WAIT1_Waitus(200); /*! \todo adjust time as needed 50 should be easy possible*/
+  WAIT1_Waitus(100); /*! \todo adjust time as needed 50 should be easy possible*/
 
   for(i=0;i<REF_NOF_SENSORS;i++) {
     SensorFctArray[i].SetOutput(); /* turn I/O line as output */
@@ -330,38 +330,25 @@ static void REF_StateMachine(void) {
 
   switch (refState) {
     case REF_STATE_INIT:
+      for(i=0;i<REF_NOF_SENSORS;i++) {
+		  SensorCalibMinMax.minVal[i] = MAX_SENSOR_VALUE;
+		  SensorCalibMinMax.maxVal[i] = 0;
+		  SensorCalibrated[i] = 0;
+	  }
+	  #if PL_SEND_TEXT
       SHELL_SendString((unsigned char*)"INFO: No calibration data present.\r\n");
+	  #endif
       refState = REF_STATE_NOT_CALIBRATED;
       break;
       
     case REF_STATE_NOT_CALIBRATED:
-      REF_MeasureRaw(SensorRaw);
       if (refCalib == EVNT_REF_START_CALIBRATION) {
-        refState = REF_STATE_START_CALIBRATION;
-        break;
+		  #if PL_SEND_TEXT && VAR
+    	  SHELL_SendString((unsigned char*)"start calibration...\r\n");
+		  #endif
+    	  REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
+    	  if(refState ==
       }
-      break;
-    
-    case REF_STATE_START_CALIBRATION:
-      SHELL_SendString((unsigned char*)"start calibration...\r\n");
-      for(i=0;i<REF_NOF_SENSORS;i++) {
-        SensorCalibMinMax.minVal[i] = MAX_SENSOR_VALUE;
-        SensorCalibMinMax.maxVal[i] = 0;
-        SensorCalibrated[i] = 0;
-      }
-      refState = REF_STATE_CALIBRATING;
-      break;
-    
-    case REF_STATE_CALIBRATING:
-      REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
-      if (refCalib == EVNT_REF_STOP_CALIBRATION) {
-        refState = REF_STATE_STOP_CALIBRATION;
-      }
-      break;
-    
-    case REF_STATE_STOP_CALIBRATION:
-      SHELL_SendString((unsigned char*)"...stopping calibration.\r\n");
-      refState = REF_STATE_READY;
       break;
         
     case REF_STATE_READY:
