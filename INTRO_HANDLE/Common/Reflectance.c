@@ -49,9 +49,6 @@ static volatile RefCalibType refCalib = NONE;
 typedef enum {
   REF_STATE_INIT,
   REF_STATE_NOT_CALIBRATED,
-  REF_STATE_START_CALIBRATION,
-  REF_STATE_CALIBRATING,
-  REF_STATE_STOP_CALIBRATION,
   REF_STATE_READY
 } RefStateType;
 static volatile RefStateType refState = REF_STATE_INIT; /* state machine state */
@@ -227,11 +224,23 @@ static void REF_Measure(void) {
   ReadCalibrated(SensorCalibrated, SensorRaw);
 }
 
+static void REF_CalibDrive(void){
+	#if PL_HAS_SHELL
+		SHELL_SendString((unsigned char*)"start calibration...\r\n");
+	#endif
+	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
+	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-20);
+	FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
+	MOT_StopMotor();
+	refCalib = EVNT_REF_STOP_CALIBRATION;								//Command for statemachine
+	#if PL_HAS_SHELL
+		SHELL_SendString((unsigned char*)"stop calibration\r\n");
+	#endif
+}
 static uint8_t PrintHelp(const CLS1_StdIOType *io) {
   CLS1_SendHelpStr((unsigned char*)"ref", (unsigned char*)"Group of Reflectance commands\r\n", io->stdOut);
   CLS1_SendHelpStr((unsigned char*)"  help|status", (unsigned char*)"Print help or status information\r\n", io->stdOut);
   CLS1_SendHelpStr("  cstart", "to start the calibration of the line sensor\r\n", io->stdOut);
-  CLS1_SendHelpStr("  cstop", "to stop the calibration of the line sensor\r\n", io->stdOut);
   return ERR_OK;
 }
 
@@ -239,9 +248,6 @@ static unsigned char*REF_GetStateString(void) {
   switch (refState) {
     case REF_STATE_INIT:                return (unsigned char*)"INIT";
     case REF_STATE_NOT_CALIBRATED:      return (unsigned char*)"NOT CALIBRATED";
-    case REF_STATE_START_CALIBRATION:   return (unsigned char*)"START CALIBRATION";
-    case REF_STATE_CALIBRATING:         return (unsigned char*)"CALIBRATING";
-    case REF_STATE_STOP_CALIBRATION:    return (unsigned char*)"STOP CALIBRATION";
     case REF_STATE_READY:               return (unsigned char*)"READY";
     default:
       break;
@@ -309,22 +315,16 @@ static uint8_t PrintStatus(const CLS1_StdIOType *io) {
 
 byte REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
   if (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)==0 || UTIL1_strcmp((char*)cmd, "ref help")==0) {
-    *handled = TRUE;
-    return PrintHelp(io);
+	  *handled = TRUE;
+	  return PrintHelp(io);
   } else if ((UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0) || (UTIL1_strcmp((char*)cmd, "ref status")==0)) {
-    *handled = TRUE;
-    return PrintStatus(io);
+	  *handled = TRUE;
+	  return PrintStatus(io);
   } else if (UTIL1_strcmp((char*)cmd, REF_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "cstart")==0) {
-		*handled = TRUE;
-		refCalib = EVNT_REF_START_CALIBRATION;
-		BUZ_Beep(300,500/TMR_TICK_MS);
-		SHELL_SendString((unsigned char*)"start calibration...\r\n");
-		MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
-		MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-20);
-		FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
-		MOT_StopMotor();
-		refCalib = EVNT_REF_STOP_CALIBRATION;
-		SHELL_SendString((unsigned char*)"stop calibration\r\n");
+	  *handled = TRUE;
+	  refCalib = EVNT_REF_START_CALIBRATION;							//Command for statemachine
+	  BUZ_Beep(300,500/TMR_TICK_MS);
+	  REF_CalibDrive();
   }
   return ERR_OK;
 }
@@ -343,7 +343,7 @@ static void REF_StateMachine(void) {
     	}
     	else
     		SensorCalibMinMax= *((SensorCalibT*)NVMC_GetReflectanceData());
-	  #if PL_SEND_TEXT
+	  #if PL_HAS_SHELL
       SHELL_SendString((unsigned char*)"INFO: No calibration data present.\r\n");
 	  #endif
       refState = REF_STATE_NOT_CALIBRATED;
@@ -351,20 +351,23 @@ static void REF_StateMachine(void) {
       
     case REF_STATE_NOT_CALIBRATED:
     	if (refCalib == EVNT_REF_START_CALIBRATION) {
-    	  REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
+    		REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
     	}
-    	if (refCalib== EVNT_REF_STOP_CALIBRATION){
+    	if (refCalib == EVNT_REF_STOP_CALIBRATION){
     		NVMC_SaveReflectanceData(&SensorCalibMinMax,sizeof(SensorCalibMinMax));
     		refState = REF_STATE_READY;
+    		refCalib = NONE;
     	}
-      break;
+    break;
         
     case REF_STATE_READY:
-      REF_Measure();
-      if (refCalib == EVNT_REF_START_CALIBRATION) {
-        refState = REF_STATE_START_CALIBRATION;
-      }
-      break;
+    	REF_Measure();
+    	if (refCalib == EVNT_REF_START_CALIBRATION) {
+    		refState = REF_STATE_NOT_CALIBRATED;
+    		refCalib = EVNT_REF_START_CALIBRATION;
+    		REF_CalibDrive();
+    	}
+     break;
   } /* switch */
 }
 
