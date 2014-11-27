@@ -44,7 +44,6 @@
 #include "SW1.h"
 #include "ExtIntLdd1.h"
 #include "FRTOS1.h"
-#include "RTOSCNTRLDD1.h"
 #include "WAIT2.h"
 #include "CLS1.h"
 #include "USB1.h"
@@ -103,6 +102,9 @@
 #include "TMOUT1.h"
 #include "IFsh1.h"
 #include "IntFlashLdd1.h"
+#include "TU_US.h"
+#include "TRIG.h"
+#include "MMA1.h"
 /* Including shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
