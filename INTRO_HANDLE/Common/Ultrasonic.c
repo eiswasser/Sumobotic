@@ -94,7 +94,7 @@ uint16_t US_Measure_us(void) {
 }
 
 uint16_t US_GetLastCentimeterValue(void) {
-  return US_usToCentimeters(usDevice.lastValue_us, 22);
+	return US_usToCentimeters(usDevice.lastValue_us, 22);
 }
 
 #if PL_HAS_SHELL

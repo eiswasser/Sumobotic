@@ -24,6 +24,7 @@
 #endif
 #if PL_HAS_ULTRASONIC
 	#include "Ultrasonic.h"
+	#include "TMOUT1.h"
 #endif
 
 /*!
@@ -45,7 +46,12 @@ static CompStateType CompState = READY;
 #else
 	static MOT_SpeedPercent speed;
 #endif
-	int cm;
+	uint16_t cm = 0,us = 0;
+#if PL_HAS_ULTRASONIC
+	#define US_TIMEOUT_MEASURE_MS1	2000
+	#define US_TIMEOUT_MEASURE_MS2 	4000
+	static TMOUT1_CounterHandle USHandle;
+#endif
 
 /*!
  *
@@ -71,7 +77,12 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 				MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-speed);
 				MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-speed);
 				FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
-				CompState = TURN;
+				if(TMOUT1_CounterExpired(USHandle)){
+					TMOUT1_SetCounter(USHandle,US_TIMEOUT_MEASURE_MS1);
+					CompState = TURNAROUND;
+				} else {
+					CompState = TURN;
+				}
 			}
 			#endif
 			  break;
@@ -79,24 +90,33 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			#if PL_HAS_DRIVE
 			    DRV_SetSpeed(3000,-3000);
 			#else
-			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
-			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
+			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),40);
+			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-40);
 			#endif
 			    FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
 			    CompState = FINDLINE;
-
 			  break;
 		  case TURNAROUND:
-			#if PL_HAS_DRIVE
-			    DRV_SetSpeed(1000,-1000);
-			#else
-			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),20);
-			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
-			#endif
-			    US_Measure_us;
-			    if(US_GetLastCentimeterValue() <= 20){
+			  if(us == 0){
+				#if PL_HAS_DRIVE
+					DRV_SetSpeed(1000,-1000);
+				#else
+					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
+					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
+					us = US_Measure_us();
+				#endif
+			  }else {
+			    us = US_Measure_us();
+			    cm = US_GetLastCentimeterValue();
+			    if(0 < cm && cm <= 20){
 			    	CompState = FINDLINE;
 			    }
+			    if(TMOUT1_CounterExpired(USHandle)){
+			    	CompState = FINDLINE;
+			    	TMOUT1_SetCounter(USHandle,US_TIMEOUT_MEASURE_MS2);
+			    }
+			  }
+			    break;
 		  case STOP:
 			#if PL_HAS_DRIVE
 			  	DRV_SetSpeed(0,0);
@@ -152,6 +172,7 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 		  speed = (MOT_SpeedPercent)val;
 		  #endif
 		  CompState = TURNAROUND;
+		  TMOUT1_SetCounter(USHandle,US_TIMEOUT_MEASURE_MS1);
 		  *handled = TRUE;
 		}
     } else if(UTIL1_strcmp((char*)cmd, (char*)"comp stop")==0) {
