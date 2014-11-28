@@ -27,6 +27,7 @@
 #include "TMOUT1.h"
 #include "Motor.h"
 #include "NVM_Config.h"
+#include "Sem.h"
 #if 1
 	#include "Buzzer.h"
 #endif
@@ -40,7 +41,7 @@
 #define REF_NOF_SENSORS 6 	/* number of sensors */
 #define THRESHOLD 100
 #define MINMAXFAKTOR 0x1000	/* Factor to detect white or black */
-#define REF_TIMEOUT_MEASURE_MS 4000
+#define REF_TIMEOUT_MEASURE_MS 1500
 
 typedef enum{
 	NONE,
@@ -148,13 +149,14 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   uint8_t i;
 
   LED_IR_On(); /* IR LED's on */
-  WAIT1_Waitus(100); /*! \todo adjust time as needed 50 should be easy possible*/
+  WAIT1_Waitus(100);
 
   for(i=0;i<REF_NOF_SENSORS;i++) {
     SensorFctArray[i].SetOutput(); /* turn I/O line as output */
     SensorFctArray[i].SetVal(); /* put high */
     raw[i] = MAX_SENSOR_VALUE;
   }
+  //FRTOS1_vSemaphoreTake(mutexHandle,portMAX_DELAY);
   WAIT1_Waitus(5); /* give some time to charge the capacitor */
   FRTOS1_taskENTER_CRITICAL();
   for(i=0;i<REF_NOF_SENSORS;i++) {
@@ -178,6 +180,7 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   } while(cnt!=REF_NOF_SENSORS);
   FRTOS1_taskEXIT_CRITICAL();
   LED_IR_Off();
+  //FRTOS1_vSemaphoreDelete();
 }
 
 /*!
