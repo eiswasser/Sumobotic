@@ -22,6 +22,9 @@
 #if PL_HAS_DRIVE
 	#include "Drive.h"
 #endif
+#if PL_HAS_ULTRASONIC
+	#include "Ultrasonic.h"
+#endif
 
 /*!
  \brief Enumeration of all our states for the competition
@@ -30,6 +33,7 @@ typedef enum CompStat {
 	READY,
 	FINDLINE,
 	TURN,
+	TURNAROUND,
 	STOP,
 	NOC				//Number of competition functions
 } CompStateType;
@@ -41,6 +45,7 @@ static CompStateType CompState = READY;
 #else
 	static MOT_SpeedPercent speed;
 #endif
+	int cm;
 
 /*!
  *
@@ -72,7 +77,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			  break;
 		  case TURN:
 			#if PL_HAS_DRIVE
-			    DRV_SetSpeed(50,-50);
+			    DRV_SetSpeed(3000,-3000);
 			#else
 			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
 			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
@@ -81,6 +86,17 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			    CompState = FINDLINE;
 
 			  break;
+		  case TURNAROUND:
+			#if PL_HAS_DRIVE
+			    DRV_SetSpeed(1000,-1000);
+			#else
+			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),20);
+			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
+			#endif
+			    US_Measure_us;
+			    if(US_GetLastCentimeterValue() <= 20){
+			    	CompState = FINDLINE;
+			    }
 		  case STOP:
 			#if PL_HAS_DRIVE
 			  	DRV_SetSpeed(0,0);
@@ -135,7 +151,7 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 		  #else
 		  speed = (MOT_SpeedPercent)val;
 		  #endif
-		  CompState = FINDLINE;
+		  CompState = TURNAROUND;
 		  *handled = TRUE;
 		}
     } else if(UTIL1_strcmp((char*)cmd, (char*)"comp stop")==0) {

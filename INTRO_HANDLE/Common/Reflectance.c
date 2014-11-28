@@ -33,6 +33,9 @@
 #if PL_HAS_RTOS
 	#include "RTOS.h"
 #endif
+#if PL_HAS_DRIVE
+	#include "Drive.h"
+#endif
 
 #define REF_NOF_SENSORS 6 	/* number of sensors */
 #define THRESHOLD 100
@@ -228,10 +231,19 @@ static void REF_CalibDrive(void){
 	#if PL_HAS_SHELL
 		SHELL_SendString((unsigned char*)"start calibration...\r\n");
 	#endif
+	#if PL_HAS_DRIVE
+	DRV_EnableDisable(TRUE);
+	DRV_SetSpeed(-1000,-1000);
+	#else
 	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-20);
 	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-20);
+	#endif
 	FRTOS1_vTaskDelay(1000/portTICK_RATE_MS);
+	#if PL_HAS_DRIVE
+	DRV_EnableDisable(FALSE);
+	#else
 	MOT_StopMotor();
+	#endif
 	refCalib = EVNT_REF_STOP_CALIBRATION;								//Command for statemachine
 	#if PL_HAS_SHELL
 		SHELL_SendString((unsigned char*)"stop calibration\r\n");
@@ -341,8 +353,10 @@ static void REF_StateMachine(void) {
     			SensorCalibrated[i] = 0;
     		}
     	}
-    	else
+    	else {
     		SensorCalibMinMax= *((SensorCalibT*)NVMC_GetReflectanceData());
+    		refState = REF_STATE_READY;
+    	}
 	  #if PL_HAS_SHELL
       SHELL_SendString((unsigned char*)"INFO: No calibration data present.\r\n");
 	  #endif
