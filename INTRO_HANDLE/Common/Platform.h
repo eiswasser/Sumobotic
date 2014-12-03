@@ -51,7 +51,7 @@
 	#define PL_HAS_USB_CDC			(0)
 	#define PL_HAS_SEMAPHORE		(1)
 	#define PL_HAS_MOTOR			(0)
-	#define PL_HAS_ACCEL			(0)
+	#define PL_HAS_ACCEL			(1)
 
 #elif PL_IS_ROBO
 	#define PL_NOF_LED	    		(2)

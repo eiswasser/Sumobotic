@@ -66,6 +66,9 @@
 #include "ASerialLdd1.h"
 #include "FRTOS1.h"
 #include "RTOSCNTRLDD1.h"
+#include "I2C1.h"
+#include "GI2C1.h"
+#include "MMA1.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -226,6 +229,19 @@ void FRTOS1_vApplicationMallocFailedHook(void);
 **     Description :
 **         If enabled, the RTOS will call this hook in case memory
 **         allocation failed.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void GI2C1_OnError(void);
+/*
+** ===================================================================
+**     Event       :  GI2C1_OnError (module Events)
+**
+**     Component   :  GI2C1 [GenericI2C]
+**     Description :
+**         Event called in case of error condition
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================

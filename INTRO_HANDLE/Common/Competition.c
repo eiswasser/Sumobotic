@@ -49,8 +49,9 @@ static CompStateType CompState = READY;
 	uint16_t cm = 0,us = 0;
 #if PL_HAS_ULTRASONIC
 	#define US_TIMEOUT_MEASURE_MS1	2000
-	#define US_TIMEOUT_MEASURE_MS2 	4000
-	static TMOUT1_CounterHandle USHandle;
+	static TMOUT1_CounterHandle USHandle1;
+	#define US_TIMEOUT_MEASURE_MS2 	800
+	static TMOUT1_CounterHandle USHandle2;
 #endif
 
 /*!
@@ -77,8 +78,10 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 				MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),-speed);
 				MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-speed);
 				FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
-				if(TMOUT1_CounterExpired(USHandle)){
-					TMOUT1_SetCounter(USHandle,US_TIMEOUT_MEASURE_MS1);
+				if(TMOUT1_CounterExpired(USHandle1)){
+					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),30);
+					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-30);
+					TMOUT1_SetCounter(USHandle2,US_TIMEOUT_MEASURE_MS2);
 					CompState = TURNAROUND;
 				} else {
 					CompState = TURN;
@@ -90,8 +93,8 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			#if PL_HAS_DRIVE
 			    DRV_SetSpeed(3000,-3000);
 			#else
-			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),40);
-			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-40);
+			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),30);
+			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-30);
 			#endif
 			    FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
 			    CompState = FINDLINE;
@@ -108,12 +111,12 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			  }else {
 			    us = US_Measure_us();
 			    cm = US_GetLastCentimeterValue();
-			    if(0 < cm && cm <= 20){
+			    if(0 < cm && cm <= 30){
 			    	CompState = FINDLINE;
 			    }
-			    if(TMOUT1_CounterExpired(USHandle)){
+			    if(TMOUT1_CounterExpired(USHandle2)){
 			    	CompState = FINDLINE;
-			    	TMOUT1_SetCounter(USHandle,US_TIMEOUT_MEASURE_MS2);
+			    	TMOUT1_SetCounter(USHandle1,US_TIMEOUT_MEASURE_MS1);
 			    }
 			  }
 			    break;
@@ -171,8 +174,8 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 		  #else
 		  speed = (MOT_SpeedPercent)val;
 		  #endif
-		  CompState = TURNAROUND;
-		  TMOUT1_SetCounter(USHandle,US_TIMEOUT_MEASURE_MS1);
+		  CompState = FINDLINE;
+		  TMOUT1_SetCounter(USHandle1,US_TIMEOUT_MEASURE_MS1);
 		  *handled = TRUE;
 		}
     } else if(UTIL1_strcmp((char*)cmd, (char*)"comp stop")==0) {
@@ -192,7 +195,7 @@ void COMP_Deinit() {
  * \brief Initial the module Competition and create a task fo this
  */
 void COMP_Init() {
-  if (FRTOS1_xTaskCreate(CompTask, "Comp", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL) != pdPASS) {
+  if (FRTOS1_xTaskCreate(CompTask, "Comp", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, NULL) != pdPASS) {
     for(;;){} /* error */
   }
 }

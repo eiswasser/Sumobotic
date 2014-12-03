@@ -12,6 +12,10 @@
 	#include "Event.h"
 	#include "Application.h"
 	#include "Keys.h"
+	#if PL_HAS_ACCEL
+		#include "Accel.h"
+	#endif
+
 	#if 0
 		static portTASK_FUNCTION(T1, pvParameters) {
 			for(;;) {
@@ -34,6 +38,9 @@
 	#endif
 
 	static portTASK_FUNCTION(APP_LOOP, pvParameters) {
+		#if PL_HAS_ACCEL
+			ACCEL_LowLevelInit();
+		#endif
 		for(;;) {
 			#if PL_HAS_EVENTS
 				EVNT_HandleEvent(APP_HandleEvent);
