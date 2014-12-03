@@ -145,6 +145,9 @@ void PL_Init(void) {
 	#if PL_HAS_ACCEL
 		ACCEL_Init();
 	#endif
+	#if PL_HAS_PID
+		PID_Init();
+	#endif
 }
 
 /*! \brief implements the de-initial methods for the board
