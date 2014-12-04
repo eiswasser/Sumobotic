@@ -15,6 +15,9 @@
 #if PL_HAS_EVENTS
 	#include "Event.h"
 #endif
+
+void APP_DebugPrint(unsigned char *str);
+
 /*! \brief Start main application and main routine
  */
 void APP_Start(void);

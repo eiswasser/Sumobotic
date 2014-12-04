@@ -56,6 +56,9 @@
 		#include "Accel.h"
 		#include "MMA1.h"
 	#endif
+	#if PL_HAS_RADIO
+		#include "RNet_App.h"
+	#endif
 #endif
 
 static uint32_t SHELL_val; /* used as demo value for shell */
@@ -203,7 +206,9 @@ static const CLS1_ParseCommandCallback CmdParserTable[] =
 #if PL_HAS_ACCEL
   MMA1_ParseCommand,
 #endif
-
+#if PL_HAS_RADIO
+  RNETA_ParseCommand,
+#endif
   NULL /* Sentinel */
 };
 

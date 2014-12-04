@@ -84,6 +84,9 @@
 #if PL_HAS_ACCEL
 	#include "Accel.h"
 #endif
+#if PL_HAS_RADIO
+	#include "RNet_App.h"
+#endif
 /*! \brief implements the initial method for the board
  */
 void PL_Init(void) {
@@ -148,6 +151,9 @@ void PL_Init(void) {
 	#if PL_HAS_PID
 		PID_Init();
 	#endif
+#if PL_HAS_RADIO
+		RNET1_Init();
+#endif
 }
 
 /*! \brief implements the de-initial methods for the board
@@ -213,5 +219,8 @@ void PL_Deinit(void) {
 #endif
 #if PL_HAS_ACCEL
 	ACCEL_Deinit();
+#endif
+#if PL_HAS_RADIO
+		RNET1_Init();
 #endif
 }
