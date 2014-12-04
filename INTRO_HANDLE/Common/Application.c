@@ -38,7 +38,6 @@
 #if PL_HAS_SHELL
 	#include "Shell.h"
 #endif
-
 #if PL_HAS_ACCEL
 	#include "Accel.h"
 	#if PL_HAS_DRIVE
@@ -48,7 +47,9 @@
 	int16_t *y;
 	int16_t *z;
 #endif
-
+#if PL_HAS_RADIO
+	#include "CLS1.h"
+#endif
 #if PL_IS_FRDM
 	/*! \brief Function that only is a support for the Event handling, to show that the events
 	 *  have been initialized
@@ -157,6 +158,12 @@
 		}
 	}
 #endif
+
+void APP_DebugPrint(unsigned char *str) {
+	#if PL_HAS_SHELL
+	  CLS1_SendStr(str, CLS1_GetStdio()->stdOut);
+	#endif
+}
 
 /*! \brief Startup function
  * 	initial the whole platform, sets an Event and call the loop() function

@@ -32,7 +32,7 @@
  * The ROBO board has 2 LEDs
  */
 #if PL_IS_FRDM
-	#define PL_NOF_LED	   			(3)
+	#define PL_NOF_LED	   			(2)
 	#define PL_HAS_EVENTS   		(1)
 	#define PL_USE_LED      		(1)
 	#define PL_HAS_TIMER    		(1)
@@ -52,6 +52,7 @@
 	#define PL_HAS_SEMAPHORE		(1)
 	#define PL_HAS_MOTOR			(0)
 	#define PL_HAS_ACCEL			(1)
+	#define PL_HAS_RADIO			(1)
 
 #elif PL_IS_ROBO
 	#define PL_NOF_LED	    		(2)
@@ -84,6 +85,7 @@
 	#define PL_HAS_DRIVE			(1)
 	#define PL_HAS_ULTRASONIC		(1)
 	#define PL_HAS_ACCEL			(1)
+	#define PL_HAS_RADIO			(1)
 #else
 	#error "unknown board configuration"
 #endif

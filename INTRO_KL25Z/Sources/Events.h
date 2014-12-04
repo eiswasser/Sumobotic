@@ -38,8 +38,6 @@
 #include "BitIoLdd1.h"
 #include "LED_red.h"
 #include "BitIoLdd2.h"
-#include "LED_blue.h"
-#include "BitIoLdd3.h"
 #include "WAIT1.h"
 #include "CS1.h"
 #include "TI1.h"
@@ -69,6 +67,14 @@
 #include "I2C1.h"
 #include "GI2C1.h"
 #include "MMA1.h"
+#include "RNET1.h"
+#include "RF1.h"
+#include "CE1.h"
+#include "BitIoLdd11.h"
+#include "CSN1.h"
+#include "BitIoLdd12.h"
+#include "SM1.h"
+#include "SMasterLdd1.h"
 
 #ifdef __cplusplus
 extern "C" {
