@@ -75,7 +75,7 @@
 #if PL_HAS_NVMC
 	#include "NVM_Config.h"
 #endif
-#if PL_HAS_DRIVE
+#if PL_HAS_DRIVE && PL_IS_ROBO
 	#include "Drive.h"
 #endif
 #if PL_HAS_ULTRASONIC
@@ -87,6 +87,10 @@
 #if PL_HAS_RADIO
 	#include "RNet_App.h"
 #endif
+#if PL_HAS_REMOTE
+	#include "Remote.h"
+#endif
+
 /*! \brief implements the initial method for the board
  */
 void PL_Init(void) {
@@ -139,7 +143,7 @@ void PL_Init(void) {
 	#if PL_HAS_NVMC
 		NVMC_Init();
 	#endif
-	#if PL_HAS_DRIVE
+	#if PL_HAS_DRIVE && PL_IS_ROBO
 		DRV_Init();
 	#endif
 	#if PL_HAS_ULTRASONIC
@@ -151,9 +155,12 @@ void PL_Init(void) {
 	#if PL_HAS_PID
 		PID_Init();
 	#endif
-#if PL_HAS_RADIO
-		RNET1_Init();
-#endif
+	#if PL_HAS_RADIO
+			RNET1_Init();
+	#endif
+	#if PL_HAS_REMOTE
+		REMOTE_Init();
+	#endif
 }
 
 /*! \brief implements the de-initial methods for the board
@@ -211,7 +218,7 @@ void PL_Deinit(void) {
 #if PL_HAS_NVMC
 	NVMC_Deinit();
 #endif
-#if PL_HAS_DRIVE
+#if PL_HAS_DRIVE && PL_IS_ROBO
 	DRV_Deinit();
 #endif
 #if PL_HAS_ULTRASONIC
@@ -221,6 +228,9 @@ void PL_Deinit(void) {
 	ACCEL_Deinit();
 #endif
 #if PL_HAS_RADIO
-		RNET1_Init();
+	RNET1_Init();
+#endif
+#if PL_HAS_REMOTE
+	REMOTE_Deinit();
 #endif
 }

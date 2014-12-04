@@ -6,7 +6,7 @@
  * This module implements a simple 'drive' task which is responsible to move the robot around.
  */
 #include "Platform.h"
-#if PL_HAS_DRIVE
+#if PL_HAS_DRIVE && PL_IS_ROBO
 #include "Drive.h"
 #include "FRTOS1.h"
 #include "Pid.h"
