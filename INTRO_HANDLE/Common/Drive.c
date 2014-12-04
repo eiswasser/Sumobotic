@@ -122,7 +122,7 @@ void DRV_Deinit(void) {
 }
 
 void DRV_Init(void) {
-  DRV_EnableDisable(TRUE);
+  //DRV_EnableDisable(TRUE);		/*! \todo verursacht das zittern am Anfang, wenn die Position nicht genau stimmt. könnte herausgenommenw werden.*/
   DRV_SpeedLeft = 0;
   DRV_SpeedRight = 0;
   if (FRTOS1_xTaskCreate(

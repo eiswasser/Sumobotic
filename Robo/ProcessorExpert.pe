@@ -2,9 +2,9 @@
 <PEproject>
   <Header>
     <Name>Robo</Name>
-    <SavedBy>Master</SavedBy>
-    <ModificationStamp>89</ModificationStamp>
-    <Date>2014-12-01</Date>
+    <SavedBy>Marco</SavedBy>
+    <ModificationStamp>90</ModificationStamp>
+    <Date>2014-12-04</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.0.RT6_b1428-0121</PEversion>
   </Header>
@@ -33480,7 +33480,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>DividerInputFreq</ItemSymbol>
-              <Value>120 MHz</Value>
+              <Value>unknown</Value>
             </ItemState>
             <ItemState>
               <ItemSymbol>DividerClockFraction</ItemSymbol>
@@ -33510,7 +33510,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>ModuleClockFreq</ItemSymbol>
-              <Value>48 MHz</Value>
+              <Value>unknown</Value>
             </ItemState>
             <ItemState>
               <ItemSymbol>PullUpDownGrp</ItemSymbol>

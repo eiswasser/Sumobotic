@@ -41,8 +41,9 @@ typedef enum CompStat {
 
 static CompStateType CompState = READY;
 #if PL_HAS_DRIVE
-	static int32_t speed;
+	static int32_t speed, speed_old;
 	#define MAXSPEED 6000
+	#define TURNSPEED 2500
 #else
 	static MOT_SpeedPercent speed;
 #endif
@@ -66,11 +67,26 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 	  	  case FINDLINE:
 		  	#if PL_HAS_DRIVE
 	  		  	DRV_EnableDisable(TRUE);
-	  		    DRV_SetSpeed(speed,speed);
-			if(REF_GetMeasure(COLOR_W)){
-				DRV_SetSpeed(-speed,-speed);
-				CompState = TURN;
-			}
+	  		  	us = US_Measure_us();
+	  		  	cm = US_GetLastCentimeterValue();
+	  		  	if(0 < cm && cm <= 30){
+	  		  		DRV_SetSpeed(MAXSPEED,MAXSPEED);
+	  		  		us = US_Measure_us();
+	  		  		cm = US_GetLastCentimeterValue();
+	  		  	} else{
+	  		  		DRV_SetSpeed(speed,speed);
+	  		  	}
+				if(REF_GetMeasure(COLOR_W)){
+					DRV_SetSpeed(-speed,-speed);
+					FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
+					if(TMOUT1_CounterExpired(USHandle1)){
+						DRV_SetSpeed(-TURNSPEED,TURNSPEED);
+						TMOUT1_SetCounter(USHandle2,US_TIMEOUT_MEASURE_MS2);
+						CompState = TURNAROUND;
+					} else {
+						CompState = TURN;
+					}
+				}
 			#else
 			MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),speed);
 			MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),speed);
@@ -91,7 +107,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			  break;
 		  case TURN:
 			#if PL_HAS_DRIVE
-			    DRV_SetSpeed(3000,-3000);
+			    DRV_SetSpeed(TURNSPEED,-TURNSPEED);
 			#else
 			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),30);
 			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-30);
@@ -102,12 +118,13 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 		  case TURNAROUND:
 			  if(us == 0){
 				#if PL_HAS_DRIVE
-					DRV_SetSpeed(1000,-1000);
+					DRV_SetSpeed(-TURNSPEED,TURNSPEED);
 				#else
 					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
 					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
-					us = US_Measure_us();
 				#endif
+					us = US_Measure_us();
+
 			  }else {
 			    us = US_Measure_us();
 			    cm = US_GetLastCentimeterValue();
@@ -122,8 +139,8 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			    break;
 		  case STOP:
 			#if PL_HAS_DRIVE
-			  	DRV_SetSpeed(0,0);
-			  	DRV_EnableDisable(FALSE);
+			  	DRV_SetSpeed(0,0);				// Sets the value to zero for the speed
+			  	DRV_EnableDisable(FALSE);		// Disable the Drive Module, because not in use; also resets the PID parameters
 		 	#else
 			  	MOT_StopMotor();
 			#endif
