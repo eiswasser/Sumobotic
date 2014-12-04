@@ -18,6 +18,12 @@
 typedef enum EVNT_Handle {
   EVNT_INIT,            /*!< System Initialization Event */
   EVNT_LED_HEARTBEAT,	/*!< System running - LED blink 1 sec */
+#if PL_HAS_MOTOR
+  EVNT_STOP_ENGINE,
+#endif
+#if PL_HAS_ACCEL && 0
+  EVNT_FALL_DOWN,
+#endif
 #if PL_HAS_KEYS
 	#if PL_NOF_KEYS >=1
 	  EVNT_SW1_PRESSED,

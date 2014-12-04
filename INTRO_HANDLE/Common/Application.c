@@ -39,6 +39,16 @@
 	#include "Shell.h"
 #endif
 
+#if PL_HAS_ACCEL
+	#include "Accel.h"
+	#if PL_HAS_DRIVE
+		#include "Drive.h"
+	#endif
+	int16_t *x;
+	int16_t *y;
+	int16_t *z;
+#endif
+
 #if PL_IS_FRDM
 	/*! \brief Function that only is a support for the Event handling, to show that the events
 	 *  have been initialized
@@ -121,6 +131,21 @@
 				LED1_Neg();
 				LED2_Neg();
 			break;
+			case EVNT_STOP_ENGINE:
+			#if PL_HAS_DRIVE
+			  	DRV_SetSpeed(0,0);				// Sets the value to zero for the speed
+			  	DRV_EnableDisable(FALSE);		// Disable the Drive Module, because not in use; also resets the PID parameters
+		 	#else
+			  	MOT_StopMotor();
+			#endif
+				break;
+			/*case EVNT_FALL_DOWN:
+				ACCEL_GetValues(&x,&y,&z);
+				if(*x > 500 || *y > 500 || *z < 0){
+					DRV_SetSpeed(0,0);				// Sets the value to zero for the speed
+					DRV_EnableDisable(FALSE);		// Disable the Drive Module, because not in use; also resets the PID parameters
+				}
+				break;*/
 			#if PL_NOF_KEYS >= 1
 				case EVNT_SW1_PRESSED:
 					#if PL_SEND_TEXT

@@ -26,6 +26,9 @@
 	#include "Ultrasonic.h"
 	#include "TMOUT1.h"
 #endif
+#if PL_HAS_EVENTS
+	#include "Event.h"
+#endif
 
 /*!
  \brief Enumeration of all our states for the competition
@@ -124,7 +127,6 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-50);
 				#endif
 					us = US_Measure_us();
-
 			  }else {
 			    us = US_Measure_us();
 			    cm = US_GetLastCentimeterValue();
@@ -136,15 +138,6 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			    	TMOUT1_SetCounter(USHandle1,US_TIMEOUT_MEASURE_MS1);
 			    }
 			  }
-			    break;
-		  case STOP:
-			#if PL_HAS_DRIVE
-			  	DRV_SetSpeed(0,0);				// Sets the value to zero for the speed
-			  	DRV_EnableDisable(FALSE);		// Disable the Drive Module, because not in use; also resets the PID parameters
-		 	#else
-			  	MOT_StopMotor();
-			#endif
-			    CompState = READY;
 			    break;
 		  default:
 			  break;
@@ -196,7 +189,8 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 		  *handled = TRUE;
 		}
     } else if(UTIL1_strcmp((char*)cmd, (char*)"comp stop")==0) {
-    	CompState = STOP;
+    	CompState = READY;
+    	EVNT_SetEvent(EVNT_STOP_ENGINE);
 		*handled = TRUE;
     }
   return res;

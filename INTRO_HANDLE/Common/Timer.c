@@ -28,7 +28,6 @@ void TMR_OnInterrupt(void) {
 	cntr++;
 	if (cntr==(TICKS_1_SEC/TMR_TICK_MS)) {
 		EVNT_SetEvent(EVNT_LED_HEARTBEAT);
-		//LED1_Neg();
 		cntr = 0;
 	}
 	ExitCritical();
