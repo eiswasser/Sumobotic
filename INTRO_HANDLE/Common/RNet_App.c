@@ -58,9 +58,9 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
       *handled = TRUE;
       val = *data; /* get data value */
 #if PL_HAS_SHELL
-      CLS1_SendStr((unsigned char*)"Data: ", io->stdOut);
-      CLS1_SendNum8u(val, io->stdOut);
-      CLS1_SendStr((unsigned char*)" from addr 0x", io->stdOut);
+      SHELL_SendString((unsigned char*)"Data: ");
+      SHELL_SendString(data);
+      SHELL_SendString((unsigned char*)" from addr 0x");
       buf[0] = '\0';
 #if RNWK_SHORT_ADDR_SIZE==1
       UTIL1_strcatNum8Hex(buf, sizeof(buf), srcAddr);
@@ -68,7 +68,7 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
       UTIL1_strcatNum16Hex(buf, sizeof(buf), srcAddr);
 #endif
       UTIL1_strcat(buf, sizeof(buf), (unsigned char*)"\r\n");
-      CLS1_SendStr(buf, io->stdOut);
+      SHELL_SendString(buf);
 #endif /* PL_HAS_SHELL */      
       return ERR_OK;
     case RAPP_MSG_TYPE_ACCEL:
@@ -150,7 +150,9 @@ void RNETA_Deinit(void) {
 
 void RNETA_Init(void) {
   RNET1_Init(); /* initialize stack */
+#if PL_HAS_DRIVE
   DRV_EnableDisable(TRUE);
+#endif
   if (RAPP_SetMessageHandlerTable(handlerTable)!=ERR_OK) { /* assign application message handler */
     APP_DebugPrint((unsigned char*)"ERR: failed setting message handler!\r\n");
   }
