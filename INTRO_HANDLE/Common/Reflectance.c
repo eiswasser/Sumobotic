@@ -340,7 +340,9 @@ byte REF_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOT
   } else if (UTIL1_strcmp((char*)cmd, REF_CMD_START_CALIBRATE)==0 || UTIL1_strcmp((char*)cmd, "cstart")==0) {
 	  *handled = TRUE;
 	  refCalib = EVNT_REF_START_CALIBRATION;							//Command for statemachine
+#if PL_HAS_DRIVE
 	  DRV_EnableDisable(TRUE);
+#endif
 	  BUZ_Beep(300,500/TMR_TICK_MS);
 	  REF_CalibDrive();
   }

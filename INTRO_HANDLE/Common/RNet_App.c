@@ -50,13 +50,15 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
   CLS1_ConstStdIOTypePtr io = CLS1_GetStdio();
 #endif
   uint8_t val;
-  
   (void)size;
   (void)packet;
   switch(type) {
     case RAPP_MSG_TYPE_DATA: /* generic data message */
       *handled = TRUE;
       val = *data; /* get data value */
+#if PL_HAS_DRIVE
+      DRV_EnableDisable(TRUE);
+#endif
 #if PL_HAS_SHELL
       SHELL_SendString((unsigned char*)"Data: ");
       SHELL_SendString(data);
@@ -71,10 +73,8 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
       SHELL_SendString(buf);
 #endif /* PL_HAS_SHELL */      
       return ERR_OK;
-    case RAPP_MSG_TYPE_ACCEL:
-
-    	break;
-    default: /*! \todo Handle your own messages here */
+      break;
+    default:
       break;
   } /* switch */
   return ERR_OK;
@@ -150,9 +150,6 @@ void RNETA_Deinit(void) {
 
 void RNETA_Init(void) {
   RNET1_Init(); /* initialize stack */
-#if PL_HAS_DRIVE
-  DRV_EnableDisable(TRUE);
-#endif
   if (RAPP_SetMessageHandlerTable(handlerTable)!=ERR_OK) { /* assign application message handler */
     APP_DebugPrint((unsigned char*)"ERR: failed setting message handler!\r\n");
   }
