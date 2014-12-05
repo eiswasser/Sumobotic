@@ -59,6 +59,9 @@
 	#if PL_HAS_RADIO
 		#include "RNet_App.h"
 	#endif
+	#if PL_HAS_REMOTE
+		#include "Remote.h"
+	#endif
 #endif
 
 static uint32_t SHELL_val; /* used as demo value for shell */
@@ -208,6 +211,9 @@ static const CLS1_ParseCommandCallback CmdParserTable[] =
 #endif
 #if PL_HAS_RADIO
   RNETA_ParseCommand,
+#endif
+#if PL_HAS_REMOTE
+  REMOTE_ParseCommand,
 #endif
   NULL /* Sentinel */
 };
