@@ -156,7 +156,7 @@ void PL_Init(void) {
 		PID_Init();
 	#endif
 	#if PL_HAS_RADIO
-			RNET1_Init();
+		RNETA_Init();
 	#endif
 	#if PL_HAS_REMOTE
 		REMOTE_Init();
@@ -228,7 +228,7 @@ void PL_Deinit(void) {
 	ACCEL_Deinit();
 #endif
 #if PL_HAS_RADIO
-	RNET1_Init();
+	RNETA_Init();
 #endif
 #if PL_HAS_REMOTE
 	REMOTE_Deinit();

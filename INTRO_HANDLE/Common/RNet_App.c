@@ -23,7 +23,11 @@
 #include "Shell.h"
 #include "Motor.h"
 #if PL_HAS_REMOTE
-  #include "Remote.h"
+  	#include "Remote.h"
+	#include "RNet_AppConfig.h"
+#endif
+#if PL_HAS_DRIVE
+	#include "Drive.h"
 #endif
 
 static RNWK_ShortAddrType APP_dstAddr = RNWK_ADDR_BROADCAST; /* destination node address */
@@ -67,6 +71,9 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
       CLS1_SendStr(buf, io->stdOut);
 #endif /* PL_HAS_SHELL */      
       return ERR_OK;
+    case RAPP_MSG_TYPE_ACCEL:
+
+    	break;
     default: /*! \todo Handle your own messages here */
       break;
   } /* switch */
@@ -143,6 +150,7 @@ void RNETA_Deinit(void) {
 
 void RNETA_Init(void) {
   RNET1_Init(); /* initialize stack */
+  DRV_EnableDisable(TRUE);
   if (RAPP_SetMessageHandlerTable(handlerTable)!=ERR_OK) { /* assign application message handler */
     APP_DebugPrint((unsigned char*)"ERR: failed setting message handler!\r\n");
   }
