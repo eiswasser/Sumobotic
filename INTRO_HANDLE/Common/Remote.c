@@ -261,9 +261,12 @@ uint8_t REMOTE_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_
     REMOTE_isOn = TRUE;
     *handled = TRUE;
   } else if (UTIL1_strcmp((char*)cmd, (char*)"remote off")==0) {
-#if PL_HAS_MOTOR
+#if PL_HAS_MOTOR && !PL_HAS_DRIVE
     MOT_SetSpeedPercent(MOT_GetMotorHandle(MOT_MOTOR_LEFT), 0);
     MOT_SetSpeedPercent(MOT_GetMotorHandle(MOT_MOTOR_RIGHT), 0);
+#else
+    DRV_SetSpeed(0,0);
+    PID_Start();
 #endif
     REMOTE_isOn = FALSE;
     *handled = TRUE;
