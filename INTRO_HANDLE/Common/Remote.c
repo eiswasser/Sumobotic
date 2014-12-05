@@ -264,7 +264,7 @@ uint8_t REMOTE_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_
 #if PL_HAS_MOTOR && !PL_HAS_DRIVE
     MOT_SetSpeedPercent(MOT_GetMotorHandle(MOT_MOTOR_LEFT), 0);
     MOT_SetSpeedPercent(MOT_GetMotorHandle(MOT_MOTOR_RIGHT), 0);
-#else
+#elif PL_HAS_DRIVE
     DRV_SetSpeed(0,0);
     PID_Start();
 #endif
