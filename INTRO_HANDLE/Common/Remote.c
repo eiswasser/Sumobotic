@@ -128,7 +128,7 @@ static portTASK_FUNCTION(RemoteTask, pvParameters) {
 
 #if PL_HAS_MOTOR
 static void REMOTE_HandleMsg(int16_t x, int16_t y, int16_t z) {
-  #define SCALE_DOWN 30
+  #define SCALE_DOWN 10
   #define MIN_VALUE  250 /* values below this value are ignored */
   #define DRIVE_DOWN 1
 
