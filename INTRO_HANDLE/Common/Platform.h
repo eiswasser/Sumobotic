@@ -51,11 +51,12 @@
 	#define PL_HAS_USB_CDC				(0)
 	#define PL_HAS_SEMAPHORE			(1)
 	#define PL_HAS_MOTOR				(0)
-	#define PL_HAS_DRIVE				(1)
+	#define PL_HAS_DRIVE				(0)
 	#define PL_HAS_ACCEL				(1)
 	#define PL_HAS_RADIO				(1)
 	#define PL_HAS_REMOTE				(1)
 	#define PL_APP_ACCEL_CONTROL_SENDER	(1)
+	#define PL_HAS_PID					(0)
 
 #elif PL_IS_ROBO
 	#define PL_NOF_LED	  	  			(2)
