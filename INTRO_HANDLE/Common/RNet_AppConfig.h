@@ -11,7 +11,6 @@
 #define __RNET_APP_CONFIG__
 
 #include "Platform.h"
-#if PL_HAS_RADIO
 
 /*! type ID's for application messages */
 typedef enum {
@@ -21,7 +20,5 @@ typedef enum {
   RAPP_MSG_TYPE_ACCEL = 0x03,
   RAPP_MSG_TYPE_DATA = 0x04,
 } RAPP_MSG_Type;
-
-#endif /* PL_HAS_RADIO */
 
 #endif /* __RNET_APP_CONFIG__ */

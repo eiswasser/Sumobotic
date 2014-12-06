@@ -89,7 +89,7 @@
 	#define PL_HAS_DRIVE				(1)
 	#define PL_HAS_ULTRASONIC			(1)
 	#define PL_HAS_ACCEL				(1)
-	#define PL_HAS_RADIO				(1)
+	#define PL_HAS_RADIO				(0)
 	#define PL_HAS_REMOTE				(0)
 	#define PL_APP_ACCEL_CONTROL_SENDER	(0)
 #else
