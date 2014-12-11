@@ -78,6 +78,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 	  	 ACCEL_GetValues(&x, &y, &z);
 	  	 if (z<=500){
 	  		 MOT_StopMotor();
+	  		 CompState= READY;
 	  	 }
 	  #endif
 	  #if PL_HAS_DRIVE
@@ -86,6 +87,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 	  us = US_Measure_us();
 	  cm = US_GetLastCentimeterValue();
 	  switch(CompState){
+
 	  case FINDLINE:
 		  	#if PL_HAS_DRIVE
 	  		  	if(0 < cm && cm <= 30){
