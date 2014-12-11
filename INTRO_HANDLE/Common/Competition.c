@@ -29,6 +29,9 @@
 #if PL_HAS_EVENTS
 	#include "Event.h"
 #endif
+#if PL_HAS_ACCEL
+	#include "Accel.h"
+#endif
 
 /*!
  \brief Enumeration of all our states for the competition
@@ -57,6 +60,11 @@ static CompStateType CompState = READY;
 	#define US_TIMEOUT_MEASURE_MS2 	800
 	static TMOUT1_CounterHandle USHandle2;
 #endif
+#if PL_HAS_ACCEL
+	static int16_t x;
+	static int16_t y;
+	static int16_t z;
+#endif
 
 /*!
  *
@@ -66,16 +74,22 @@ static CompStateType CompState = READY;
 static portTASK_FUNCTION(CompTask, pvParameters) {
   (void)pvParameters; /* not used */
   for(;;) {
+	  #if PL_HAS_ACCEL
+	  	 ACCEL_GetValues(&x, &y, &z);
+	  	 if (z<=500){
+	  		 MOT_StopMotor();
+	  	 }
+	  #endif
+	  #if PL_HAS_DRIVE
+	  	  DRV_EnableDisable(TRUE);
+	  #endif
+	  us = US_Measure_us();
+	  cm = US_GetLastCentimeterValue();
 	  switch(CompState){
-	  	  case FINDLINE:
+	  case FINDLINE:
 		  	#if PL_HAS_DRIVE
-	  		  	DRV_EnableDisable(TRUE);
-	  		  	us = US_Measure_us();
-	  		  	cm = US_GetLastCentimeterValue();
 	  		  	if(0 < cm && cm <= 30){
 	  		  		DRV_SetSpeed(MAXSPEED,MAXSPEED);
-	  		  		us = US_Measure_us();
-	  		  		cm = US_GetLastCentimeterValue();
 	  		  	} else{
 	  		  		DRV_SetSpeed(speed,speed);
 	  		  	}
@@ -109,15 +123,20 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			#endif
 			  break;
 		  case TURN:
-			#if PL_HAS_DRIVE
-			    DRV_SetSpeed(TURNSPEED,-TURNSPEED);
-			#else
-			  	MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),30);
-			    MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-30);
-			#endif
-			    FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
-			    CompState = FINDLINE;
-			  break;
+			  if(0 < cm && cm <= 30){
+			  	DRV_SetSpeed(MAXSPEED,MAXSPEED);
+			  }
+			  else{
+				  #if PL_HAS_DRIVE
+					DRV_SetSpeed(TURNSPEED,-TURNSPEED);
+				  #else
+					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),30);
+					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_LEFT),-30);
+				  #endif
+					FRTOS1_vTaskDelay(200/portTICK_RATE_MS);
+			  }
+			  CompState = FINDLINE;
+		      break;
 		  case TURNAROUND:
 			  if(us == 0){
 				#if PL_HAS_DRIVE
