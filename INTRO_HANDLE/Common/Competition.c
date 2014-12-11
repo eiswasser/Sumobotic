@@ -77,20 +77,20 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 	  #if PL_HAS_ACCEL
 	  	 ACCEL_GetValues(&x, &y, &z);
 	  	 if (z<=500){
-	  		 MOT_StopMotor();
+	  		 EVNT_SetEvent(EVNT_STOP_ENGINE);
 	  		 CompState= READY;
 	  	 }
 	  #endif
 	  #if PL_HAS_DRIVE
 	  	  DRV_EnableDisable(TRUE);
 	  #endif
-	  us = US_Measure_us();
-	  cm = US_GetLastCentimeterValue();
 	  switch(CompState){
 
 	  case FINDLINE:
 		  	#if PL_HAS_DRIVE
-	  		  	if(0 < cm && cm <= 30){
+		  	  	us = US_Measure_us();
+		 	    cm = US_GetLastCentimeterValue();
+		  	  	if(0 < cm && cm <= 30){
 	  		  		DRV_SetSpeed(MAXSPEED,MAXSPEED);
 	  		  	} else{
 	  		  		DRV_SetSpeed(speed,speed);
@@ -125,6 +125,8 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			#endif
 			  break;
 		  case TURN:
+			  us = US_Measure_us();
+			  cm = US_GetLastCentimeterValue();
 			  if(0 < cm && cm <= 30){
 			  	DRV_SetSpeed(MAXSPEED,MAXSPEED);
 			  }
