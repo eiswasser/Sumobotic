@@ -8,6 +8,8 @@
 #ifndef COMPETITION_H_
 #define COMPETITION_H_
 
+#include "CLS1.h"
+
 /*!
  * \brief handels all the different commands, which can be use with this module
  * @param cmd
@@ -16,6 +18,11 @@
  * @return
  */
 uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io);
+
+/*!
+ * \brief initial the Competition task
+ */
+void COMP_SetState(void);
 
 /*!
  * \brief initial the Competition task

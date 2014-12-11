@@ -81,13 +81,10 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 	  		 CompState= READY;
 	  	 }
 	  #endif
-	  #if PL_HAS_DRIVE
-	  	  DRV_EnableDisable(TRUE);
-	  #endif
 	  switch(CompState){
-
 	  case FINDLINE:
 		  	#if PL_HAS_DRIVE
+	  	  	  	DRV_EnableDisable(TRUE);
 		  	  	us = US_Measure_us();
 		 	    cm = US_GetLastCentimeterValue();
 		  	  	if(0 < cm && cm <= 30){
@@ -128,6 +125,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			  us = US_Measure_us();
 			  cm = US_GetLastCentimeterValue();
 			  if(0 < cm && cm <= 30){
+				DRV_EnableDisable(TRUE);
 			  	DRV_SetSpeed(MAXSPEED,MAXSPEED);
 			  }
 			  else{
@@ -144,6 +142,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 		  case TURNAROUND:
 			  if(us == 0){
 				#if PL_HAS_DRIVE
+				  	DRV_EnableDisable(TRUE);
 					DRV_SetSpeed(-TURNSPEED,TURNSPEED);
 				#else
 					MOT_StartMotor(MOT_GetMotorHandle(MOT_MOTOR_RIGHT),50);
@@ -155,6 +154,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			    cm = US_GetLastCentimeterValue();
 			    if(0 < cm && cm <= 30){
 			    	CompState = FINDLINE;
+			    	break;
 			    }
 			    if(TMOUT1_CounterExpired(USHandle2)){
 			    	CompState = FINDLINE;
@@ -217,6 +217,13 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 		*handled = TRUE;
     }
   return res;
+}
+
+/*!
+ * \brief
+ */
+void COMP_SetState(void){
+	CompState = FINDLINE;
 }
 
 /*!

@@ -38,15 +38,14 @@
 #if PL_HAS_SHELL
 	#include "Shell.h"
 #endif
-#if PL_HAS_ACCEL
-	#include "Accel.h"
-	#if PL_HAS_DRIVE
-		#include "Drive.h"
-	#endif
-	int16_t *x;
-	int16_t *y;
-	int16_t *z;
+#if PL_HAS_DRIVE
+	#include "Drive.h"
 #endif
+#if PL_COMP_ENABLE
+	#include "Competition.h"
+#endif
+
+
 #if PL_HAS_RADIO
 	#include "CLS1.h"
 #endif
@@ -140,18 +139,9 @@
 			  	MOT_StopMotor();
 			#endif
 				break;
-			/*case EVNT_FALL_DOWN:
-				ACCEL_GetValues(&x,&y,&z);
-				if(*x > 500 || *y > 500 || *z < 0){
-					DRV_SetSpeed(0,0);				// Sets the value to zero for the speed
-					DRV_EnableDisable(FALSE);		// Disable the Drive Module, because not in use; also resets the PID parameters
-				}
-				break;*/
 			#if PL_NOF_KEYS >= 1
 				case EVNT_SW1_PRESSED:
-					#if PL_SEND_TEXT
-					SHELL_SendString("button 1 pressed\n");
-					#endif
+					TRG_SetTrigger(TRG_START_COMP,5000/TMR_TICK_MS,COMP_SetState,NULL);
 					BUZ_Beep(900,1000);
 				break;
 			#endif
