@@ -22,7 +22,7 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 /*!
  * \brief initial the Competition task
  */
-void COMP_SetState(void);
+void COMP_SetFindline(void* p);
 
 /*!
  * \brief initial the Competition task

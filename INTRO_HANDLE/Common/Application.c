@@ -44,7 +44,9 @@
 #if PL_COMP_ENABLE
 	#include "Competition.h"
 #endif
-
+#if PL_HAS_REFLECTANCE
+	#include "Reflectance.h"
+#endif
 
 #if PL_HAS_RADIO
 	#include "CLS1.h"
@@ -141,8 +143,11 @@
 				break;
 			#if PL_NOF_KEYS >= 1
 				case EVNT_SW1_PRESSED:
-					TRG_SetTrigger(TRG_START_COMP,5000/TMR_TICK_MS,COMP_SetState,NULL);
+					TRG_SetTrigger(TRG_START_COMP,4950/TMR_TICK_MS,COMP_SetFindline,NULL);
 					BUZ_Beep(900,1000);
+					if((RefStateType)REF_GetState != REF_STATE_READY){
+						REF_SetStateInit();
+					}
 				break;
 			#endif
 		}

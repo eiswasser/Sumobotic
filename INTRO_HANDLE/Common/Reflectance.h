@@ -28,6 +28,15 @@
 		COLOR_B /*!< Color black */
 	} REF_Color;
 
+	typedef enum {
+	  REF_STATE_INIT,
+	  REF_STATE_NOT_CALIBRATED,
+	  REF_STATE_READY
+	} RefStateType;
+
+	RefStateType REF_GetState (void);
+	void REF_SetStateInit(void);
+
 	#define REF_PARSE_COMMAND_ENABLED 1
 	#define REF_CMD_START_CALIBRATE "cstart"
 	#define REF_CMD_STOP_CALIBRATE "cstop"

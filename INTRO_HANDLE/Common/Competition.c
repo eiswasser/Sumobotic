@@ -47,8 +47,8 @@ typedef enum CompStat {
 
 static CompStateType CompState = READY;
 #if PL_HAS_DRIVE
-	static int32_t speed, speed_old;
-	#define MAXSPEED 6000
+	static int32_t speed;
+	#define MAXSPEED 6200
 	#define TURNSPEED 2500
 #else
 	static MOT_SpeedPercent speed;
@@ -222,8 +222,13 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 /*!
  * \brief
  */
-void COMP_SetState(void){
+void COMP_SetFindline(void* p){
 	CompState = FINDLINE;
+#if PL_HAS_DRIVE
+	speed = 3000;
+#else
+	speed = 50;
+#endif
 }
 
 /*!

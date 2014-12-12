@@ -50,13 +50,9 @@ typedef enum{
 	EVNT_REF_START_CALIBRATION,
 	EVNT_REF_STOP_CALIBRATION
 } RefCalibType;
+
 static volatile RefCalibType refCalib = NONE;
 
-typedef enum {
-  REF_STATE_INIT,
-  REF_STATE_NOT_CALIBRATED,
-  REF_STATE_READY
-} RefStateType;
 static volatile RefStateType refState = REF_STATE_INIT; /* state machine state */
 
 static LDD_TDeviceData *timerHandle;
@@ -354,7 +350,7 @@ static void REF_StateMachine(void) {
 
   switch (refState) {
     case REF_STATE_INIT:
-    	if (NVMC_GetReflectanceData()==NULL){
+    	if (refCalib == EVNT_REF_START_CALIBRATION){
     		for(i=0;i<REF_NOF_SENSORS;i++) {
     			SensorCalibMinMax.minVal[i] = MAX_SENSOR_VALUE;
     			SensorCalibMinMax.maxVal[i] = 0;
@@ -364,6 +360,7 @@ static void REF_StateMachine(void) {
     	else {
     		SensorCalibMinMax= *((SensorCalibT*)NVMC_GetReflectanceData());
     		refState = REF_STATE_READY;
+    		break;
     	}
 	  #if PL_HAS_SHELL
       SHELL_SendString((unsigned char*)"INFO: No calibration data present.\r\n");
@@ -374,7 +371,7 @@ static void REF_StateMachine(void) {
     case REF_STATE_NOT_CALIBRATED:
     	if (refCalib == EVNT_REF_START_CALIBRATION) {
     		REF_CalibrateMinMax(SensorCalibMinMax.minVal, SensorCalibMinMax.maxVal, SensorRaw);
-    	}
+       	}
     	if (refCalib == EVNT_REF_STOP_CALIBRATION){
     		NVMC_SaveReflectanceData(&SensorCalibMinMax,sizeof(SensorCalibMinMax));
     		refState = REF_STATE_READY;
@@ -386,7 +383,6 @@ static void REF_StateMachine(void) {
     	REF_Measure();
     	if (refCalib == EVNT_REF_START_CALIBRATION) {
     		refState = REF_STATE_NOT_CALIBRATED;
-    		refCalib = EVNT_REF_START_CALIBRATION;
     		REF_CalibDrive();
     	}
      break;
@@ -399,6 +395,14 @@ static portTASK_FUNCTION(ReflTask, pvParameters) {
     REF_StateMachine();
     FRTOS1_vTaskDelay(10/portTICK_RATE_MS);
   }
+}
+
+RefStateType REF_GetState(void){
+	return (RefStateType)refState;
+}
+
+void REF_SetStateInit(void){
+	refState = REF_STATE_INIT;
 }
 
 void REF_Deinit(void) {
