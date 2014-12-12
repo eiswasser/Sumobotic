@@ -74,9 +74,9 @@ static CompStateType CompState = READY;
 static portTASK_FUNCTION(CompTask, pvParameters) {
   (void)pvParameters; /* not used */
   for(;;) {
-	  #if PL_HAS_ACCEL && 0
+	  #if PL_HAS_ACCEL
 	  	 ACCEL_GetValues(&x, &y, &z);
-	  	 if (z<=500){
+	  	 if (z<0){
 	  		 EVNT_SetEvent(EVNT_STOP_ENGINE);
 	  		 CompState= READY;
 	  	 }
