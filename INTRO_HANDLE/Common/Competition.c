@@ -48,10 +48,10 @@ typedef enum CompStat {
 static CompStateType CompState = READY;
 #if PL_HAS_DRIVE
 	static int32_t speed;
-	static int32_t overtime;
+	static int32_t overtime = 0;
 	#define MAXSPEED 6000
 	#define OVERSPEED 7000
-	#define OVERTIME 2000
+	#define OVERTIME 90
 	#define TURNSPEED 2500
 #else
 	static MOT_SpeedPercent speed;
@@ -96,7 +96,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 		  	  		}
 					else{
 						DRV_SetSpeed(MAXSPEED,MAXSPEED);
-						overtime ++;
+						overtime = overtime + 1;
 	  		  		}
 	  		  	} else{
 	  		  		DRV_SetSpeed(speed,speed);
