@@ -48,7 +48,10 @@ typedef enum CompStat {
 static CompStateType CompState = READY;
 #if PL_HAS_DRIVE
 	static int32_t speed;
-	#define MAXSPEED 6200
+	static int32_t overtime;
+	#define MAXSPEED 6000
+	#define OVERSPEED 7000
+	#define OVERTIME 2000
 	#define TURNSPEED 2500
 #else
 	static MOT_SpeedPercent speed;
@@ -88,7 +91,13 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 		  	  	us = US_Measure_us();
 		 	    cm = US_GetLastCentimeterValue();
 		  	  	if(0 < cm && cm <= 30){
-	  		  		DRV_SetSpeed(MAXSPEED,MAXSPEED);
+		  	  		if(overtime == OVERTIME){
+						DRV_SetSpeed(OVERSPEED,OVERSPEED);
+		  	  		}
+					else{
+						DRV_SetSpeed(MAXSPEED,MAXSPEED);
+						overtime ++;
+	  		  		}
 	  		  	} else{
 	  		  		DRV_SetSpeed(speed,speed);
 	  		  	}
@@ -122,6 +131,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			#endif
 			  break;
 		  case TURN:
+			  overtime = 0;
 			  us = US_Measure_us();
 			  cm = US_GetLastCentimeterValue();
 			  if(0 < cm && cm <= 30){
@@ -140,6 +150,7 @@ static portTASK_FUNCTION(CompTask, pvParameters) {
 			  CompState = FINDLINE;
 		      break;
 		  case TURNAROUND:
+			  overtime = 0;
 			  if(us == 0){
 				#if PL_HAS_DRIVE
 				  	DRV_EnableDisable(TRUE);
@@ -225,7 +236,7 @@ uint8_t COMP_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_St
 void COMP_SetFindline(void* p){
 	CompState = FINDLINE;
 #if PL_HAS_DRIVE
-	speed = 3000;
+	speed = 4000;
 #else
 	speed = 50;
 #endif
